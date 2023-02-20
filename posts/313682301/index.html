@@ -429,6 +429,7 @@ DP,事实上，我们只要把 <span class="math inline"><mjx-container class="M
 
           </div>
           
+    <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -664,6 +665,26 @@ DP,事实上，我们只要把 <span class="math inline"><mjx-container class="M
     
 
   
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'f3bca61c9bfc22f7350d',
+      clientSecret: '313761dc715a2bba0f47651123ee2bb0952966a7',
+      repo        : 'BlogComments',
+      owner       : 'Dualqwq',
+      admin       : ['Dualqwq'],
+      id          : 'cfc28bf024a1194b9b38c17f4a251f02',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
 
 </body>
 </html>

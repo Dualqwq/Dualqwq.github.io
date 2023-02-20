@@ -442,6 +442,7 @@ A 类和 B 类各自的贡献条件是十分重要的，这样才能开始后面
 
           </div>
           
+    <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -677,6 +678,26 @@ A 类和 B 类各自的贡献条件是十分重要的，这样才能开始后面
     
 
   
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'f3bca61c9bfc22f7350d',
+      clientSecret: '313761dc715a2bba0f47651123ee2bb0952966a7',
+      repo        : 'BlogComments',
+      owner       : 'Dualqwq',
+      admin       : ['Dualqwq'],
+      id          : 'b1c5503bedf205f3297855f3c218dcc3',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
 
 </body>
 </html>
