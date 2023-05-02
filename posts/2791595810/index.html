@@ -1,0 +1,154 @@
+<!DOCTYPE html><html lang="zh-CN" theme-mode="dark"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>洛谷 P3642 烟火表演 题解 | 天命之路 的博客</title><link rel="icon" type="image/x-icon" href="/favicon.ico"><script>var config = {"root":"/","search":{"preload":false,"activeHolder":"键入以继续","blurHolder":"数据检索","noResult":"无 $0 相关数据"},"code":{"codeInfo":"$0 - 共 $1 行","copy":"复制","copyFinish":"复制成功","expand":"展开"}}</script><script src="//unpkg.com/mermaid@9.2.2/dist/mermaid.min.js"></script><script src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.1/MathJax.js"></script><script>MathJax.Hub.Config({
+ menuSettings: {
+   zoom: "None"
+ },
+ showMathMenu: false,
+ jax: ["input/TeX","output/CommonHTML"],
+ extensions: ["tex2jax.js"],
+ TeX: {
+   extensions: ["AMSmath.js","AMSsymbols.js"],
+   equationNumbers: {
+     autoNumber: "AMS"
+   }
+ },
+ tex2jax: {
+   inlineMath: [["\\(", "\\)"]],
+   displayMath: [["\\[", "\\]"]]
+ }
+});</script><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lightgallery.css"><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lg-zoom.css"><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lg-thumbnail.css"><link type="text/css" rel="stylesheet" href="/lib/fontawesome/brands.min.css"><link type="text/css" rel="stylesheet" href="/lib/fontawesome/fontawesome.min.css"><link rel="stylesheet" href="/css/arknights.css"><script>if (window.localStorage.getItem('theme-mode') === 'light') document.documentElement.setAttribute('theme-mode', 'light')
+if (window.localStorage.getItem('theme-mode') === 'dark') document.documentElement.setAttribute('theme-mode', 'dark')</script><style>@font-face {
+ font-family: BenderLight;
+ src: local('Bender'), url("/font/BenderLight.ttf");
+}
+@font-face {
+ font-family: 'JetBrains Mono';
+ src: local('JetBrains Mono'), url('/font/JetBrainsMono-Regular.woff2') format('woff2');
+}
+@font-face {
+ font-family: 'Font Awesome 6 Brands';
+ src: local('Font Awesome 6 Brands'), url('/lib/fontawesome/fa-brands.woff2') format('woff2');
+}
+@font-face {
+ font-family: 'Font Awesome 6 Free';
+ src: local('Font Awesome 6 Free'), url('/lib/fontawesome/fa-regular.woff2') format('woff2');
+}</style><style>:root {
+  --dark-background: url('https://ak.hypergryph.com/assets/index/images/ak/pc/bk.jpg');
+  --light-background: url('/img/bk.jpg');
+}</style><meta name="generator" content="Hexo 6.3.0"></head><body><div class="loading" style="opacity: 0"><div class="loadingBar left"></div><div class="loadingBar right"></div></div><main><header class="closed"><nav><div class="navBtn hide"><i class="navBtnIcon"><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span></i></div><div class="navItem" id="search-header"><span class="navItemTitle"><input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="数据检索" spellcheck="false" maxlength="50" type="text" id="search-input"></span></div><div class="navItem" id="search-holder"></div><div class="search-popup"><div id="search-result"></div></div><ol class="navContent"><li class="navItem"><a class="navBlock" href="/"><span class="navItemTitle">Home</span></a></li><li class="navItem" matchdata="categories,tags"><a class="navBlock" href="/archives/"><span class="navItemTitle">Archives</span></a></li></ol></nav></header><article><div id="post-bg"><div id="post-title"><h1>洛谷 P3642 烟火表演 题解</h1><div id="post-info"><span>文章发布时间: <div class="control"><time datetime="2023-05-02T06:20:14.272Z" id="date"> 2023-05-02</time></div></span><br><span>最后更新时间: <div class="control"><time datetime="2023-02-21T07:32:24.130Z" id="updated"> 2023-02-21</time></div></span></div></div><hr><div id="post-content"><p>本题就当是对 Slope trick 的入门了。</p>
+<span id="more"></span>
+<p>首先考虑 <span class="math inline">\(\sum w\)</span> 不大的情况。</p>
+<p>设 <span class="math inline">\(f_i(x)\)</span> 表示在 <span
+class="math inline">\(i\)</span> 子树内，点燃时间为 <span
+class="math inline">\(x\)</span> 的最小代价。</p>
+<p>那么考虑合并 <span class="math inline">\(f_i\)</span> 和一个儿子
+<span class="math inline">\(f_{son}\)</span> ，则有 <span
+class="math inline">\(f_i(x) \gets f_i(x) + \min_{y \le x} \{f_{son}(y)
++ |w - x + y|\}\)</span> 。（<span class="math inline">\(w\)</span> 是
+<span class="math inline">\(i\)</span> 与 <span
+class="math inline">\(son\)</span> 之间的边权）</p>
+<p>我们令 <span class="math inline">\(G_{son}(x) = \min_{y \le x}
+\{f_{son}(y) + |w - x + y|\}\)</span>。</p>
+<p>可以证明，<span class="math inline">\(f_i(x)\)</span> 是关于 <span
+class="math inline">\(x\)</span>
+的下凸函数，且每一段的斜率均为整数。</p>
+<p>设 <span class="math inline">\([L,R]\)</span> 表示 <span
+class="math inline">\(f_{son}(x)\)</span> 斜率为 <span
+class="math inline">\(0\)</span> 的那一段的左右端点的横坐标，那么 <span
+class="math inline">\(G_{son}(x)\)</span> 变化如下： <span
+class="math display">\[
+G_{son}(x) = \begin{cases} f_{son}(x) + w ,x \lt L \\
+f_{son}(L) + w - (x - L),L \le x \lt L + w \\
+f_{son}(L),L + w \le x \lt R + w \\
+f_{son}(x) + (x - R) - w,x \ge R + w \\
+\end{cases}
+\]</span> 具体分析如下：</p>
+<p>对于第一种情况：因为在 <span class="math inline">\(x &lt; L\)</span>
+处 ，<span class="math inline">\(f_{son}(x)\)</span> 的斜率小于等于
+<span class="math inline">\(-1\)</span>，即修改 <span
+class="math inline">\(son\)</span> 以下的边的代价 <span
+class="math inline">\(\ge 1\)</span>，那肯定不如直接修改 <span
+class="math inline">\(w\)</span> （代价恰为 <span
+class="math inline">\(1\)</span>），所以在这里直接把 <span
+class="math inline">\(w\)</span> 修改到 <span
+class="math inline">\(0\)</span>，然后取出在 <span
+class="math inline">\(x\)</span> 点的函数值。</p>
+<p>对于第二种情况：函数在 <span
+class="math inline">\(f_{son}(L)\)</span>
+处取到最小值，我们跟第一种情况的理由一样，能够修改 <span
+class="math inline">\(w\)</span> 就别修改 <span
+class="math inline">\(f_{son}(x)\)</span> 中的 <span
+class="math inline">\(x\)</span> ，所以 <span
+class="math inline">\(f_{son(x)}\)</span> 中的 <span
+class="math inline">\(x\)</span> 一定 <span class="math inline">\(\ge
+L\)</span>，而为了让 <span class="math inline">\(w\)</span>
+修改的代价尽量小，我们直接把 <span class="math inline">\(w\)</span> 拉到
+<span class="math inline">\(x - L\)</span> 。这样就是最优的了。</p>
+<p>第三种情况较为简单，第四种情况与第一种类似，就不再赘述。</p>
+<p>对于这种斜率为整数的下凸壳，我们可以通过维护拐点和最右边的直线来表示这个凸壳。</p>
+<p class='item-img' data-src='/images/P3642-1.png'><img src="/images/P3642-1.png" /></p>
+<p>就像上图，我们只需维护所有的红点和红线即可。</p>
+<p>我们默认每三个相邻拐点所表示的两条直线的斜率差都是 <span
+class="math inline">\(1\)</span>，如果不是，那我们就多次加入同一个拐点。</p>
+<p>如何求一个点 <span class="math inline">\(L\)</span> 的函数值 <span
+class="math inline">\(f_{son}(L)\)</span> 呢？因为拐点的斜率差都是 <span
+class="math inline">\(1\)</span>，我们用 <span
+class="math inline">\(f(0)\)</span> 减去在 <span
+class="math inline">\(L\)</span> 之前的所有拐点的横坐标即可。</p>
+<p>如何执行 <span class="math inline">\(f_i(x) \gets f_i(x) +
+G_{son}(x)\)</span>
+呢？还是因为拐点序列的性质，我们直接把二者的拐点序列按顺序拼接起来即可。</p>
+<p>现在我们有了这个凸壳模型，我们考虑上面的操作是如何把 <span
+class="math inline">\(F_{son}(x)\)</span> 变为 <span
+class="math inline">\(G_{son}(x)\)</span> 的。</p>
+<p>首先，把 <span class="math inline">\(L\)</span> 左边的部分向上平移
+<span class="math inline">\(w\)</span>，然后把 <span
+class="math inline">\([L,R]\)</span> 这一部分整体向右平移 <span
+class="math inline">\(w\)</span>，并在 <span class="math inline">\([L,L
++ w]\)</span> 处插入一条斜率为 <span class="math inline">\(-1\)</span>
+的直线，把原函数 <span class="math inline">\(&gt; R + w\)</span>
+的部分的斜率都变为 <span class="math inline">\(1\)</span>。</p>
+<p>注意到函数的斜率最大值也只有 <span
+class="math inline">\(1\)</span>，我们甚至不需要“维护那条红线”，处理所有的拐点即可。</p>
+<p>考虑这些操作怎么办：</p>
+<ol type="1">
+<li>向上平移 <span class="math inline">\(w\)</span>，这等价于 <span
+class="math inline">\(f(0) \gets f(0) + w\)</span>，而 <span
+class="math inline">\(f(0)\)</span>
+不论是从这里来看，还是从定义上看，都显然是所有边权的和，所以这个很简单。</li>
+<li>把大于 <span class="math inline">\(R + w\)</span> 的部分的斜率都变为
+<span class="math inline">\(1\)</span>。这个可以在所有的 <span
+class="math inline">\(G_{son}(x)\)</span> 都并入 <span
+class="math inline">\(f_i(x)\)</span> 之后再行处理。注意到每个 <span
+class="math inline">\(G_{son}(x)\)</span> 有且仅有一个斜率为正的拐点
+<span class="math inline">\(R + w\)</span>，假设 <span
+class="math inline">\(i\)</span> 的儿子有 <span
+class="math inline">\(k_i\)</span> 个，那么合并完之后就有 <span
+class="math inline">\(k_i\)</span> 个斜率为正的拐点，那么弹出 <span
+class="math inline">\(k_i - 1\)</span> 个最大的拐点即可。</li>
+<li>把 <span class="math inline">\([L,R]\)</span> 向右平移一个 <span
+class="math inline">\(w\)</span> ，这个只需要删除拐点 <span
+class="math inline">\(L,R\)</span>，加入拐点 <span
+class="math inline">\(L + w,R + w\)</span> 即可。</li>
+<li>插入一条斜率为 <span class="math inline">\(-1\)</span>
+的直线，这个在第三项中其实就已经处理完了。</li>
+</ol>
+<p>以上操作都可以用一个可合并的大根堆维护，写个左偏树即可。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><span class="hljs-type">const</span> <span class="hljs-type">int</span> N = <span class="hljs-number">6e5</span> + <span class="hljs-number">5</span>;<br><span class="hljs-keyword">typedef</span> <span class="hljs-type">long</span> <span class="hljs-type">long</span> ll;<br><span class="hljs-keyword">struct</span> <span class="hljs-title class_">node</span>&#123;<br>	<span class="hljs-type">int</span> lc,rc,dis;<br>	ll val;<br>&#125;tr[N];<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">Merge</span><span class="hljs-params">(<span class="hljs-type">int</span> x,<span class="hljs-type">int</span> y)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">if</span>(!x || !y) <span class="hljs-keyword">return</span> x + y;<br>	<span class="hljs-keyword">if</span>(tr[x].val &lt; tr[y].val) <span class="hljs-built_in">swap</span>(x,y);<br>	tr[x].rc = <span class="hljs-built_in">Merge</span>(tr[x].rc,y);<br>	<span class="hljs-keyword">if</span>(tr[tr[x].lc].dis &lt; tr[tr[x].rc].dis) <span class="hljs-built_in">swap</span>(tr[x].lc,tr[x].rc);<br>	tr[x].dis = tr[tr[x].rc].dis + <span class="hljs-number">1</span>;<br>	<span class="hljs-keyword">return</span> x;<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">int</span> <span class="hljs-title">Pop</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span> </span>&#123; <span class="hljs-keyword">return</span> <span class="hljs-built_in">Merge</span>(tr[x].lc,tr[x].rc);&#125;<br><span class="hljs-type">int</span> rt[N];<br><span class="hljs-type">int</span> n,m;<br><span class="hljs-type">int</span> fa[N],C[N],sons[N];<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	cin &gt;&gt; n &gt;&gt; m;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">2</span>;i &lt;= n + m;i++)<br>		cin &gt;&gt; fa[i] &gt;&gt; C[i],++sons[fa[i]];<br>	ll ans = <span class="hljs-number">0</span>;<br>	<span class="hljs-type">int</span> tot = <span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = n + m;i &gt; <span class="hljs-number">1</span>;i--)<br>	&#123;<br>		ll l = <span class="hljs-number">0</span>,r = <span class="hljs-number">0</span>; <span class="hljs-comment">// 维护斜率为 0 的那些线段</span><br>		<span class="hljs-keyword">if</span>(i &lt;= n) <span class="hljs-comment">// 非叶</span><br>		&#123;<br>			<span class="hljs-keyword">while</span>(--sons[i]) rt[i] = <span class="hljs-built_in">Pop</span>(rt[i]);<br>			r = tr[rt[i]].val;rt[i] = <span class="hljs-built_in">Pop</span>(rt[i]);<br>			l = tr[rt[i]].val;rt[i] = <span class="hljs-built_in">Pop</span>(rt[i]);<br>		&#125;<br>		tr[++tot].val = l + C[i];<br>		tr[++tot].val = r + C[i];<br>		rt[i] = <span class="hljs-built_in">Merge</span>(rt[i],<span class="hljs-built_in">Merge</span>(tot,tot - <span class="hljs-number">1</span>));<br>		rt[fa[i]] = <span class="hljs-built_in">Merge</span>(rt[fa[i]],rt[i]);<br>	&#125;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">2</span>;i &lt;= n + m;i++) ans += C[i]; <span class="hljs-comment">// f(0)</span><br>	<span class="hljs-keyword">while</span>(sons[<span class="hljs-number">1</span>]--) rt[<span class="hljs-number">1</span>] = <span class="hljs-built_in">Pop</span>(rt[<span class="hljs-number">1</span>]);<br>	<span class="hljs-keyword">while</span>(rt[<span class="hljs-number">1</span>]) ans -= tr[rt[<span class="hljs-number">1</span>]].val,rt[<span class="hljs-number">1</span>] = <span class="hljs-built_in">Pop</span>(rt[<span class="hljs-number">1</span>]);<br>	cout &lt;&lt; ans &lt;&lt; endl;<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<div id="paginator"></div></div><div id="post-footer"><div id="pages"><div class="footer-link" style="width: 50%;text-align:right;border-right:1px #fe2 solid"><a href="/posts/313682301/">← Next 洛谷 P8340 山河重整 题解</a></div><div class="footer-link" style="width: 50%;right:1px;border-left:1px #fe2 solid"><a href="/posts/2322247108/">CF1229F 题解 Prev →</a></div></div></div></div><div class="bottom-btn"><div><a id="to-top" onClick="scrolls.scrolltop();" title="回到顶部" style="opacity: 0; display: none;">∧</a><a id="to-index" href="#toc-div" title="文章目录">≡</a><a id="color-mode" onClick="colorMode.change()" title="切换主题"></a></div></div></article><aside><div id="about"><a href="/" id="logo"><img src="https://ak.hypergryph.com/assets/index/images/ak/pc/faction/1.png" alt="Logo"></a><h1 id="Dr"><a href="/">Dualqwq</a></h1><div id="description"><p></p></div></div><div id="aside-block"></div><footer><nobr>构建自 <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></nobr><wbr><nobr> 使用主题 <a target="_blank" rel="noopener" href="https://github.com/Yue-plus/hexo-theme-arknights">Arknights</a></nobr><wbr><nobr>主题作者 <a target="_blank" rel="noopener" href="https://github.com/Yue-plus">Yue_plus</a></nobr></footer></aside></main><canvas id="canvas-dust"></canvas><script src="/js/search.js"></script><script src="/js/arknights.js"></script><script src="//unpkg.com/lightgallery@2.7.1/lightgallery.min.js"></script><script src="//unpkg.com/lightgallery@2.7.1/plugins/zoom/lg-zoom.min.js"></script><script src="//unpkg.com/lightgallery@2.7.1/plugins/thumbnail/lg-thumbnail.min.js"></script><script src="/js/pjax.js"></script><script class="pjax-js">reset= () => {code.findCode();
+document.querySelector('.lg-container')?.remove()
+lightGallery(document.getElementById('post-bg'), {
+  plugins: [lgZoom,lgThumbnail],
+  selector: '.item-img'})}</script><script>window.addEventListener("load",() => {pjax = new Pjax({
+ cacheBust: false,
+ selectors: ['title','article','#aside-block','.pjax-js'],
+ switches: {'article': Pjax.switches.sideBySide},
+ switchesOptions: {
+   'article': {
+     classNames: {
+       remove: "pjax-out",
+       add: "pjax-in"
+     }
+   }
+ }
+});
+document.addEventListener("pjax:complete", reset);reset()})</script></body></html>

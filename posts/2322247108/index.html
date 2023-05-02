@@ -1,0 +1,243 @@
+<!DOCTYPE html><html lang="zh-CN" theme-mode="dark"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>CF1229F 题解 | 天命之路 的博客</title><link rel="icon" type="image/x-icon" href="/favicon.ico"><script>var config = {"root":"/","search":{"preload":false,"activeHolder":"键入以继续","blurHolder":"数据检索","noResult":"无 $0 相关数据"},"code":{"codeInfo":"$0 - 共 $1 行","copy":"复制","copyFinish":"复制成功","expand":"展开"}}</script><script src="//unpkg.com/mermaid@9.2.2/dist/mermaid.min.js"></script><script src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.1/MathJax.js"></script><script>MathJax.Hub.Config({
+ menuSettings: {
+   zoom: "None"
+ },
+ showMathMenu: false,
+ jax: ["input/TeX","output/CommonHTML"],
+ extensions: ["tex2jax.js"],
+ TeX: {
+   extensions: ["AMSmath.js","AMSsymbols.js"],
+   equationNumbers: {
+     autoNumber: "AMS"
+   }
+ },
+ tex2jax: {
+   inlineMath: [["\\(", "\\)"]],
+   displayMath: [["\\[", "\\]"]]
+ }
+});</script><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lightgallery.css"><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lg-zoom.css"><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lg-thumbnail.css"><link type="text/css" rel="stylesheet" href="/lib/fontawesome/brands.min.css"><link type="text/css" rel="stylesheet" href="/lib/fontawesome/fontawesome.min.css"><link rel="stylesheet" href="/css/arknights.css"><script>if (window.localStorage.getItem('theme-mode') === 'light') document.documentElement.setAttribute('theme-mode', 'light')
+if (window.localStorage.getItem('theme-mode') === 'dark') document.documentElement.setAttribute('theme-mode', 'dark')</script><style>@font-face {
+ font-family: BenderLight;
+ src: local('Bender'), url("/font/BenderLight.ttf");
+}
+@font-face {
+ font-family: 'JetBrains Mono';
+ src: local('JetBrains Mono'), url('/font/JetBrainsMono-Regular.woff2') format('woff2');
+}
+@font-face {
+ font-family: 'Font Awesome 6 Brands';
+ src: local('Font Awesome 6 Brands'), url('/lib/fontawesome/fa-brands.woff2') format('woff2');
+}
+@font-face {
+ font-family: 'Font Awesome 6 Free';
+ src: local('Font Awesome 6 Free'), url('/lib/fontawesome/fa-regular.woff2') format('woff2');
+}</style><style>:root {
+  --dark-background: url('https://ak.hypergryph.com/assets/index/images/ak/pc/bk.jpg');
+  --light-background: url('/img/bk.jpg');
+}</style><meta name="generator" content="Hexo 6.3.0"></head><body><div class="loading" style="opacity: 0"><div class="loadingBar left"></div><div class="loadingBar right"></div></div><main><header class="closed"><nav><div class="navBtn hide"><i class="navBtnIcon"><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span></i></div><div class="navItem" id="search-header"><span class="navItemTitle"><input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="数据检索" spellcheck="false" maxlength="50" type="text" id="search-input"></span></div><div class="navItem" id="search-holder"></div><div class="search-popup"><div id="search-result"></div></div><ol class="navContent"><li class="navItem"><a class="navBlock" href="/"><span class="navItemTitle">Home</span></a></li><li class="navItem" matchdata="categories,tags"><a class="navBlock" href="/archives/"><span class="navItemTitle">Archives</span></a></li></ol></nav></header><article><div id="post-bg"><div id="post-title"><h1>CF1229F 题解</h1><div id="post-info"><span>文章发布时间: <div class="control"><time datetime="2023-05-02T06:20:14.270Z" id="date"> 2023-05-02</time></div></span><br><span>最后更新时间: <div class="control"><time datetime="2023-03-29T07:00:16.440Z" id="updated"> 2023-03-29</time></div></span></div></div><hr><div id="post-content"><h3 id="cf1229f-题解"><a href="#CF1229F-题解" class="headerlink" title="CF1229F-题解"></a>CF1229F 题解</h3>
+<p>除了官方题解，我在百度上还没有搜到关于这题比较详细的描述，故写篇题解造福社会，希望对读者有益。</p>
+<p>题意：给出 <span class="math inline">\(n\)</span> 个数 <span
+class="math inline">\(a_i,l_i,r_i\)</span>，在一个环上均匀分布着 <span
+class="math inline">\(n\)</span> 个点，每个点初始有 <span
+class="math inline">\(a_i\)</span>
+张牌。你一次操作可以选择一个点，将其上的一张牌移到与其相邻的位置，花费
+<span class="math inline">\(1\)</span>
+的代价。求最少的代价，使得调整完后，第 <span
+class="math inline">\(i\)</span> 个点上的牌数在 <span
+class="math inline">\([l_i,r_i]\)</span> 之间。</p>
+<p><span class="math inline">\(1 \le n \le 3.5 \times
+10^4\)</span>。</p>
+<span id="more"></span>
+<hr />
+<p>首先考虑断环为链。</p>
+<p>具体地，设 <span class="math inline">\(x_i\)</span> 表示由 <span
+class="math inline">\(i\)</span> 向 <span
+class="math inline">\(i+1\)</span> 运送的牌数（<span
+class="math inline">\(x_i\)</span> 可以为负，这等价于由 <span
+class="math inline">\(i+1\)</span> 向 <span
+class="math inline">\(i\)</span> 运送 <span
+class="math inline">\(-x_i\)</span> 张牌），特别地，<span
+class="math inline">\(x_n\)</span> 为由 <span
+class="math inline">\(n\)</span> 向 <span
+class="math inline">\(1\)</span> 运送的牌数。</p>
+<p>那么断环为链，就是钦定 <span class="math inline">\(x_1\)</span>
+为一个特定的值 <span
+class="math inline">\(m\)</span>，即把这条边的决策先做掉。</p>
+<p>那么向后做的时候，设 <span class="math inline">\(f_i(t)\)</span>
+表示钦定 <span class="math inline">\(x_i =
+t\)</span>，且第二张，第三张，...，第 <span class="math inline">\(i -
+1\)</span> 张牌均已经满足条件的最小代价。</p>
+<p>考虑 <span class="math inline">\(f_i(x)\)</span> 如何从 <span
+class="math inline">\(f_{i-1}(y)\)</span> 转移过来。</p>
+<p>首先，会有限制：<span class="math inline">\(a_i - x_i + x_{i - 1} \in
+[l_i,r_i]\)</span>。</p>
+<p>即 <span class="math inline">\(l_i - a_i + x_i \le x_{i-1} \le r_i -
+a_i + x_i\)</span>。（特别地，<span class="math inline">\(l_1-a_1 + x_1
+\le x_n \le r_1 - a_1 + x_1\)</span>）</p>
+<p>令 <span class="math inline">\(dl_i = a_i - l_i,dr_i = r_i -
+a_i\)</span></p>
+<p>对应到 <span class="math inline">\(f_i\)</span> 上就是 <span
+class="math inline">\(f_i(x) = |x| + \min_{y \in [x -
+dl_i,x+dr_i]}f_{i-1}(y)\)</span>。</p>
+<p>用滑动窗口转移就可以把这个 DP 做到 <span
+class="math inline">\(O(n^2)\)</span>。</p>
+<p>进一步优化的话，需要发现这个 <span
+class="math inline">\(f_i(x)\)</span> 的性质，这也是为什么，我把 DP
+数组写成函数的形式，而非二维数组。</p>
+<p>考虑到，我们每次对 <span class="math inline">\(f\)</span>
+的操作是：将每个点替换成包含它的一段区间的最小值，给 <span
+class="math inline">\(f\)</span> 加上一个凸函数。</p>
+<p>容易归纳证明，对于任意 <span class="math inline">\(i\)</span>，<span
+class="math inline">\(f_i\)</span> 都是凸函数。</p>
+<p>既然看出来了是凸的，我们不妨考察斜率，我们发现一次 <span
+class="math inline">\(f(x) += |x|\)</span> 的操作，会把一段的斜率减小
+<span class="math inline">\(1\)</span>，另一段的斜率增大 <span
+class="math inline">\(1\)</span>。总的来看，斜率总是会在 <span
+class="math inline">\([-n,n]\)</span> 之间。</p>
+<p>那么可能的斜率数量也很有限。</p>
+<p>那么我们不妨从这一点入手来维护这个凸函数：维护这个函数的所有拐点。</p>
+<p>拐点是什么呢？就是你考虑到这个函数是凸的，且呈现明显的分段特征，每段内部是一条直线，且直线的斜率从左往右单调递增，我们维护的就是每一段的端点。</p>
+<p>我们接下来称这类凸函数为“折线”。</p>
+<p>类似下图：</p>
+<p class='item-img' data-src='/images/CF1229F-1.png'><img src="/images/CF1229F-1.png" /></p>
+<p>这是一个折线，其中红线代表拐点，即两段之间的分界点，数字代表每一段的斜率。</p>
+<p>我们发现，只要维护了拐点集合，那么两个拐点之间的斜率也可以推得，具体地，我们同时维护斜率
+<span class="math inline">\(&lt;0\)</span> 和斜率 <span
+class="math inline">\(&gt;0\)</span> 的拐点集合 <span
+class="math inline">\(S,T\)</span>，那么每相邻三个拐点所对应的两段函数，斜率就会相差
+<span class="math inline">\(1\)</span>，如果实际上这两段的斜率差 <span
+class="math inline">\(&gt;1\)</span>，那么我们就重复加入一些拐点，使其满足上面的条件即可。（比如说，<span
+class="math inline">\(S\)</span> 中最大拐点与次大拐点之间的直线斜率就是
+<span class="math inline">\(-1\)</span>，再往左是 <span
+class="math inline">\(-2\)</span>，以此类推）</p>
+<p>现在我们维护了拐点集合，考虑我们的操作对其产生的影响。</p>
+<p>再次整理我们的操作：</p>
+<ol type="1">
+<li>令 <span class="math inline">\(g_i(x)\)</span> 为 <span
+class="math inline">\(\min_{y \in [x-dl_i,x+dr_i]}
+f_{i-1}(y)\)</span>，将 <span class="math inline">\(f_i(x)\)</span>
+替换为 <span class="math inline">\(g_i(x)\)</span>。</li>
+<li>令 <span class="math inline">\(g_i(x)\)</span> 为 <span
+class="math inline">\(f_i(x) + |x|\)</span>，将 <span
+class="math inline">\(f_i(x)\)</span> 替换为 <span
+class="math inline">\(g_i(x)\)</span>。</li>
+<li>取出 <span class="math inline">\(f_n(x)\)</span> 的区间最小值（因为
+<span class="math inline">\(x_n\)</span> 有个范围）</li>
+</ol>
+<p>设<span class="math inline">\(f_i(x)\)</span> 中间那段斜率为 <span
+class="math inline">\(0\)</span> 的段为 <span
+class="math inline">\([L,R]\)</span>。</p>
+<p>考虑操作 <span class="math inline">\(1\)</span>。</p>
+<p>对于 <span class="math inline">\(x + dr_i &lt; L\)</span>，<span
+class="math inline">\(g_i(x) = f_i(x + dr_i)\)</span></p>
+<p>对于 <span class="math inline">\(x - dl_i &gt; R\)</span>，<span
+class="math inline">\(g_i(x) = f_i(x - dl_i)\)</span>。</p>
+<p>否则，<span class="math inline">\(g_i(x) = f_i(L)\)</span>。</p>
+<p>画个图就可以知道，我们相当于把函数左半边向左平移 <span
+class="math inline">\(dr\)</span>，把函数右半边向有平移 <span
+class="math inline">\(dl\)</span>。对于中间那段斜率为 <span
+class="math inline">\(0\)</span> 的，我们相当于将其伸长了。</p>
+<p>反应在拐点上，就是 <span class="math inline">\(S\)</span>
+中的数同时减去 <span class="math inline">\(dr\)</span>，<span
+class="math inline">\(T\)</span> 中的数同时加上 <span
+class="math inline">\(dl\)</span>。用两个数维护平移量即可。</p>
+<p>考虑操作 <span class="math inline">\(2\)</span>。</p>
+<p>我们把 <span class="math inline">\(|x|\)</span> 拆成两个函数：<span
+class="math inline">\(\max(x,0) + \max(-x,0)\)</span>。</p>
+<p>这两个函数分别对应 <span class="math inline">\(|x|\)</span>
+的左右半边，我们以 <span class="math inline">\(max(-x,0)\)</span>
+为例，来讲述怎么处理。</p>
+<p>这相当于我们将一个折线加上一条斜率为 <span
+class="math inline">\(-1\)</span> 的射线。</p>
+<p>分类讨论：</p>
+<ol type="1">
+<li>如果 <span class="math inline">\(0 \le
+R\)</span>，那么画图可得，<span class="math inline">\(T\)</span>
+中的直线没有任何变化，而对于 <span class="math inline">\(S\)</span>
+中的点，如果其在 <span class="math inline">\(0\)</span>
+的左边，那么它那里的直线斜率要 <span
+class="math inline">\(-1\)</span>。因为一个拐点就表示了一次斜率的变化，我们直接将
+<span class="math inline">\(0\)</span> 这个点加入 <span
+class="math inline">\(S\)</span> 即可。</li>
+<li>否则，我们会发现，<span class="math inline">\(T\)</span>
+中的一些直线的斜率会减 <span class="math inline">\(1\)</span>
+，比如说，<span class="math inline">\([L,R]\)</span> 这一段的斜率就从
+<span class="math inline">\(0\)</span> 变成了 <span
+class="math inline">\(-1\)</span>。我们发现，除开这一段以外，其它的在
+<span class="math inline">\(0\)</span> 左边的直线斜率都减小了 <span
+class="math inline">\(1\)</span>，但正负号没变。那我们把 <span
+class="math inline">\(R\)</span> 从 <span
+class="math inline">\(T\)</span> 中弹出，加入 <span
+class="math inline">\(S\)</span> 中，并将 <span
+class="math inline">\(0\)</span> 加入 <span
+class="math inline">\(T\)</span> 中即可。</li>
+</ol>
+<p>加上 <span class="math inline">\(\max(x,0)\)</span> 是一样的。</p>
+<p>考虑操作 <span class="math inline">\(3\)</span>：</p>
+<p>首先我们要知道 <span class="math inline">\(f\)</span>
+的全局最小值，即斜率为 <span class="math inline">\(0\)</span>
+的那一段的函数值，这个可以在操作 <span class="math inline">\(2\)</span>
+中顺带维护出来。</p>
+<p>那么考虑询问区间 <span class="math inline">\([l,r]\)</span> 和斜率为
+<span class="math inline">\(0\)</span> 的区间 <span
+class="math inline">\([L,R]\)</span> 的关系。</p>
+<p>如果它们有交，直接输出 <span class="math inline">\(f_n(L)\)</span>
+即可。</p>
+<p>否则，假设 <span class="math inline">\([l,r]\)</span> 在 <span
+class="math inline">\([L,R]\)</span> 左边，容易发现 <span
+class="math inline">\(f_n(l) \ge f_n(r)\)</span>
+（因为这一段的斜率都小于 <span class="math inline">\(0\)</span>）。</p>
+<p>考虑从 <span class="math inline">\(r\)</span> 到 <span
+class="math inline">\(L\)</span>
+中间的那些折线，因为我们已经维护了拐点集合，可以方便地将其提取出来，斜率也是可以算的。</p>
+<p>那直接从 <span class="math inline">\(L\)</span> 一路推到 <span
+class="math inline">\(r\)</span> 即可。</p>
+<p><span class="math inline">\(S\)</span> 和 <span
+class="math inline">\(T\)</span> 都可以用两个堆维护，本人偷懒写了个
+set。</p>
+<p>具体可以看代码。</p>
+<hr />
+<p>好了，现在我们会了 <span class="math inline">\(x_1\)</span>
+确定的情况了，那环怎么做呢？</p>
+<p>结论：设 <span class="math inline">\(F(x_1)\)</span> 表示一个 <span
+class="math inline">\(x_1\)</span> 所对应的最小代价，那么 <span
+class="math inline">\(F(x_1)\)</span> 关于 <span
+class="math inline">\(x_1\)</span> 也是凸的。</p>
+<p>证明大概分为两部分：</p>
+<ol type="1">
+<li>证明如果 <span class="math inline">\(x_i\)</span>
+的取值范围是实数，那么不改变最优解。</li>
+<li>证明：如果 <span class="math inline">\(c_1,c_2,\dots,c_n\)</span> 和
+<span class="math inline">\(d_1,d_2,\dots,d_n\)</span> 都是 <span
+class="math inline">\(x_1,x_2,\dots,x_n\)</span> 的一组最优解，那么
+<span
+class="math inline">\(\dfrac{c_1+d_1}{2},\dfrac{c_2+d_2}{2},\dots,\dfrac{c_n+d_n}{2}\)</span>
+也是一组最优解。这可以推出 <span class="math inline">\(\dfrac{F(c_1) +
+F(d_1)}{2} \ge F(\dfrac{c_1+d_1}{2})\)</span></li>
+</ol>
+<p>所以，我们对 <span class="math inline">\(x_1\)</span>
+进行一个三分即可。</p>
+<p>本题总时间复杂度为 <span class="math inline">\(\Theta(n \log n \log
+(\sum a_i))\)</span></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><span class="hljs-type">const</span> <span class="hljs-type">int</span> N = <span class="hljs-number">3.5e4</span> + <span class="hljs-number">5</span>;<br><span class="hljs-keyword">typedef</span> <span class="hljs-type">long</span> <span class="hljs-type">long</span> ll;<br><span class="hljs-type">int</span> n,a[N],L[N],R[N];<br><span class="hljs-keyword">struct</span> <span class="hljs-title class_">Heap</span>&#123;<br>	multiset&lt;ll&gt; S;<br>	ll tag;<br>	<span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">void</span> <span class="hljs-title">clear</span><span class="hljs-params">()</span> </span>&#123; S.<span class="hljs-built_in">clear</span>();tag = <span class="hljs-number">0</span>;&#125;<br>	<span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">void</span> <span class="hljs-title">insert</span><span class="hljs-params">(ll x)</span> </span>&#123; S.<span class="hljs-built_in">insert</span>(x - tag);&#125;<br>	<span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">void</span> <span class="hljs-title">erase</span><span class="hljs-params">(ll x)</span> </span>&#123; S.<span class="hljs-built_in">erase</span>(S.<span class="hljs-built_in">find</span>(x - tag));&#125;<br>	<span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">void</span> <span class="hljs-title">shift</span><span class="hljs-params">(ll x)</span> </span>&#123; tag += x;&#125;<br>	<span class="hljs-function"><span class="hljs-keyword">inline</span> ll <span class="hljs-title">Greatest</span><span class="hljs-params">()</span> </span>&#123; <span class="hljs-keyword">return</span> tag + *S.<span class="hljs-built_in">rbegin</span>();&#125;<br>	<span class="hljs-function"><span class="hljs-keyword">inline</span> ll <span class="hljs-title">Lowest</span><span class="hljs-params">()</span> </span>&#123; <span class="hljs-keyword">return</span> tag + *S.<span class="hljs-built_in">begin</span>();&#125;<br>	<span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">int</span> <span class="hljs-title">size</span><span class="hljs-params">()</span> </span>&#123; <span class="hljs-keyword">return</span> S.<span class="hljs-built_in">size</span>();&#125;<br>&#125;;<br>Heap ql,qr;<br><span class="hljs-type">long</span> <span class="hljs-type">long</span> ans = <span class="hljs-number">0</span>;<br><span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">void</span> <span class="hljs-title">addL</span><span class="hljs-params">(ll x)</span> <span class="hljs-comment">// x - t</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">if</span>(x &lt;= qr.<span class="hljs-built_in">Lowest</span>()) &#123;ql.<span class="hljs-built_in">insert</span>(x);<span class="hljs-keyword">return</span>;&#125;<br>	ll tmp = qr.<span class="hljs-built_in">Lowest</span>();<br>	qr.<span class="hljs-built_in">erase</span>(tmp);ql.<span class="hljs-built_in">insert</span>(tmp);qr.<span class="hljs-built_in">insert</span>(x);<br>	ans += x - ql.<span class="hljs-built_in">Greatest</span>();<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">void</span> <span class="hljs-title">addR</span><span class="hljs-params">(ll x)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">if</span>(x &gt;= ql.<span class="hljs-built_in">Greatest</span>()) &#123; qr.<span class="hljs-built_in">insert</span>(x);<span class="hljs-keyword">return</span>;&#125;<br>	ll tmp = ql.<span class="hljs-built_in">Greatest</span>();<br>	ql.<span class="hljs-built_in">erase</span>(tmp);qr.<span class="hljs-built_in">insert</span>(tmp);ql.<span class="hljs-built_in">insert</span>(x);<br>	ans += qr.<span class="hljs-built_in">Lowest</span>() - x;<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">inline</span> ll <span class="hljs-title">GetVal</span><span class="hljs-params">(ll l,ll r)</span> <span class="hljs-comment">// 折线的区间最值</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">if</span>(l &lt;= qr.<span class="hljs-built_in">Lowest</span>() &amp;&amp; ql.<span class="hljs-built_in">Greatest</span>() &lt;= r) <span class="hljs-keyword">return</span> ans;<br>	<span class="hljs-keyword">if</span>(l &gt; qr.<span class="hljs-built_in">Lowest</span>())<br>	&#123;<br>		<span class="hljs-type">long</span> <span class="hljs-type">long</span> delta = <span class="hljs-number">0</span>;<br>		<span class="hljs-type">long</span> <span class="hljs-type">long</span> lst = qr.<span class="hljs-built_in">Lowest</span>();qr.<span class="hljs-built_in">erase</span>(lst);qr.<span class="hljs-built_in">insert</span>(l);<br>		<span class="hljs-type">int</span> K = <span class="hljs-number">1</span>;<br>		<span class="hljs-keyword">while</span>(qr.<span class="hljs-built_in">size</span>() &amp;&amp; qr.<span class="hljs-built_in">Lowest</span>() &lt;= l)<br>			delta += <span class="hljs-number">1ll</span> * K * (qr.<span class="hljs-built_in">Lowest</span>() - lst),<br>			lst = qr.<span class="hljs-built_in">Lowest</span>(),qr.<span class="hljs-built_in">erase</span>(lst),++K;<br>		<span class="hljs-keyword">return</span> ans + delta;<br>	&#125;<br>	<span class="hljs-keyword">if</span>(r &lt; ql.<span class="hljs-built_in">Greatest</span>())<br>	&#123;<br>		<span class="hljs-type">long</span> <span class="hljs-type">long</span> delta = <span class="hljs-number">0</span>;<br>		<span class="hljs-type">long</span> <span class="hljs-type">long</span> lst = ql.<span class="hljs-built_in">Greatest</span>();ql.<span class="hljs-built_in">erase</span>(lst);ql.<span class="hljs-built_in">insert</span>(r);<br>		<span class="hljs-type">int</span> K = <span class="hljs-number">1</span>;<br>		<span class="hljs-keyword">while</span>(ql.<span class="hljs-built_in">size</span>() &amp;&amp; ql.<span class="hljs-built_in">Greatest</span>() &gt;= r)<br>			delta += <span class="hljs-number">1ll</span> * K * (lst - ql.<span class="hljs-built_in">Greatest</span>()),<br>			lst = ql.<span class="hljs-built_in">Greatest</span>(),ql.<span class="hljs-built_in">erase</span>(lst),++K;<br>		<span class="hljs-keyword">return</span> ans + delta;<br>	&#125;<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">inline</span> ll <span class="hljs-title">Solve</span><span class="hljs-params">(ll x1)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-comment">// printf(&quot;x1:%lld\n&quot;,x1);</span><br>	ql.<span class="hljs-built_in">clear</span>();qr.<span class="hljs-built_in">clear</span>();ans = <span class="hljs-built_in">abs</span>(x1);<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>;i &lt;= n + <span class="hljs-number">1</span>;i++)<br>		ql.<span class="hljs-built_in">insert</span>(x1),qr.<span class="hljs-built_in">insert</span>(x1);<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">2</span>;i &lt;= n;i++)<br>	&#123;<br>		<span class="hljs-type">int</span> dl = L[i] - a[i],dr = R[i] - a[i]; <span class="hljs-comment">//[x - dl,x + dr]</span><br>		ql.<span class="hljs-built_in">shift</span>(-dr);qr.<span class="hljs-built_in">shift</span>(-dl);<br>		<span class="hljs-built_in">addL</span>(<span class="hljs-number">0</span>);<span class="hljs-built_in">addR</span>(<span class="hljs-number">0</span>);<br>	&#125;<br>	<span class="hljs-comment">// puts(&quot;done\n&quot;);</span><br>	<span class="hljs-comment">//  L_1 \le a_1 - x_1 + x_n \le R_1</span><br>	ll nowl = L[<span class="hljs-number">1</span>] - a[<span class="hljs-number">1</span>] + x1,nowr = R[<span class="hljs-number">1</span>] - a[<span class="hljs-number">1</span>] + x1;<br>	<span class="hljs-comment">// printf(&quot;%lld %lld %lld\n&quot;,nowl,nowr,ans);</span><br>	<span class="hljs-comment">// printf(&quot;ql: &quot;);</span><br>	<span class="hljs-comment">// for(auto it : ql.S) printf(&quot;%lld &quot;,it + ql.tag);printf(&quot;\n&quot;);</span><br>	<span class="hljs-comment">// printf(&quot;qr: &quot;);</span><br>	<span class="hljs-comment">// for(auto it : qr.S) printf(&quot;%lld &quot;,it + qr.tag);printf(&quot;\n&quot;);</span><br>	ll res = <span class="hljs-built_in">GetVal</span>(nowl,nowr);<br>	<span class="hljs-comment">// printf(&quot;res:%lld\n&quot;,res);</span><br>	<span class="hljs-keyword">return</span> res; <br>&#125;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	cin &gt;&gt; n;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>;i &lt;= n;i++)<br>		cin &gt;&gt; a[i] &gt;&gt; L[i] &gt;&gt; R[i];<br>	ll lef = <span class="hljs-number">-1e18</span>,righ = <span class="hljs-number">1e18</span>;<br>	<span class="hljs-keyword">while</span>(righ - lef &gt; <span class="hljs-number">5</span>)<br>	&#123;	<br>		ll lmid = (lef + righ) &gt;&gt; <span class="hljs-number">1</span>,rmid = lmid + <span class="hljs-number">1</span>;<br>		<span class="hljs-keyword">if</span>(<span class="hljs-built_in">Solve</span>(lmid) &lt; <span class="hljs-built_in">Solve</span>(rmid)) righ = rmid;<br>		<span class="hljs-keyword">else</span> lef = lmid;<br>	&#125;	<br>	ll ans = <span class="hljs-number">1e18</span>;<br>	<span class="hljs-keyword">for</span>(ll i = lef;i &lt;= righ;i++)<br>		ans = <span class="hljs-built_in">min</span>(ans,<span class="hljs-built_in">Solve</span>(i));<br>	cout &lt;&lt; ans &lt;&lt; endl;<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>本题中，维护折线的技巧有一个好听的名字：Slope
+trick，我们通过拐点集合，恰当地表示出了折线的信息，且让操作变得十分简单，虽然这个转化本身比较抽象。（</p>
+<p>类似的题目还有：CF713C，ABC217H，ARC123D</p>
+<div id="paginator"></div></div><div id="post-footer"><div id="pages"><div class="footer-link" style="width: 50%;text-align:right;border-right:1px #fe2 solid"><a href="/posts/2791595810/">← Next 洛谷 P3642 烟火表演 题解</a></div><div class="footer-link" style="width: 50%;right:1px;border-left:1px #fe2 solid"><a href="/posts/2734878942/">AGC006 DEF 题解 Prev →</a></div></div></div></div><div class="bottom-btn"><div><a id="to-top" onClick="scrolls.scrolltop();" title="回到顶部" style="opacity: 0; display: none;">∧</a><a id="to-index" href="#toc-div" title="文章目录">≡</a><a id="color-mode" onClick="colorMode.change()" title="切换主题"></a></div></div></article><aside><div id="about"><a href="/" id="logo"><img src="https://ak.hypergryph.com/assets/index/images/ak/pc/faction/1.png" alt="Logo"></a><h1 id="Dr"><a href="/">Dualqwq</a></h1><div id="description"><p></p></div></div><div id="aside-block"><div id="toc-div"><h1>目录</h1><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#cf1229f-%E9%A2%98%E8%A7%A3"><span class="toc-number">1.</span> <span class="toc-text">CF1229F 题解</span></a></li></ol></div></div><footer><nobr>构建自 <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></nobr><wbr><nobr> 使用主题 <a target="_blank" rel="noopener" href="https://github.com/Yue-plus/hexo-theme-arknights">Arknights</a></nobr><wbr><nobr>主题作者 <a target="_blank" rel="noopener" href="https://github.com/Yue-plus">Yue_plus</a></nobr></footer></aside></main><canvas id="canvas-dust"></canvas><script src="/js/search.js"></script><script src="/js/arknights.js"></script><script src="//unpkg.com/lightgallery@2.7.1/lightgallery.min.js"></script><script src="//unpkg.com/lightgallery@2.7.1/plugins/zoom/lg-zoom.min.js"></script><script src="//unpkg.com/lightgallery@2.7.1/plugins/thumbnail/lg-thumbnail.min.js"></script><script src="/js/pjax.js"></script><script class="pjax-js">reset= () => {code.findCode();
+document.querySelector('.lg-container')?.remove()
+lightGallery(document.getElementById('post-bg'), {
+  plugins: [lgZoom,lgThumbnail],
+  selector: '.item-img'})}</script><script>window.addEventListener("load",() => {pjax = new Pjax({
+ cacheBust: false,
+ selectors: ['title','article','#aside-block','.pjax-js'],
+ switches: {'article': Pjax.switches.sideBySide},
+ switchesOptions: {
+   'article': {
+     classNames: {
+       remove: "pjax-out",
+       add: "pjax-in"
+     }
+   }
+ }
+});
+document.addEventListener("pjax:complete", reset);reset()})</script></body></html>

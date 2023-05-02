@@ -1,0 +1,97 @@
+<!DOCTYPE html><html lang="zh-CN" theme-mode="dark"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>AGC028D 题解 | 天命之路 的博客</title><link rel="icon" type="image/x-icon" href="/favicon.ico"><script>var config = {"root":"/","search":{"preload":false,"activeHolder":"键入以继续","blurHolder":"数据检索","noResult":"无 $0 相关数据"},"code":{"codeInfo":"$0 - 共 $1 行","copy":"复制","copyFinish":"复制成功","expand":"展开"}}</script><script src="//unpkg.com/mermaid@9.2.2/dist/mermaid.min.js"></script><script src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.1/MathJax.js"></script><script>MathJax.Hub.Config({
+ menuSettings: {
+   zoom: "None"
+ },
+ showMathMenu: false,
+ jax: ["input/TeX","output/CommonHTML"],
+ extensions: ["tex2jax.js"],
+ TeX: {
+   extensions: ["AMSmath.js","AMSsymbols.js"],
+   equationNumbers: {
+     autoNumber: "AMS"
+   }
+ },
+ tex2jax: {
+   inlineMath: [["\\(", "\\)"]],
+   displayMath: [["\\[", "\\]"]]
+ }
+});</script><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lightgallery.css"><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lg-zoom.css"><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lg-thumbnail.css"><link type="text/css" rel="stylesheet" href="/lib/fontawesome/brands.min.css"><link type="text/css" rel="stylesheet" href="/lib/fontawesome/fontawesome.min.css"><link rel="stylesheet" href="/css/arknights.css"><script>if (window.localStorage.getItem('theme-mode') === 'light') document.documentElement.setAttribute('theme-mode', 'light')
+if (window.localStorage.getItem('theme-mode') === 'dark') document.documentElement.setAttribute('theme-mode', 'dark')</script><style>@font-face {
+ font-family: BenderLight;
+ src: local('Bender'), url("/font/BenderLight.ttf");
+}
+@font-face {
+ font-family: 'JetBrains Mono';
+ src: local('JetBrains Mono'), url('/font/JetBrainsMono-Regular.woff2') format('woff2');
+}
+@font-face {
+ font-family: 'Font Awesome 6 Brands';
+ src: local('Font Awesome 6 Brands'), url('/lib/fontawesome/fa-brands.woff2') format('woff2');
+}
+@font-face {
+ font-family: 'Font Awesome 6 Free';
+ src: local('Font Awesome 6 Free'), url('/lib/fontawesome/fa-regular.woff2') format('woff2');
+}</style><style>:root {
+  --dark-background: url('https://ak.hypergryph.com/assets/index/images/ak/pc/bk.jpg');
+  --light-background: url('/img/bk.jpg');
+}</style><meta name="generator" content="Hexo 6.3.0"></head><body><div class="loading" style="opacity: 0"><div class="loadingBar left"></div><div class="loadingBar right"></div></div><main><header class="closed"><nav><div class="navBtn hide"><i class="navBtnIcon"><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span></i></div><div class="navItem" id="search-header"><span class="navItemTitle"><input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="数据检索" spellcheck="false" maxlength="50" type="text" id="search-input"></span></div><div class="navItem" id="search-holder"></div><div class="search-popup"><div id="search-result"></div></div><ol class="navContent"><li class="navItem"><a class="navBlock" href="/"><span class="navItemTitle">Home</span></a></li><li class="navItem" matchdata="categories,tags"><a class="navBlock" href="/archives/"><span class="navItemTitle">Archives</span></a></li></ol></nav></header><article><div id="post-bg"><div id="post-title"><h1>AGC028D 题解</h1><div id="post-info"><span>文章发布时间: <div class="control"><time datetime="2023-05-02T06:20:14.252Z" id="date"> 2023-05-02</time></div></span><br><span>最后更新时间: <div class="control"><time datetime="2023-02-16T09:28:29.810Z" id="updated"> 2023-02-16</time></div></span></div></div><hr><div id="post-content"><p>这题我和王队合力做，王队想到了第一个转化，我想到了第二个转化，但是并没有导出成型的做法，看来，关键时候的坚持确实十分重要。</p>
+<p>不要被难度标签所吓到。现在来看，我每次都能隐约想到正解的一些东西，但难出做法，很可能是对算法理解不够深入。</p>
+<p>但又该怎么提升呢？也许多做题是有用的。我也能感觉得出来，最近做的题质量有提升。希望这是好的开始。</p>
+<span id="more"></span>
+<p>首先，这题在圆上和在序列上做是没有区别的，两条在圆上相交的线段在序列上也是相交的，反之亦然。</p>
+<p>那么，在序列上，线段相当于一段区间，而一堆有交的线段，看上去就像一个大区间。</p>
+<p>事实上，对于一个连通块，我们考察其最左边的点 <span
+class="math inline">\(L\)</span> 和最右边的点 <span
+class="math inline">\(R\)</span>，一个连通块显然对应一个区间。</p>
+<p>都观察到这里了，我居然想设计一个从前向后的 DP（</p>
+<p><strong>看来思考的时候，在草稿纸上写清楚已有的结论至关重要</strong>。</p>
+<p>设 <span class="math inline">\(dp[L][R]\)</span> 表示对应区间为 <span
+class="math inline">\(L,R\)</span> 的连通块数，并附加限制：且 <span
+class="math inline">\([L,R]\)</span> 中没有点向 <span
+class="math inline">\([L,R]\)</span>
+之外连边（包括我们所计数的连通块，也包括这个连通块以外，但在 <span
+class="math inline">\([L,R]\)</span> 中的点）。</p>
+<p>设 <span class="math inline">\(g(x)\)</span> 表示 <span
+class="math inline">\(x\)</span> 个点任意匹配的方案数，在 <span
+class="math inline">\(x\)</span> 为偶数时，其为 <span
+class="math inline">\(1 \times 3 \times \dots (x - 1)\)</span>，在 <span
+class="math inline">\(x\)</span> 为奇数时其为 <span
+class="math inline">\(0\)</span>。</p>
+<p>设 <span class="math inline">\(cnt[L][R]\)</span> 表示区间 <span
+class="math inline">\([L,R]\)</span>
+内还未确定匹配的点数（就是输入中未涉及到的点）。</p>
+<p>首先，如果 <span class="math inline">\(\exists x \in [L,R],match[x]
+\notin [L,R]\)</span>，那么 <span class="math inline">\(dp[L][R] =
+0\)</span>。</p>
+<p>如果读者熟悉图计数的话，会知道一个计数连通块的套路：总方案减去 “<span
+class="math inline">\(1\)</span> 号点所在连通块大小小于总数”
+的方案。</p>
+<p>这里也是要计数连通块，我们也还是先让 <span
+class="math inline">\(dp[L][R] = g(cnt[L][R])\)</span>。</p>
+<p>然后枚举 <span class="math inline">\(L\)</span> 号点所在连通块不是
+<span class="math inline">\([L,R]\)</span> 的方案数，即 <span
+class="math inline">\(\sum_{i = L}^{R - 1} dp[L][i] g(cnt[i +
+1][r])\)</span></p>
+<p>综上所述，有转移式： <span class="math inline">\(dp[L][R] =
+g(cnt[L][R]) - \sum_{i = L}^{R-1} dp[L][i]g(cnt[i+1][r])\)</span>。</p>
+<p>最后的答案就是 <span class="math inline">\(\sum_{L \le R} dp[L][R]
+g(n - 2K - cnt[L][R])\)</span>。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><span class="hljs-type">const</span> <span class="hljs-type">int</span> N = <span class="hljs-number">6e3</span> + <span class="hljs-number">5</span>,P = <span class="hljs-number">1e9</span> + <span class="hljs-number">7</span>;<br><span class="hljs-type">int</span> n,K;<br><span class="hljs-type">int</span> g[N],match[N];<br><span class="hljs-type">int</span> dp[N][N],sum[N];<br><span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">int</span> <span class="hljs-title">Cnt</span><span class="hljs-params">(<span class="hljs-type">int</span> l,<span class="hljs-type">int</span> r)</span> </span>&#123; <span class="hljs-keyword">return</span> sum[r] - sum[l - <span class="hljs-number">1</span>];&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	cin &gt;&gt; n &gt;&gt; K;n &lt;&lt;= <span class="hljs-number">1</span>;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>;i &lt;= K;i++)<br>	&#123;<br>		<span class="hljs-type">int</span> u,v;<br>		cin &gt;&gt; u &gt;&gt; v;<br>		match[u] = v;match[v] = u;<br>	&#125;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>;i &lt;= n;i++)<br>		sum[i] = sum[i - <span class="hljs-number">1</span>] + (!match[i]);<br>	g[<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">2</span>;i &lt;= n;i += <span class="hljs-number">2</span>)<br>		g[i] = <span class="hljs-number">1ll</span> * g[i - <span class="hljs-number">2</span>] * (i - <span class="hljs-number">1</span>) % P;<br>	<span class="hljs-type">int</span> ans = <span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> len = <span class="hljs-number">2</span>;len &lt;= n;len += <span class="hljs-number">2</span>)<br>		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>;i + len - <span class="hljs-number">1</span> &lt;= n;i++)<br>		&#123;<br>			<span class="hljs-type">int</span> j = i + len - <span class="hljs-number">1</span>,flag = <span class="hljs-number">1</span>;<br>			<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> x = i;x &lt;= j;x++)<br>				<span class="hljs-keyword">if</span>(match[x] &amp;&amp; (match[x] &lt; i || match[x] &gt; j)) &#123; flag = <span class="hljs-number">0</span>;<span class="hljs-keyword">break</span>;&#125;<br>			<span class="hljs-keyword">if</span>(!flag) <span class="hljs-keyword">continue</span>; <br>			dp[i][j] = g[<span class="hljs-built_in">Cnt</span>(i,j)];<br>			<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> k = i;k &lt; j;k++)<br>				dp[i][j] = (dp[i][j] + P - <span class="hljs-number">1ll</span> * dp[i][k] * g[<span class="hljs-built_in">Cnt</span>(k + <span class="hljs-number">1</span>,j)] % P) % P;<br>			ans = (ans + <span class="hljs-number">1ll</span> * dp[i][j] * g[n - <span class="hljs-number">2</span> * K - <span class="hljs-built_in">Cnt</span>(i,j)] % P) % P;<br>		&#125;<br>	cout &lt;&lt; ans &lt;&lt; endl;<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<div id="paginator"></div></div><div id="post-footer"><div id="pages"><div class="footer-link" style="width: 50%;text-align:right;border-right:1px #fe2 solid"><a href="/posts/2642165753/">← Next P7213 题解</a></div><div class="footer-link" style="width: 50%;right:1px;border-left:1px #fe2 solid"><a href="/posts/3621638127/">ARC128E 题解 Prev →</a></div></div></div></div><div class="bottom-btn"><div><a id="to-top" onClick="scrolls.scrolltop();" title="回到顶部" style="opacity: 0; display: none;">∧</a><a id="to-index" href="#toc-div" title="文章目录">≡</a><a id="color-mode" onClick="colorMode.change()" title="切换主题"></a></div></div></article><aside><div id="about"><a href="/" id="logo"><img src="https://ak.hypergryph.com/assets/index/images/ak/pc/faction/1.png" alt="Logo"></a><h1 id="Dr"><a href="/">Dualqwq</a></h1><div id="description"><p></p></div></div><div id="aside-block"></div><footer><nobr>构建自 <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></nobr><wbr><nobr> 使用主题 <a target="_blank" rel="noopener" href="https://github.com/Yue-plus/hexo-theme-arknights">Arknights</a></nobr><wbr><nobr>主题作者 <a target="_blank" rel="noopener" href="https://github.com/Yue-plus">Yue_plus</a></nobr></footer></aside></main><canvas id="canvas-dust"></canvas><script src="/js/search.js"></script><script src="/js/arknights.js"></script><script src="//unpkg.com/lightgallery@2.7.1/lightgallery.min.js"></script><script src="//unpkg.com/lightgallery@2.7.1/plugins/zoom/lg-zoom.min.js"></script><script src="//unpkg.com/lightgallery@2.7.1/plugins/thumbnail/lg-thumbnail.min.js"></script><script src="/js/pjax.js"></script><script class="pjax-js">reset= () => {code.findCode();
+document.querySelector('.lg-container')?.remove()
+lightGallery(document.getElementById('post-bg'), {
+  plugins: [lgZoom,lgThumbnail],
+  selector: '.item-img'})}</script><script>window.addEventListener("load",() => {pjax = new Pjax({
+ cacheBust: false,
+ selectors: ['title','article','#aside-block','.pjax-js'],
+ switches: {'article': Pjax.switches.sideBySide},
+ switchesOptions: {
+   'article': {
+     classNames: {
+       remove: "pjax-out",
+       add: "pjax-in"
+     }
+   }
+ }
+});
+document.addEventListener("pjax:complete", reset);reset()})</script></body></html>

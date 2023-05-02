@@ -1,0 +1,169 @@
+<!DOCTYPE html><html lang="zh-CN" theme-mode="dark"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>P7213 题解 | 天命之路 的博客</title><link rel="icon" type="image/x-icon" href="/favicon.ico"><script>var config = {"root":"/","search":{"preload":false,"activeHolder":"键入以继续","blurHolder":"数据检索","noResult":"无 $0 相关数据"},"code":{"codeInfo":"$0 - 共 $1 行","copy":"复制","copyFinish":"复制成功","expand":"展开"}}</script><script src="//unpkg.com/mermaid@9.2.2/dist/mermaid.min.js"></script><script src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.1/MathJax.js"></script><script>MathJax.Hub.Config({
+ menuSettings: {
+   zoom: "None"
+ },
+ showMathMenu: false,
+ jax: ["input/TeX","output/CommonHTML"],
+ extensions: ["tex2jax.js"],
+ TeX: {
+   extensions: ["AMSmath.js","AMSsymbols.js"],
+   equationNumbers: {
+     autoNumber: "AMS"
+   }
+ },
+ tex2jax: {
+   inlineMath: [["\\(", "\\)"]],
+   displayMath: [["\\[", "\\]"]]
+ }
+});</script><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lightgallery.css"><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lg-zoom.css"><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lg-thumbnail.css"><link type="text/css" rel="stylesheet" href="/lib/fontawesome/brands.min.css"><link type="text/css" rel="stylesheet" href="/lib/fontawesome/fontawesome.min.css"><link rel="stylesheet" href="/css/arknights.css"><script>if (window.localStorage.getItem('theme-mode') === 'light') document.documentElement.setAttribute('theme-mode', 'light')
+if (window.localStorage.getItem('theme-mode') === 'dark') document.documentElement.setAttribute('theme-mode', 'dark')</script><style>@font-face {
+ font-family: BenderLight;
+ src: local('Bender'), url("/font/BenderLight.ttf");
+}
+@font-face {
+ font-family: 'JetBrains Mono';
+ src: local('JetBrains Mono'), url('/font/JetBrainsMono-Regular.woff2') format('woff2');
+}
+@font-face {
+ font-family: 'Font Awesome 6 Brands';
+ src: local('Font Awesome 6 Brands'), url('/lib/fontawesome/fa-brands.woff2') format('woff2');
+}
+@font-face {
+ font-family: 'Font Awesome 6 Free';
+ src: local('Font Awesome 6 Free'), url('/lib/fontawesome/fa-regular.woff2') format('woff2');
+}</style><style>:root {
+  --dark-background: url('https://ak.hypergryph.com/assets/index/images/ak/pc/bk.jpg');
+  --light-background: url('/img/bk.jpg');
+}</style><meta name="generator" content="Hexo 6.3.0"></head><body><div class="loading" style="opacity: 0"><div class="loadingBar left"></div><div class="loadingBar right"></div></div><main><header class="closed"><nav><div class="navBtn hide"><i class="navBtnIcon"><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span></i></div><div class="navItem" id="search-header"><span class="navItemTitle"><input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="数据检索" spellcheck="false" maxlength="50" type="text" id="search-input"></span></div><div class="navItem" id="search-holder"></div><div class="search-popup"><div id="search-result"></div></div><ol class="navContent"><li class="navItem"><a class="navBlock" href="/"><span class="navItemTitle">Home</span></a></li><li class="navItem" matchdata="categories,tags"><a class="navBlock" href="/archives/"><span class="navItemTitle">Archives</span></a></li></ol></nav></header><article><div id="post-bg"><div id="post-title"><h1>P7213 题解</h1><div id="post-info"><span>文章发布时间: <div class="control"><time datetime="2023-05-02T06:20:14.253Z" id="date"> 2023-05-02</time></div></span><br><span>最后更新时间: <div class="control"><time datetime="2023-03-03T08:41:30.720Z" id="updated"> 2023-03-03</time></div></span></div></div><hr><div id="post-content"><p>最近对计数题的训练还是让我很有收获的。能想出这题的主状态，说明我有了一定的计数水平。但最后因为懒于编转移看了题解，其实这并没有必要。以后还是要自己把转移讨论出来，哪怕漏了几类也没有关系。毕竟考场上，状态和转移都需要自己推。</p>
+<span id="more"></span>
+<p>首先，有一个基本的观察：</p>
+<p>​
+每一次地震，对于最大的有两个位置的高度，靠右的那个位置一定会被保留下来，再也不会变化。</p>
+<p>“最大的”，”靠右“，诸如此类的字眼，提示我们从后往前考虑问题，并从值域入手设计状态。</p>
+<p>但现在还没有直接的思路，需要进一步观察。</p>
+<p>从后往前推，对于第 <span class="math inline">\(2n\)</span>
+个位置，它显然可以活着。</p>
+<p>对于第 <span class="math inline">\(2n - 1\)</span> 个位置，如果它和第
+<span class="math inline">\(2n\)</span> 个位置都是 <span
+class="math inline">\(1\)</span>，它就会寄，否则一定能活下来。</p>
+<p>对于第 <span class="math inline">\(2n - 2\)</span> 个位置，如果它是
+<span class="math inline">\(2\)</span> ，且后面有 <span
+class="math inline">\(2,1\)</span>，或者它是 <span
+class="math inline">\(1\)</span>，且后面也有 <span
+class="math inline">\(1\)</span>，它就得寄，否则会活。</p>
+<p>（注意，上述的状态都是在<strong>某次地震</strong>后的状态，不一定是最初的）</p>
+<p>以此类推，我们发现：</p>
+<p>如果在某次地震后，高度为 <span class="math inline">\(h\)</span>
+的柱子后面，高度为 <span class="math inline">\(1,2,\dots,h\)</span>
+的柱子都至少出现了一次，那这根柱子一定活不下来。</p>
+<p>进一步地说，我们从后往前扫到一个位置 <span
+class="math inline">\(i\)</span>，如果 <span
+class="math inline">\(h_i\)</span> 没有在后面的位置出现过，那么 <span
+class="math inline">\(h_i\)</span> 就是当前位置的最终值，否则 <span
+class="math inline">\(h_i\)</span> 会一直减到后面没有出现 <span
+class="math inline">\(h_i\)</span>，减到 <span
+class="math inline">\(0\)</span> 为止。</p>
+<p>事实上，这个“在后面没有出现”，你只需要考虑在后面的<strong>最终值</strong>中，<span
+class="math inline">\(h_i\)</span>
+有没有出现，而不需要考虑<strong>“某次地震以后”</strong>，因为地震并不会缩小高度的集合，以前出现的高度，地震过后还是出现，这是显然的，而我们显然不会做多余的事情，因为基于最终值推导出的变化肯定需要执行。</p>
+<p>那么我们就只需要考察 <strong>这些柱子高度的最终值</strong> 以及
+<strong>形成这些最终值的方式</strong>
+（这看上去是句废话，但你会发现，通过上面的观察，考察后者变得简单了很多）。</p>
+<p>考察这些的柱子的最终值，它们会在值域上形成一些连续段，而与一个柱子的存亡有关的就是那个最低的连续段。</p>
+<p>那么我们就可以设出状态 <span class="math inline">\(f[i][j]\)</span>
+表示考虑到了位置 <span
+class="math inline">\([i,n]\)</span>，在最终值上，<span
+class="math inline">\([1,j]\)</span> 的柱子都出现过，但 <span
+class="math inline">\(j + 1\)</span> 未出现过的答案。</p>
+<p>有些读者可能会发现这个 <span class="math inline">\(j\)</span>
+长得很像 MEX，事实上，这题的转移与 CF1608F MEX Counting
+的思想是相同的。我们接下来细说。</p>
+<p>在下文，我们假设值相同的两个柱子是有区别的，最后将答案除以 <span
+class="math inline">\(2^n\)</span>。</p>
+<p>为方便描述，接下来设 <span class="math inline">\(c_0\)</span> 表示
+<span class="math inline">\([i + 1,n]\)</span>
+中钦定倒塌的柱子数量，<span class="math inline">\(c_1\)</span> 表示
+<span class="math inline">\([i + 1,n]\)</span>
+中钦定存留的柱子数量。</p>
+<p>如果 <span class="math inline">\(i\)</span> 位置钦定倒塌：</p>
+<p>那么该位置的取值只能是 <span class="math inline">\(1 \sim
+j\)</span>，一共有 <span class="math inline">\(2j\)</span>
+个数可以选择，而我们之前选 <span class="math inline">\(1 \sim j\)</span>
+的时候已经用掉了 <span class="math inline">\(j\)</span> 个数，还有 <span
+class="math inline">\(c_0\)</span> 个数用在了那 <span
+class="math inline">\(c_0\)</span> 个倒掉的柱子上，故这一位的方案数是
+<span class="math inline">\(j - c_0\)</span>，故有转移式 <span
+class="math inline">\(f[i][j] \gets f[i+1][j] \times (j -
+c_0)\)</span>。</p>
+<p>如果 <span class="math inline">\(i\)</span> 位置钦定存活：</p>
+<p>那么需要分类讨论：</p>
+<ol type="1">
+<li><p><span class="math inline">\(i\)</span> 位置的最终值大于 <span
+class="math inline">\(j + 1\)</span>，此时我们不能确定什么，所以使用
+CF1608F 中的”延迟贡献“思想，将这一个数留到后面再来确定，即转移 <span
+class="math inline">\(f[i][j] \gets f[i + 1][j]\)</span>。</p></li>
+<li><p><span class="math inline">\(i\)</span> 位置的最终值等于 <span
+class="math inline">\(j +
+1\)</span>，那么我们所需要做的工作会复杂一些，我们可能要把值域上最小和次小的连续段拼起来。</p>
+<p>考虑从 <span class="math inline">\(f[i + 1][j]\)</span> 转移到 <span
+class="math inline">\(f[i][j + k]\)</span>。</p>
+<p>那么我们首先要确定 <span class="math inline">\(i\)</span>
+位置初始值该填什么，显然，其只能从 <span class="math inline">\((j + 2)
+\sim (j + k)\)</span> 里面选（因为这些数都出现过 <span
+class="math inline">\(1\)</span> 次了，在这里只有 <span
+class="math inline">\(1\)</span> 的贡献），同时还可以选两个 <span
+class="math inline">\(j + 1\)</span> ，总计 <span
+class="math inline">\((k + 1)\)</span> 种选法。</p>
+<p>然后考虑确定 $(j + 2) (j + k) $
+的位置，我们当然只能在活着的柱子里选，目前只有 <span
+class="math inline">\(c_1 - j\)</span>
+个活着的柱子等待决策的，故方案数为 <span
+class="math inline">\(\dbinom{c_1 - j}{k - 1}\)</span>。（这里就把情况
+<span class="math inline">\(1\)</span>
+中的“延迟决策”放到了这一步进行计算）</p>
+<p>对于这 <span class="math inline">\(k - 1\)</span>
+个数，我们还要确定其初始值的填法，我们考虑计数这个东西需要解决什么限制。</p>
+<p>我们需要在 <span class="math inline">\(1 \sim t\)</span> 这 <span
+class="math inline">\(2t\)</span> 个数中选出 <span
+class="math inline">\(t\)</span> 个数，使得其在地震完之后是一个长度为
+<span class="math inline">\(t\)</span> 的排列。</p>
+<p>这个条件还是很复杂，考虑必要条件：对于每个 <span
+class="math inline">\(i \in [1,t]\)</span>，值 $ i$ 的元素的个数 <span
+class="math inline">\(\le i\)</span>。</p>
+<p>必要性显然，因为如果存在一个 <span class="math inline">\(i\)</span>
+使得不超过 <span class="math inline">\(i\)</span> 的元素个数 <span
+class="math inline">\(&gt; i\)</span>，那必然有一个柱子可以滑到 <span
+class="math inline">\(0\)</span>。</p>
+<p>然后我们发现这个条件是充分的，因为这样的序列肯定不劣于一个排列（排列会把每个限制都取到等号），而排列一定合法。</p>
+<p>基于上述条件，可以设计一个 <span
+class="math inline">\(g[i][j]\)</span> 表示填了数 <span
+class="math inline">\(1 \sim i\)</span>，一共用了 <span
+class="math inline">\(j\)</span> 个位置的方案数。枚举当前数填 <span
+class="math inline">\(0/1/2\)</span> 个转移即可：<br />
+<span class="math display">\[g[i][j] = g[i - 1][j] + 2j \times g[i -
+1][j - 1] + j(j-1) \times g[i - 1][j - 2]\]</span></p>
+<p>汇总上述分析，得出转移式： <span class="math display">\[f[i][j + k]
+\gets f[i][j] \times (k + 1) \times \binom{c_1 - j}{k-1} \times g[k -
+1][k - 1]\]</span></p></li>
+</ol>
+<p>跑上述的 DP 即可。时间复杂度 <span
+class="math inline">\(\Theta(n^3)\)</span>。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><span class="hljs-type">const</span> <span class="hljs-type">int</span> N = <span class="hljs-number">6e2</span> + <span class="hljs-number">5</span>,P = <span class="hljs-number">1e9</span> + <span class="hljs-number">7</span>;<br><span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">void</span> <span class="hljs-title">Plus</span><span class="hljs-params">(<span class="hljs-type">int</span> &amp;x,<span class="hljs-type">const</span> <span class="hljs-type">int</span> &amp;y)</span> </span>&#123; x += y;<span class="hljs-keyword">if</span>(x &gt;= P) x -= P;&#125;<br><span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">int</span> <span class="hljs-title">qpow</span><span class="hljs-params">(<span class="hljs-type">int</span> a,<span class="hljs-type">int</span> b)</span> </span>&#123; <span class="hljs-type">int</span> res = <span class="hljs-number">1</span>;<span class="hljs-keyword">while</span>(b) &#123;<span class="hljs-keyword">if</span>(b&amp;<span class="hljs-number">1</span>) res = <span class="hljs-number">1ll</span> * res * a % P;a = <span class="hljs-number">1ll</span> * a * a % P;b &gt;&gt;= <span class="hljs-number">1</span>;&#125; <span class="hljs-keyword">return</span> res;&#125;<br><span class="hljs-type">bool</span> alive[N &lt;&lt; <span class="hljs-number">1</span>];<br><span class="hljs-type">int</span> f[N &lt;&lt; <span class="hljs-number">1</span>][N],g[N][N];<br><span class="hljs-type">int</span> n;<br><span class="hljs-type">int</span> C[N][N];<br><span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">int</span> <span class="hljs-title">Binom</span><span class="hljs-params">(<span class="hljs-type">int</span> n,<span class="hljs-type">int</span> m)</span> </span>&#123; <span class="hljs-keyword">if</span>(n &lt; <span class="hljs-number">0</span> || m &lt; <span class="hljs-number">0</span> || n &lt; m) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<span class="hljs-keyword">return</span> C[n][m];&#125;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	cin &gt;&gt; n;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>,x;i &lt;= n;i++)<br>		cin &gt;&gt; x,alive[x] = <span class="hljs-literal">true</span>;<br>	C[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>;i &lt;= n;i++)<br>	&#123;<br>		C[i][<span class="hljs-number">0</span>] = C[i][i] = <span class="hljs-number">1</span>;<br>		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = <span class="hljs-number">1</span>;j &lt; i;j++)<br>			C[i][j] = (C[i - <span class="hljs-number">1</span>][j - <span class="hljs-number">1</span>] + C[i - <span class="hljs-number">1</span>][j]) % P;<br>	&#125;<br>	g[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>;i &lt;= n;i++)<br>	&#123;<br>		g[i][<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>;<br>		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = <span class="hljs-number">1</span>;j &lt;= i;j++)<br>		&#123;<br>			<span class="hljs-built_in">Plus</span>(g[i][j],g[i - <span class="hljs-number">1</span>][j]);<br>			<span class="hljs-keyword">if</span>(j) <span class="hljs-built_in">Plus</span>(g[i][j],<span class="hljs-number">2ll</span> * j * g[i - <span class="hljs-number">1</span>][j - <span class="hljs-number">1</span>] % P);<br>			<span class="hljs-keyword">if</span>(j &gt; <span class="hljs-number">1</span>) <span class="hljs-built_in">Plus</span>(g[i][j],<span class="hljs-number">1ll</span> * j * (j - <span class="hljs-number">1</span>) * g[i - <span class="hljs-number">1</span>][j - <span class="hljs-number">2</span>] % P);<br>		&#125;<br>	&#125;<br>	<span class="hljs-type">int</span> sum = <span class="hljs-number">0</span>;<br>	f[n * <span class="hljs-number">2</span> + <span class="hljs-number">1</span>][<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = n * <span class="hljs-number">2</span>;i &gt;= <span class="hljs-number">1</span>;i--)<br>	&#123;<br>		<span class="hljs-keyword">if</span>(alive[i])<br>		&#123;<br>			<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>;j &lt;= n;j++)<br>			&#123;<br>				<span class="hljs-built_in">Plus</span>(f[i][j],f[i + <span class="hljs-number">1</span>][j]);<br>				<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> k = <span class="hljs-number">1</span>;k &lt;= j;k++)<br>					<span class="hljs-built_in">Plus</span>(f[i][j],<span class="hljs-number">1ll</span> * f[i + <span class="hljs-number">1</span>][j - k] * <span class="hljs-built_in">Binom</span>(sum - (j - k),k - <span class="hljs-number">1</span>) % P * (k + <span class="hljs-number">1</span>) % P * g[k - <span class="hljs-number">1</span>][k - <span class="hljs-number">1</span>] % P);<br>			&#125;<br>			++sum;<br>		&#125;<br>		<span class="hljs-keyword">else</span><br>		&#123;	<br>			<span class="hljs-type">int</span> ded = n * <span class="hljs-number">2</span> - i - sum;<br>			<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>;j &lt;= n;j++)<br>				<span class="hljs-keyword">if</span>(j &gt;= ded)<br>				<span class="hljs-built_in">Plus</span>(f[i][j],<span class="hljs-number">1ll</span> * f[i + <span class="hljs-number">1</span>][j] * (j - ded) % P);<br>		&#125;<br>	&#125;<br>	<span class="hljs-type">int</span> ans = <span class="hljs-number">1ll</span> * f[<span class="hljs-number">1</span>][n] * <span class="hljs-built_in">qpow</span>((P + <span class="hljs-number">1</span>) / <span class="hljs-number">2</span>,n) % P;<br>	cout &lt;&lt; ans &lt;&lt; endl;<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<div id="paginator"></div></div><div id="post-footer"><div id="pages"><div class="footer-link" style="width: 50%;text-align:right;border-right:1px #fe2 solid"><a href="/posts/950516913/">← Next AGC007 DEF 题解</a></div><div class="footer-link" style="width: 50%;right:1px;border-left:1px #fe2 solid"><a href="/posts/1943078264/">AGC028D 题解 Prev →</a></div></div></div></div><div class="bottom-btn"><div><a id="to-top" onClick="scrolls.scrolltop();" title="回到顶部" style="opacity: 0; display: none;">∧</a><a id="to-index" href="#toc-div" title="文章目录">≡</a><a id="color-mode" onClick="colorMode.change()" title="切换主题"></a></div></div></article><aside><div id="about"><a href="/" id="logo"><img src="https://ak.hypergryph.com/assets/index/images/ak/pc/faction/1.png" alt="Logo"></a><h1 id="Dr"><a href="/">Dualqwq</a></h1><div id="description"><p></p></div></div><div id="aside-block"></div><footer><nobr>构建自 <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></nobr><wbr><nobr> 使用主题 <a target="_blank" rel="noopener" href="https://github.com/Yue-plus/hexo-theme-arknights">Arknights</a></nobr><wbr><nobr>主题作者 <a target="_blank" rel="noopener" href="https://github.com/Yue-plus">Yue_plus</a></nobr></footer></aside></main><canvas id="canvas-dust"></canvas><script src="/js/search.js"></script><script src="/js/arknights.js"></script><script src="//unpkg.com/lightgallery@2.7.1/lightgallery.min.js"></script><script src="//unpkg.com/lightgallery@2.7.1/plugins/zoom/lg-zoom.min.js"></script><script src="//unpkg.com/lightgallery@2.7.1/plugins/thumbnail/lg-thumbnail.min.js"></script><script src="/js/pjax.js"></script><script class="pjax-js">reset= () => {code.findCode();
+document.querySelector('.lg-container')?.remove()
+lightGallery(document.getElementById('post-bg'), {
+  plugins: [lgZoom,lgThumbnail],
+  selector: '.item-img'})}</script><script>window.addEventListener("load",() => {pjax = new Pjax({
+ cacheBust: false,
+ selectors: ['title','article','#aside-block','.pjax-js'],
+ switches: {'article': Pjax.switches.sideBySide},
+ switchesOptions: {
+   'article': {
+     classNames: {
+       remove: "pjax-out",
+       add: "pjax-in"
+     }
+   }
+ }
+});
+document.addEventListener("pjax:complete", reset);reset()})</script></body></html>

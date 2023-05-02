@@ -1,0 +1,524 @@
+<!DOCTYPE html><html lang="zh-CN" theme-mode="dark"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>杭州中超联赛战前培训（上） | 天命之路 的博客</title><link rel="icon" type="image/x-icon" href="/favicon.ico"><script>var config = {"root":"/","search":{"preload":false,"activeHolder":"键入以继续","blurHolder":"数据检索","noResult":"无 $0 相关数据"},"code":{"codeInfo":"$0 - 共 $1 行","copy":"复制","copyFinish":"复制成功","expand":"展开"}}</script><script src="//unpkg.com/mermaid@9.2.2/dist/mermaid.min.js"></script><script src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.1/MathJax.js"></script><script>MathJax.Hub.Config({
+ menuSettings: {
+   zoom: "None"
+ },
+ showMathMenu: false,
+ jax: ["input/TeX","output/CommonHTML"],
+ extensions: ["tex2jax.js"],
+ TeX: {
+   extensions: ["AMSmath.js","AMSsymbols.js"],
+   equationNumbers: {
+     autoNumber: "AMS"
+   }
+ },
+ tex2jax: {
+   inlineMath: [["\\(", "\\)"]],
+   displayMath: [["\\[", "\\]"]]
+ }
+});</script><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lightgallery.css"><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lg-zoom.css"><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lg-thumbnail.css"><link type="text/css" rel="stylesheet" href="/lib/fontawesome/brands.min.css"><link type="text/css" rel="stylesheet" href="/lib/fontawesome/fontawesome.min.css"><link rel="stylesheet" href="/css/arknights.css"><script>if (window.localStorage.getItem('theme-mode') === 'light') document.documentElement.setAttribute('theme-mode', 'light')
+if (window.localStorage.getItem('theme-mode') === 'dark') document.documentElement.setAttribute('theme-mode', 'dark')</script><style>@font-face {
+ font-family: BenderLight;
+ src: local('Bender'), url("/font/BenderLight.ttf");
+}
+@font-face {
+ font-family: 'JetBrains Mono';
+ src: local('JetBrains Mono'), url('/font/JetBrainsMono-Regular.woff2') format('woff2');
+}
+@font-face {
+ font-family: 'Font Awesome 6 Brands';
+ src: local('Font Awesome 6 Brands'), url('/lib/fontawesome/fa-brands.woff2') format('woff2');
+}
+@font-face {
+ font-family: 'Font Awesome 6 Free';
+ src: local('Font Awesome 6 Free'), url('/lib/fontawesome/fa-regular.woff2') format('woff2');
+}</style><style>:root {
+  --dark-background: url('https://ak.hypergryph.com/assets/index/images/ak/pc/bk.jpg');
+  --light-background: url('/img/bk.jpg');
+}</style><meta name="generator" content="Hexo 6.3.0"></head><body><div class="loading" style="opacity: 0"><div class="loadingBar left"></div><div class="loadingBar right"></div></div><main><header class="closed"><nav><div class="navBtn hide"><i class="navBtnIcon"><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span></i></div><div class="navItem" id="search-header"><span class="navItemTitle"><input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="数据检索" spellcheck="false" maxlength="50" type="text" id="search-input"></span></div><div class="navItem" id="search-holder"></div><div class="search-popup"><div id="search-result"></div></div><ol class="navContent"><li class="navItem"><a class="navBlock" href="/"><span class="navItemTitle">Home</span></a></li><li class="navItem" matchdata="categories,tags"><a class="navBlock" href="/archives/"><span class="navItemTitle">Archives</span></a></li></ol></nav></header><article><div id="post-bg"><div id="post-title"><h1>杭州中超联赛战前培训（上）</h1><div id="post-info"><span>文章发布时间: <div class="control"><time datetime="2023-05-02T06:20:14.275Z" id="date"> 2023-05-02</time></div></span><br><span>最后更新时间: <div class="control"><time datetime="2023-02-14T13:56:24.700Z" id="updated"> 2023-02-14</time></div></span></div></div><hr><div id="post-content"><h2 id="section"><a href="#2022.11.29" class="headerlink" title="2022.11.29"></a>2022.11.29</h2>
+<p>今天前两题其实都不算难，但因为打着打着想下班了，就只写了 T1 和 T3
+的一点分，没有认真思考 T2。</p>
+<span id="more"></span>
+<p>T1 是个简单题：</p>
+<p>给出 <span class="math inline">\(m\)</span> 条限制 <span
+class="math inline">\((x,y)\)</span>，要求计数长度为 <span
+class="math inline">\(n\)</span> 的排列 <span
+class="math inline">\(p_1,p_2,\dots,p_n\)</span> 使得对于每个限制 <span
+class="math inline">\((x,y)\)</span> 均有 <span
+class="math inline">\(p_x = y\)</span> 或 <span
+class="math inline">\(p_y = x\)</span>。<span
+class="math inline">\(\Theta(n \log n)\)</span></p>
+<p>放在置换环上考虑，一个限制相当于一条无向边。</p>
+<p>显然有点度数大于 <span class="math inline">\(2\)</span>
+就无解。有一个自环连接其他点也无解。</p>
+<p>否则每个联通块有四种情况：</p>
+<ol type="1">
+<li>自环，舍去</li>
+<li>孤立点，需要被插入置换环</li>
+<li>一个整环，显然它不能对其他的点有影响，故将最后的答案 <span
+class="math inline">\(\times 2\)</span> 即可</li>
+<li>一条链，将其定向之后同孤立点没什么区别。</li>
+</ol>
+<p>唯一的例外是一个长度为 <span class="math inline">\(2\)</span>
+的链单独成环的时候，对这条链定向没有意义。</p>
+<p>设有 <span class="math inline">\(s_1\)</span> 条长度 <span
+class="math inline">\(\ge 3\)</span> 的链，<span
+class="math inline">\(s_2\)</span> 条长度为 <span
+class="math inline">\(2\)</span> 的链，<span
+class="math inline">\(s_3\)</span> 个孤立点。</p>
+<p>则枚举恰好有 <span class="math inline">\(i\)</span> 个长度为 <span
+class="math inline">\(2\)</span> 的链单独成环，则剩下的 <span
+class="math inline">\(s_2 - i\)</span> 个都不能单独成环。</p>
+<p>内层相当于一个错排，一共有 <span
+class="math inline">\(s_1+s_2+s_3-i\)</span> 个点，其中 <span
+class="math inline">\(1\)</span> 到 <span class="math inline">\(s_2 -
+i\)</span> 不能单独成环。可以容斥。 d
+把式子写在一起推一推可以得出一个卷积做法，这里就不细讲了。（考场做法，但因为找环的
+dfs 写错了挂成 20)</p>
+<p>考虑先假设所有长度为 <span class="math inline">\(2\)</span> 的链都有
+<span class="math inline">\(2\)</span> 的系数，那么一个长度为 <span
+class="math inline">\(2\)</span> 的链单独成环就有 <span
+class="math inline">\(\dfrac{1}{2}\)</span> 的系数。</p>
+<p>大家应该还记得，容斥是使用二项式定理证明的。</p>
+<p>我们容斥“一个东西不出现的方案数“，实际上是在说它的权值是
+0,此时容斥系数是 <span class="math inline">\(-1\)</span>。</p>
+<p>现在出现一个东西的权是 <span
+class="math inline">\(\dfrac{1}{2}\)</span>，那容斥系数就是 <span
+class="math inline">\(\dfrac{1}{2} - 1 = -\dfrac{1}{2}\)</span>。</p>
+<p>所以直接钦定有 <span class="math inline">\(i\)</span>
+个二元链成自环，容斥系数就是 <span
+class="math inline">\((\dfrac{-1}{2})^i\)</span>。</p>
+<p>T2 是个拆贡献线段树题，到时候补。</p>
+<p>T3 是个套路题。</p>
+<p>输入 <span class="math inline">\(n\)</span> 个字符串 <span
+class="math inline">\(s_1,s_2,\dots,s_n\)</span>。</p>
+<p>有一个初始为空的字符串 <span
+class="math inline">\(T\)</span>，每次在后面等概率加入一个小写字母，当所有
+<span class="math inline">\(s_i\)</span> 均在 <span
+class="math inline">\(T\)</span> 中出现至少一次时，停止加入字符。</p>
+<p>问 <span class="math inline">\(T\)</span> 的期望长度。</p>
+<p><span class="math inline">\(1 \le n \le 15,1 \le \sum |s_i| \le
+10^5\)</span></p>
+<p>设 <span class="math inline">\(X_i\)</span> 表示 <span
+class="math inline">\(s_i\)</span> 最早出现的时间。</p>
+<p>所求即为 <span class="math inline">\(E(\max(X_i))\)</span>。</p>
+<p><span class="math inline">\(\min-\max\)</span> 容斥一下，所求即为
+<span class="math inline">\(E(\min(X_i))\)</span>。</p>
+<p>这就是 [SDOI2017] 硬币游戏，我们把它重新推一遍。</p>
+<p>我们使用暴力的 <span class="math inline">\(PGF\)</span> 推导。</p>
+<p>设 <span class="math inline">\(F_i(x)\)</span> 表示 <span
+class="math inline">\(s_i\)</span> 的 <span
+class="math inline">\(PGF\)</span>，即 <span
+class="math inline">\([x^t]F_i(x)\)</span> 表示 <span
+class="math inline">\(X_i = t\)</span> 的概率。</p>
+<p>设 <span class="math inline">\(G(x)\)</span>
+表示一直没有出现任何一个串的 <span
+class="math inline">\(PGF\)</span>，即 <span
+class="math inline">\([x^t]G(x)\)</span> 表示到了时间 <span
+class="math inline">\(t\)</span> 还没有一个串出现的概率。</p>
+<p>首先 <span class="math inline">\(G(1)\)</span>
+，即所有时间都没出现的概率之和，其实就是第一次有串出现的时间的期望，可以参考等式
+<span class="math inline">\(E(X) = \sum_{i \ge 1} iP(X = i) = \sum_{i
+\ge 0} P(X &gt; i)\)</span> 进行理解。</p>
+<p>考虑列出 <span class="math inline">\(F_i\)</span> 与 <span
+class="math inline">\(G\)</span> 的关系式。</p>
+<p>首先有</p>
+<p><span class="math display">\[ \sum_{i=1}^n F_i(x) + G(x) = xG(x) +
+1\]</span></p>
+<p>具体地，就是考虑 <span class="math inline">\(g_i = f_{i +1} +
+g_{i+1}\)</span>，即当前没结束，下一步可能结束或没结束。</p>
+<p>再者，对于每个 <span class="math inline">\(s_i\)</span>，不管当前的
+<span class="math inline">\(T\)</span> 是什么，只要往后拼一个 <span
+class="math inline">\(s_i\)</span>，必然会结束。</p>
+<p>唯一的问题是，我们可能还没有把一个 <span
+class="math inline">\(s_i\)</span> 拼完，事情就结束了。</p>
+<p>也就是说，我们可能拼了一个 <span class="math inline">\(s_i\)</span>
+的前缀，然后跟原来 <span class="math inline">\(T\)</span>
+的某个后缀形成了一个 <span
+class="math inline">\(s_j\)</span>，就贡献到了“直接往后拼一个 <span
+class="math inline">\(s_i\)</span>" 的方案当中去。</p>
+<p>设 <span class="math inline">\(|s_i| = L\)</span>，则对于每个 <span
+class="math inline">\(i\)</span>，有方程：</p>
+<p><span class="math display">\[
+G(x)(\dfrac{1}{|\Sigma|})^mx^m = \sum_{j=1}^n\sum_{k=1}
+[s_i[1,\dots,k]  =s_j[|s_j|-k+1,\dots,|s_j|]]F_j(x) x^{m -
+k}(\dfrac{1}{|\Sigma|})^{m-k}
+\]</span></p>
+<p>其中 <span class="math inline">\(\Sigma\)</span> 是字符集，这里<span
+class="math inline">\(|\Sigma| = 26\)</span>。</p>
+<p>将 <span class="math inline">\(x = 1\)</span> 代入上面 <span
+class="math inline">\(n + 1\)</span> 个式子，即可得到关于 <span
+class="math inline">\(F_i(1)\)</span> 和 <span
+class="math inline">\(G(1)\)</span> 的 <span class="math inline">\(n +
+1\)</span> 个方程，高斯消元解方程即可。</p>
+<p>注意第二个式子的系数需要在一开始就处理好，因为我们要解 <span
+class="math inline">\(2^n\)</span> 遍方程。</p>
+<p>时间复杂度为 <span class="math inline">\(\Theta(2^nn^3 + n\sum
+|s_i|)\)</span> 或 <span class="math inline">\(\Theta(2^nn^3 + n^2
+\sum|s_i|)\)</span> ，取决于预处理复杂度。 ## 2022.11.30</p>
+<p>得分：100+100+30=230,大众分。</p>
+<p>写一下第三题。</p>
+<p>给出一个 <span class="math inline">\(n\)</span> 个点的无向环，第
+<span class="math inline">\(i\)</span> 个点同第 <span
+class="math inline">\((i + 1) \bmod n\)</span> 个点之间，有一条权值为
+<span class="math inline">\(w_i\)</span> 的无向边。（<span
+class="math inline">\(0 \le i \le n - 1\)</span>）。</p>
+<p>再给出 <span class="math inline">\(m\)</span> 条无向边 <span
+class="math inline">\((u_i,v_i,w_i)\)</span> 。</p>
+<p>特殊条件：如果把这张图画在一个平面上，这 <span
+class="math inline">\(m\)</span>
+条无向边不会在端点以外的地方相交，即开区间 <span
+class="math inline">\((u_i,v_i)\)</span> 和 <span
+class="math inline">\((u_j,v_j)\)</span> <span class="math inline">\((i
+\ne j)\)</span> 要么互相包含，要么无交。</p>
+<p>设 <span class="math inline">\(\operatorname{dis}(i,j)\)</span> 表示
+<span class="math inline">\(i\)</span> 到 <span
+class="math inline">\(j\)</span> 的最短路。</p>
+<p>求 <span class="math inline">\(\sum_{i=1}^n\sum_{j=i+1}^n
+\operatorname{dis}(i,j)\)</span>。</p>
+<p><span class="math inline">\(n,m \le 2 \times 10^5\)</span>。</p>
+<p>在平面图上的点对相关问题，考虑分治。</p>
+<p>取出一条不在环上的边 <span class="math inline">\((x,y)\)</span>
+，整张图就被分成了两个部分，设两个部分的点集为 <span
+class="math inline">\(L,R\)</span>。</p>
+<p>考虑对于 <span class="math inline">\(u \in L,v \in R\)</span>
+统计贡献。</p>
+<p>因为 <span class="math inline">\(u\)</span> 到 <span
+class="math inline">\(v\)</span> 的最短路必定经过 <span
+class="math inline">\(x,y\)</span> 中的至少一个，故 <span
+class="math inline">\(dis(u,v) =
+\min(dis(u,x)+dis(v,x),dis(u,y)+dis(v,y))\)</span></p>
+<p><span class="math inline">\(dis(*,x)\)</span> 和 <span
+class="math inline">\(dis(*,y)\)</span> 可以用 Dijkstra 跑出来。</p>
+<p>我们要求 <span
+class="math inline">\(\min\)</span>，考虑把贡献分类，即考虑什么时候
+<span class="math inline">\(dis(u,x) + dis(v,x) \le
+dis(u,y)+dis(v,y)\)</span>。</p>
+<p>移项变成 <span class="math inline">\(dis(u,x) - dis(u,y) \le dis(v,y)
+- dis(v,x)\)</span></p>
+<p>左边就只和 <span class="math inline">\(u\)</span> 有关，右边就只和
+<span class="math inline">\(v\)</span> 有关。</p>
+<p>可以把 <span class="math inline">\(dis(u,x) - dis(u,y)(u \in
+L)\)</span> 和 <span class="math inline">\(dis(v,y) - dis(v,x) (v \in
+R)\)</span> 放入同一个数组中进行排序。然后从前往后扫描就可统计贡献。</p>
+<p>考虑如何向下递归。</p>
+<p>直接向下递归是不行的，因为对于 <span class="math inline">\(u,v \in
+L\)</span>，<span class="math inline">\(u\)</span> 到 <span
+class="math inline">\(v\)</span> 的最短路仍然可能经过 <span
+class="math inline">\(R\)</span> 中的点。</p>
+<p>但我们注意到，这仍然会经过 <span class="math inline">\(x\)</span> 和
+<span class="math inline">\(y\)</span>。</p>
+<p>所以我们向下递归时，把 <span class="math inline">\(x\)</span> 到
+<span class="math inline">\(y\)</span> 的权值赋为 <span
+class="math inline">\(dis(x,y)\)</span>，就包含了这种情况。</p>
+<p>但是，直接这样递归的复杂度是错的。</p>
+<p>因为我们的分治基于题目给出的 <span class="math inline">\(m\)</span>
+条边，如果这 <span class="math inline">\(m\)</span>
+条边分出来的两半都不太均匀，那么复杂度就会上去。</p>
+<p>一个策略是把这 <span class="math inline">\(m\)</span>
+条边补成一个三角剖分（补上的边的边权设为 <span
+class="math inline">\(\infty\)</span>)，然后每次找到使 <span
+class="math inline">\(\max(|L|,|R|)\)</span> 最小的 <span
+class="math inline">\((x,y)\)</span>，递归下去，复杂度就是对的。</p>
+<p>证明的话，把环上的点均匀地放到一个圆上，找到一个包含圆心的三角形
+，这个三角形会把原图的点分成三个部分 <span
+class="math inline">\(A,B,C\)</span>，有 <span
+class="math inline">\(|A|+|B|+|C| = n + 3\)</span>。</p>
+<p>显然会有 <span class="math inline">\(\max(|A|,|B|,|C|) \ge
+\frac{n}{3}+1\)</span>，因为三角形包含圆心，也会有 <span
+class="math inline">\(\max(|A|,|B|,|C|) \le \frac{n}{2}+1\)</span>。</p>
+<p>所以我们找 <span class="math inline">\(L,R\)</span>
+的时候，总能找到一对 <span class="math inline">\(L,R\)</span> 满足 <span
+class="math inline">\(\frac{n}{3}+1 \le |L| \le
+\frac{n}{2}+1\)</span>，所以你能找到一对 <span
+class="math inline">\(L,R\)</span> 满足 <span
+class="math inline">\(\max(|L|,|R|) \le \frac{2}{3}n\)</span></p>
+<p>最坏的情况下，<span class="math inline">\(T(n) = T(\frac{1}{3}n) +
+T(\frac{2}{3}n) + O(n \log n)\)</span>。可以分析出总复杂度为 <span
+class="math inline">\(\Theta(n \log ^2 n)\)</span>。</p>
+<p>至于如何把现有的 <span class="math inline">\(m\)</span>
+条边补成一个三角剖分。考虑找出一个度数为 <span
+class="math inline">\(0\)</span> 的点（即不与这 <span
+class="math inline">\(m\)</span> 条边的任何一条相连)，设其为 <span
+class="math inline">\(x\)</span>，然后考察其左边和右边的点 <span
+class="math inline">\(l,r\)</span>，如果 <span
+class="math inline">\(l\)</span> 与 <span
+class="math inline">\(r\)</span> 之间没有连边，就连上。</p>
+<p>这样，<span class="math inline">\(l,r,x\)</span>
+就会形成一个三角形，且贴在环的边上，我们大可以把点 <span
+class="math inline">\(x\)</span> 删掉，把 <span
+class="math inline">\(l,r\)</span> 之间的的那条非环边变为新的环边（即将
+<span class="math inline">\(l,r\)</span> 的度数都减 <span
+class="math inline">\(1\)</span>），然后重复上述过程。可以类似拓扑排序，用队列维护当前度数为
+<span class="math inline">\(0\)</span>
+的点。并用双向链表维护删点即可。</p>
+<p>代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>;i &lt; m;i++)<br>&#123;<br>	E[e[i].x].<span class="hljs-built_in">insert</span>(e[i].y),<br>	E[e[i].y].<span class="hljs-built_in">insert</span>(e[i].x);<br>	++deg[e[i].x];++deg[e[i].y];<br>&#125;<br>	queue&lt;<span class="hljs-type">int</span>&gt; Q;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>;i &lt; n;i++)<br>		<span class="hljs-keyword">if</span>(!deg[i]) Q.<span class="hljs-built_in">push</span>(i);<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>;i &lt; n;i++)<br>		L[i] = i - <span class="hljs-number">1</span>,R[i] = i + <span class="hljs-number">1</span>;<br>	L[<span class="hljs-number">0</span>] = n - <span class="hljs-number">1</span>;R[n - <span class="hljs-number">1</span>] = <span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">while</span>(!Q.<span class="hljs-built_in">empty</span>())<br>	&#123;<br>		<span class="hljs-type">int</span> x = Q.<span class="hljs-built_in">front</span>();Q.<span class="hljs-built_in">pop</span>();<br>		<span class="hljs-type">int</span> lef = L[x],righ = R[x];<br>		R[lef] = righ;L[righ] = lef;<br>		<span class="hljs-keyword">if</span>(lef &gt; righ) <span class="hljs-built_in">swap</span>(lef,righ);<br><br>		<span class="hljs-keyword">if</span>(lef == righ || (lef == <span class="hljs-number">0</span> &amp;&amp; righ == n - <span class="hljs-number">1</span>) || righ - lef == <span class="hljs-number">1</span>) <span class="hljs-keyword">continue</span>;<br>		<span class="hljs-keyword">if</span>(!E[lef].<span class="hljs-built_in">count</span>(righ))<br>		&#123;<br>			E[lef].<span class="hljs-built_in">insert</span>(righ);E[righ].<span class="hljs-built_in">insert</span>(lef);<br>			e.<span class="hljs-built_in">push_back</span>(<span class="hljs-built_in">Edge</span>(lef,righ,inf));<br>		&#125;<br>		<span class="hljs-keyword">else</span><br>		&#123;<br>			<span class="hljs-keyword">if</span>((--deg[lef]) == <span class="hljs-number">0</span>) Q.<span class="hljs-built_in">push</span>(lef);<br>			<span class="hljs-keyword">if</span>((--deg[righ]) == <span class="hljs-number">0</span>) Q.<span class="hljs-built_in">push</span>(righ);<br>		&#125;<br>	&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="section-1"><a href="#2022.12.1" class="headerlink" title="2022.12.1"></a>2022.12.1</h2>
+<p>得分：0+85+0，T2 因为有一个地方写挂痛失 <span
+class="math inline">\(15\)</span> 分，差点就签到成功了。</p>
+<p>11.30 的 T3 是赛时写完 T2 之后改的。</p>
+<h2 id="section-2"><a href="#2022.12.2-2022.12.6" class="headerlink" title="2022.12.2-2022.12.6"></a>2022.12.2-2022.12.6</h2>
+<p>模拟赛没有什么可改的题，但讲课的课件还是有很多不错的题的。</p>
+<p>会随缘更新一些学到的东西。</p>
+<h4 id="多项式点值平移"><a href="#1.-多项式点值平移" class="headerlink" title="1.-多项式点值平移"></a>1. 多项式点值平移</h4>
+<p>对于一个 <span class="math inline">\(n\)</span> 次多项式 <span
+class="math inline">\(f\)</span>，给出 <span
+class="math inline">\(f(0),f(1),\dots,f(n)\)</span> ，现在需要求出 <span
+class="math inline">\(f(m),f(m+1),\dots,f(m+n)\)</span>。对 <span
+class="math inline">\(998244353\)</span> 取模。</p>
+<p><span class="math inline">\(1 \le n \le 1.6 \times 10^5,n \lt m \le
+10^8\)</span>。</p>
+<p>考察拉格朗日插值的式子：</p>
+<p><span class="math display">\[
+\begin{aligned}
+f(m + t) = \sum_{i=0}^{n}f(i)\prod_{j != i}\dfrac{m + t - j}{i-j} \\
+= \sum_{i=0}^{n} \dfrac{f(i)(-1)^{n-i}}{i!(n-i)!} \prod_{j != i}
+(m+t-j)! \\
+= \dfrac{(m+t)!}{(m-n+t-1)!}\sum_{i=0}^n
+\dfrac{f(i)(-1)^{n-i}}{i!(n-i)!} \dfrac{1}{m+t-i} \\
+\end{aligned}
+\]</span></p>
+<p>后半部分显然是个卷积的形式，唯一的不足是后面的求和上界是 <span
+class="math inline">\(n\)</span> 而不是 <span
+class="math inline">\(t\)</span>。</p>
+<p>因为 <span class="math inline">\(t\)</span> 可能小于 <span
+class="math inline">\(n\)</span>,我们要化成卷积的形式，最方便的当然是取某个序列的第
+<span class="math inline">\(n + t\)</span>
+项作为答案，虽然我们还不知道这个序列是什么。</p>
+<p>进一步地，我们把 <span class="math inline">\(\dfrac{1}{m+i}\)</span>
+这个序列也类似地平移 <span class="math inline">\(n\)</span>
+位,具体地，我们设</p>
+$$
+<span class="math display">\[\begin{aligned}
+A_i = \dfrac{f(i)(-1)^{n-i}}{i!(n-i)!} (i \in [0,n]) \\
+
+B_i = \dfrac{1}{m-n+i} (i \in [0,2n]) \\
+\end{aligned}\]</span>
+<p>$$</p>
+<p>然后令 <span class="math inline">\(C = A * B\)</span>，取 <span
+class="math inline">\(C_{n+t}\)</span> 就是 <span
+class="math inline">\(f(m+t)\)</span> 的后面那个 <span
+class="math inline">\(\sum\)</span>。</p>
+<p>一遍卷积即可，时间复杂度 <span class="math inline">\(\Theta(n \log
+n)\)</span>。</p>
+<h4 id="p5469-机器人"><a href="#2.-P5469 机器人" class="headerlink" title="2.-P5469 机器人"></a>2. P5469 机器人</h4>
+<p>从初三的暑假到高一上学期，计数水平确乎是有提升的，也有可能是思路变得更加敏捷，总而言之，看懂机器人了。</p>
+<p>题意：</p>
+<p>从左到右有一排长度为 <span class="math inline">\(n\)</span>
+的柱子，设柱子 <span class="math inline">\(i\)</span> 的高度为 <span
+class="math inline">\(h_i\)</span>。有两种机器人，<code>P</code>
+型机器人和 <code>Q</code> 型机器人。</p>
+<p><code>P</code>
+型机器人从某个柱子出发，会一直向左走，直到走到尽头或者下一个柱子的高度<strong>大于</strong>起点柱子。</p>
+<p><code>Q</code>
+型机器人从某个柱子出发，会一直向右走，直到走到尽头或者下一个柱子的高度<strong>大于等于</strong>起点柱子。</p>
+<p>如果 <span class="math inline">\(\forall s \in
+[1,n]\)</span>，把两个机器人放在 <span class="math inline">\(s\)</span>
+处，让他们走，他们走过的格子数量之差的绝对值不超过 <span
+class="math inline">\(2\)</span>。那么这个 <span
+class="math inline">\(h_i\)</span> 序列就被称作合法的。</p>
+<p>现在限定 <span class="math inline">\(h_i \in
+[A_i,B_i]\)</span>（<span class="math inline">\(A,B\)</span>
+给定）计数有多少个合法的 <span class="math inline">\(h_i\)</span>。对
+<span class="math inline">\(10^9 + 7\)</span> 取模。</p>
+<p><span class="math inline">\(n \le 300,1 \le A_i \le B_i \le
+10^9\)</span>。</p>
+<p>题目中的机器人在走到第一个大于/大于等于起点的位置就会停止，我们不妨考虑，如果把起点设在整个数列最靠右的最大值会发生什么。设这个位置为
+<span class="math inline">\(t\)</span>。</p>
+<p>显然，<code>P</code> 型机器人会一直向左，<code>Q</code>
+型机器人会一直向右，直到走到端点，而在 <span
+class="math inline">\(t\)</span>
+的左边或右边，机器人无论怎么走都无法跨过 <span
+class="math inline">\(t\)</span>。</p>
+<p>所以我们借助这个最大值，把一个区间拆成了两个子区间，和一个断点的决策。<strong>（这是十分重要的思想，通过特殊点的表现来拆分问题）</strong></p>
+<p>于是考虑设计一个 <span class="math inline">\(dp[l][r]\)</span>
+表示区间 <span class="math inline">\([l,r]\)</span>
+的答案，转移枚举最大值的位置，因为其与两边距离之差不超过 <span
+class="math inline">\(2\)</span>，有效的转移不多，在 <span
+class="math inline">\(n \le 300\)</span> 时只有 <span
+class="math inline">\(2518\)</span> 个有效区间。</p>
+<p>但枚举最大值本身还会带来限制，子区间的最大值必须<strong>小于或小于等于</strong>枚举的端点</p>
+<p>所以我们还要记录一维 <span class="math inline">\(v\)</span>
+表示当前转区间的最大值，状态就是 <span
+class="math inline">\(dp[l][r][v]\)</span>，设其前缀和为 <span
+class="math inline">\(sum[l][r][v] = \sum_{i=1}^v
+dp[l][r][v]\)</span></p>
+<p>那么转移就是 <span class="math display">\[
+\begin{aligned}
+dp[l][r][v] &amp;= \sum_{\text{$t$ is vaild} } ((\sum_{i=1}^{v}dp[l][t -
+1][i]) \times (\sum_{i=1}^{v-1} dp[t + 1][r][i]))[a_t \le v \le b_t] \\
+&amp;= \sum_{\text{$t$ is vaild}} sum[l][t - 1][v] \times sum[t +
+1][r][v - 1][a_t \le v \le b_t]
+\end{aligned}
+\]</span> 但 <span class="math inline">\(v\)</span>
+有可能很大，如果直接实现这个东西，显然是无法满分的。</p>
+<p>我们思考 <span class="math inline">\(a = 1,b = 10^9\)</span>
+那档部分分，现在相当于 <span class="math inline">\(v\)</span>
+的取值不受限制。</p>
+<p>考虑一个 <span class="math inline">\(l = r\)</span> 的区间，它满足
+<span class="math inline">\(dp[l][r][v] = 1\)</span>，其前缀和满足 <span
+class="math inline">\(sum[l][r][v] = v\)</span></p>
+<p>考虑一个 <span class="math inline">\(l + 1 = r\)</span>
+的区间，他就是如上的两个 <span class="math inline">\(sum\)</span>
+点乘的结果，显然是个二次函数。</p>
+<p>归纳地，设 <span class="math inline">\(F_{l,r}(x) =
+sum[l][r][x]\)</span> 是一个关于 <span class="math inline">\(x\)</span>
+的函数，我们可以证明这是个次数不超过 <span class="math inline">\(r - l +
+1\)</span> 次的多项式，对着 <span class="math inline">\(dp\)</span>
+方程考虑即可得证。</p>
+<p>也就是说，我们只要算出了 <span
+class="math inline">\(sum[1][n][x]\)</span> 在 <span
+class="math inline">\(x = 0,1,\dots,n\)</span>
+的取值，就能通过插值算法得出 <span
+class="math inline">\(sum[1][n][10^9]\)</span>。</p>
+<p>我们转而考虑正解，此时 <span class="math inline">\(a,b\)</span>
+不一样，哪怕是 <span class="math inline">\(i\)</span> 固定，每个 <span
+class="math inline">\(v\)</span> 都有可能可以被取或者不能被取，这取决于
+<span class="math inline">\(a\)</span> 和 <span
+class="math inline">\(b\)</span> 的限制。</p>
+<p>这意味着答案不再是个多项式。</p>
+<p>但我们考虑把 <span class="math inline">\(a,b\)</span>
+按照数轴上离散化的方法处理。</p>
+<p>那么对于两个特殊值 <span
+class="math inline">\(vals_i,vals_{i+1}\)</span> 形成的区间 <span
+class="math inline">\([vals_i,vals_{i+1})\)</span> 中的 <span
+class="math inline">\(v\)</span> ，在 <span
+class="math inline">\(i\)</span>
+一定时决策都是一样的，要么取，要么不取，这样答案就是一个多项式，能不能取的决策无非是多乘一项，少乘一项的区别。</p>
+<p>值得注意的是，我们在 <span
+class="math inline">\([vals_i,vals_{i+1})\)</span> 的值域中考虑 "<span
+class="math inline">\(dp[l][r][v]\)</span> 的前缀和" 时，它仍然是从
+<span class="math inline">\(1\)</span> 开始求和的，而非 <span
+class="math inline">\(vals_i\)</span>，所以我们需要一个位置来保存在更小的值域区间内
+<span class="math inline">\(dp[l][r][v]\)</span>
+的前缀和，这在代码里体现为 <span
+class="math inline">\(dp[l][r][0]\)</span>。</p>
+<h4 id="p4654-ceoi2017-mousetrap"><a href="#3.P4654-[CEOI2017] Mousetrap" class="headerlink" title="3.P4654-[CEOI2017] Mousetrap"></a>3.P4654 [CEOI2017] Mousetrap</h4>
+<p>有题号就不放题意了。</p>
+<p>虽然看着是个博弈题，但跟博弈其实关系不大，我们只需通过一定的方法，刻画这两个人在不同局面下的决策即可。</p>
+<p>我们考虑把陷阱点作为根，那么老鼠就是要向上一直跳，然后跳到根。</p>
+<p>容易发现，如果老鼠跳着跳着，转头向下，进入了某棵子树，那他就只能在某个叶子处等待收编，因为管理员不清理他就上不去，而且老鼠能动就必须要动。</p>
+<p>所以，管理员大可以把他想堵的边都堵住了之后，再来把老鼠通往陷阱的路径清扫干净。</p>
+<p>而老鼠进入子树再出来的代价只同他在哪棵子树有关。</p>
+<p>故可以设 <span class="math inline">\(f[x]\)</span> 表示老鼠进入了
+<span class="math inline">\(x\)</span>
+子树后再把他赶出来的最小代价。</p>
+<p>老鼠在点 <span class="math inline">\(x\)</span> 时，他显然会走 <span
+class="math inline">\(f[y]\)</span> 最大的儿子 <span
+class="math inline">\(y\)</span>。</p>
+<p>但管理员显然会堵上这个儿子，所以老鼠会走 <span
+class="math inline">\(f[y]\)</span> 次大的儿子。</p>
+<p>设 <span class="math inline">\(num_x\)</span> 表示 <span
+class="math inline">\(x\)</span> 的儿子个数，则 <span
+class="math display">\[
+f[x] = \operatorname{2ndmax}_{y \in son(x)}(f[y]) + num_x
+\]</span> 有 <span class="math inline">\(num_x - 1\)</span>
+个儿子要堵上，有 <span class="math inline">\(1\)</span>
+个儿子在最后要疏通，所以代价是 <span
+class="math inline">\(num_x\)</span>。</p>
+<p>但是，对于一次博弈，老鼠可以先向上跳一点，再一头扎进一棵子树。</p>
+<p>但老鼠会钻进哪棵子树？</p>
+<p>这个影响因素其实很多，并不是简单的把所有代价取 <span
+class="math inline">\(\max\)</span> 就是最优解的。</p>
+<p>我们考虑二分答案，设当前有 <span class="math inline">\(k\)</span>
+个可用操作。</p>
+<p>那么假设你老鼠打算在 <span class="math inline">\(x\)</span>
+点，一头扎进某个子树 <span class="math inline">\(y\)</span>。</p>
+<p>设把 <span class="math inline">\(x\)</span>
+以上的路径的邻域全部堵住的代价是 <span
+class="math inline">\(sum[x]\)</span>。</p>
+<p>则对于 <span class="math inline">\(sum[x] + f[y] \le k\)</span>
+的子树，其实我们是不需要堵住他的，但大于则需要，这本身又会花费一个操作（从这个角度来看，答案确实需要二分，不能直接求，因为决策比想象中复杂）</p>
+<p>另一方面，假设点 <span class="math inline">\(x\)</span> 一共有 <span
+class="math inline">\(cnt\)</span> 个 <span class="math inline">\(sum[x]
++ f[y] \gt k\)</span> 的子树，那么在老鼠到达点 <span
+class="math inline">\(x\)</span> 之前，这些树就要全部堵上。</p>
+<p>把这两个条件判断之后，就可以充要地判定 <span
+class="math inline">\(k\)</span> 次操作是否可以收编老鼠。</p>
+<p>然后这题就做完了。</p>
+<h4 id="p4202-noi2008-奥运物流"><a href="#4.P4202-[NOI2008] 奥运物流" class="headerlink" title="4.P4202-[NOI2008] 奥运物流"></a>4.P4202 [NOI2008] 奥运物流</h4>
+<p>有题号就不放题意了。</p>
+<p>先考虑如何计算 <span class="math inline">\(R(i)\)</span></p>
+<p>如果原图是一个环，那么 有 <span class="math inline">\(R(i) = C_i +
+kR(i \bmod n + 1)\)</span></p>
+<p>手动消元可得 <span class="math inline">\(R(1) = \dfrac{\sum_{i}C_i
+k^{i-1}}{1-k^n}\)</span>。</p>
+<p>另一方面，如果原图是个内向树，容易推出 <span
+class="math inline">\(R(1) = \sum_i C_i k^{dep(i)}\)</span></p>
+<p>综合以上两点可以得到 <span class="math inline">\(R(1) = \dfrac{\sum_i
+C_i k^{dis(i \to 1)}}{1-k^{len}}\)</span></p>
+<p>具体地，可以先把环外的内向树都递推上来，再放到环上考虑，即可证明这一点。</p>
+<p>显然，我们改一个点的后继，最优的方法是直接改到 <span
+class="math inline">\(1\)</span> 号节点。</p>
+<p>考察原来的式子，我们可以决定的是 <span class="math inline">\(dis(i
+\to 1)\)</span> 和环长 <span class="math inline">\(len\)</span>。</p>
+<p>我们不妨枚举环长，那么此时的环就是可以确定的，就是 <span
+class="math inline">\(1\)</span> 号点后面若干个点。</p>
+<p>我们大可以把 <span class="math inline">\(1\)</span>
+号点的出边忽略，它对答案没有影响。</p>
+<p>接下来变成内向树上的问题。</p>
+<p>我们设 <span class="math inline">\(dp[u][m][d]\)</span> 表示在 <span
+class="math inline">\(u\)</span> 子树内，用了 <span
+class="math inline">\(m\)</span> 次修改机会，点 <span
+class="math inline">\(u\)</span> 的深度现在为 <span
+class="math inline">\(d\)</span> 的最优答案。</p>
+<p>树上背包转移即可。</p>
+<h4 id="cf1119f-niyaz-and-small-degrees">5. CF1119F Niyaz and Small
+Degrees</h4>
+<p>有题号就不放题意了。</p>
+<p>我们考虑单个答案怎么求。</p>
+<p>容易想到设 <span class="math inline">\(f[x][0],f[x][1]\)</span> 表示
+<span class="math inline">\(x\)</span> 与 <span
+class="math inline">\(fa[x]\)</span> 之间的边割或不割。dp
+时，先把这些状态的值都设成 <span class="math inline">\(\sum_{y}
+\min(f[y][1] + w,f[y][0])\)</span>
+，但这个和式对应的方案不一定是合法的，也就是说，我们要把一些 <span
+class="math inline">\(dp[y][1] + w &gt; dp[y][0]\)</span> 的儿子 <span
+class="math inline">\(y\)</span> ，由不割 <span
+class="math inline">\((y,x)\)</span> 强行变为割掉 <span
+class="math inline">\((y,x)\)</span>
+，并将答案加上对应的增量。我们可以开个堆，来取出增量前若干小的儿子 <span
+class="math inline">\(y\)</span> 做这个事情，这样就可以 <span
+class="math inline">\(\Theta(n^2 \log n)\)</span> 完成这次树形 dp。</p>
+<p>我们考虑，随着度数限制 <span class="math inline">\(D\)</span>
+的增大，问题的规模是在变小的，具体地，对于 <span
+class="math inline">\(deg[x]\)</span> 已经不超过 <span
+class="math inline">\(D\)</span> 的点 <span
+class="math inline">\(x\)</span>，我们树形 <span
+class="math inline">\(dp\)</span>
+时其实没必要经过它，我们只关心它和它某个邻居之间的那条边要不要被割，我们可以把它当成一个孤立点，并把它的信息放到邻域上。</p>
+<p>具体地，有如下代码：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">void</span> <span class="hljs-title">Destroy</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> it : G[x])<br>	&#123;<br>		<span class="hljs-type">int</span> y = it.first,w = it.second;<br>		<span class="hljs-keyword">if</span>(deg[y] &lt;= D) <span class="hljs-keyword">break</span>;<br>		H[y].<span class="hljs-built_in">push</span>(w);<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>接下来我们对度数大于等于 <span class="math inline">\(D\)</span>
+的点，做如上的树形 dp 即可。</p>
+<p>事实上，这样的复杂度就是 <span class="math inline">\(\Theta(n \log
+n)\)</span>。</p>
+<p>具体地，可以考虑等式 <span class="math inline">\(\sum_{i=1}^n \sum_{D
+= 0}^{n - 1} [deg_i \gt D] = \sum_{i=1}^n deg_i = 2n-2\)</span>。</p>
+<p>在代码实现上，我们把所有邻居按度数从大到小排序，遍历到 <span
+class="math inline">\(\le D\)</span> 的点就直接 break 而非 continue
+。</p>
+<p>在 dp
+的时候，我们维护大根堆，当堆的大小超过限制时就把堆顶删去，这样可以时刻保证堆的大小不超过
+<span class="math inline">\(deg[x] -
+D\)</span>，此时我们的堆中会删除一些值，但删完之后，我们也必须把它加回来，因为这里面包含了一些孤立点的信息。</p>
+<p>这些都是为了保证复杂度而需要注意的细节。</p>
+<div id="paginator"></div></div><div id="post-footer"><div id="pages"><div class="footer-link" style="width: 50%;text-align:right;border-right:1px #fe2 solid"><a href="/posts/3813915453/">← Next ARC117E 题解</a></div><div class="footer-link" style="width: 50%;right:1px;border-left:1px #fe2 solid"><a href="/posts/313682301/">洛谷 P8340 山河重整 题解 Prev →</a></div></div></div></div><div class="bottom-btn"><div><a id="to-top" onClick="scrolls.scrolltop();" title="回到顶部" style="opacity: 0; display: none;">∧</a><a id="to-index" href="#toc-div" title="文章目录">≡</a><a id="color-mode" onClick="colorMode.change()" title="切换主题"></a></div></div></article><aside><div id="about"><a href="/" id="logo"><img src="https://ak.hypergryph.com/assets/index/images/ak/pc/faction/1.png" alt="Logo"></a><h1 id="Dr"><a href="/">Dualqwq</a></h1><div id="description"><p></p></div></div><div id="aside-block"><div id="toc-div"><h1>目录</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#section"><span class="toc-number">1.</span> <span class="toc-text">2022.11.29</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-1"><span class="toc-number">2.</span> <span class="toc-text">2022.12.1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#section-2"><span class="toc-number">3.</span> <span class="toc-text">2022.12.2-2022.12.6</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%9A%E9%A1%B9%E5%BC%8F%E7%82%B9%E5%80%BC%E5%B9%B3%E7%A7%BB"><span class="toc-number">3.0.1.</span> <span class="toc-text">1. 多项式点值平移</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#p5469-%E6%9C%BA%E5%99%A8%E4%BA%BA"><span class="toc-number">3.0.2.</span> <span class="toc-text">2. P5469 机器人</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#p4654-ceoi2017-mousetrap"><span class="toc-number">3.0.3.</span> <span class="toc-text">3.P4654 [CEOI2017] Mousetrap</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#p4202-noi2008-%E5%A5%A5%E8%BF%90%E7%89%A9%E6%B5%81"><span class="toc-number">3.0.4.</span> <span class="toc-text">4.P4202 [NOI2008] 奥运物流</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#cf1119f-niyaz-and-small-degrees"><span class="toc-number">3.0.5.</span> <span class="toc-text">5. CF1119F Niyaz and Small
+Degrees</span></a></li></ol></li></ol></li></ol></div></div><footer><nobr>构建自 <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></nobr><wbr><nobr> 使用主题 <a target="_blank" rel="noopener" href="https://github.com/Yue-plus/hexo-theme-arknights">Arknights</a></nobr><wbr><nobr>主题作者 <a target="_blank" rel="noopener" href="https://github.com/Yue-plus">Yue_plus</a></nobr></footer></aside></main><canvas id="canvas-dust"></canvas><script src="/js/search.js"></script><script src="/js/arknights.js"></script><script src="//unpkg.com/lightgallery@2.7.1/lightgallery.min.js"></script><script src="//unpkg.com/lightgallery@2.7.1/plugins/zoom/lg-zoom.min.js"></script><script src="//unpkg.com/lightgallery@2.7.1/plugins/thumbnail/lg-thumbnail.min.js"></script><script src="/js/pjax.js"></script><script class="pjax-js">reset= () => {code.findCode();
+document.querySelector('.lg-container')?.remove()
+lightGallery(document.getElementById('post-bg'), {
+  plugins: [lgZoom,lgThumbnail],
+  selector: '.item-img'})}</script><script>window.addEventListener("load",() => {pjax = new Pjax({
+ cacheBust: false,
+ selectors: ['title','article','#aside-block','.pjax-js'],
+ switches: {'article': Pjax.switches.sideBySide},
+ switchesOptions: {
+   'article': {
+     classNames: {
+       remove: "pjax-out",
+       add: "pjax-in"
+     }
+   }
+ }
+});
+document.addEventListener("pjax:complete", reset);reset()})</script></body></html>
