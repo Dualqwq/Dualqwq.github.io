@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="zh-CN" theme-mode="dark"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>AGC007 DEF 题解 | 天命之路 的博客</title><link rel="icon" type="image/x-icon" href="/favicon.ico"><script>var config = {"root":"/","search":{"preload":false,"activeHolder":"键入以继续","blurHolder":"数据检索","noResult":"无 $0 相关数据"},"code":{"codeInfo":"$0 - 共 $1 行","copy":"复制","copyFinish":"复制成功","expand":"展开"}}</script><script src="//unpkg.com/mermaid@9.2.2/dist/mermaid.min.js"></script><script src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.1/MathJax.js"></script><script>MathJax.Hub.Config({
+<!DOCTYPE html><html lang="zh-CN" theme-mode="dark"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>AGC007 DEF 题解 | 天命之路 的博客</title><link rel="icon" type="image/x-icon" href="/favicon.ico"><script>var config = {"root":"/","search":{"preload":false,"activeHolder":"Enter here","blurHolder":"Search","noResult":"Data \"$0\" not found"},"code":{"codeInfo":"$0 - $1 lines","copy":"copy","copyFinish":"copied","expand":"expand"}}</script><script src="//unpkg.com/mermaid@9.2.2/dist/mermaid.min.js"></script><script src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.1/MathJax.js"></script><script>MathJax.Hub.Config({
  menuSettings: {
    zoom: "None"
  },
@@ -34,116 +34,61 @@ if (window.localStorage.getItem('theme-mode') === 'dark') document.documentEleme
 }</style><style>:root {
   --dark-background: url('https://ak.hypergryph.com/assets/index/images/ak/pc/bk.jpg');
   --light-background: url('/img/bk.jpg');
-}</style><meta name="generator" content="Hexo 6.3.0"></head><body><div class="loading" style="opacity: 0"><div class="loadingBar left"></div><div class="loadingBar right"></div></div><main><header class="closed"><nav><div class="navBtn hide"><i class="navBtnIcon"><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span></i></div><div class="navItem" id="search-header"><span class="navItemTitle"><input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="数据检索" spellcheck="false" maxlength="50" type="text" id="search-input"></span></div><div class="navItem" id="search-holder"></div><div class="search-popup"><div id="search-result"></div></div><ol class="navContent"><li class="navItem"><a class="navBlock" href="/"><span class="navItemTitle">Home</span></a></li><li class="navItem" matchdata="categories,tags"><a class="navBlock" href="/archives/"><span class="navItemTitle">Archives</span></a></li></ol></nav></header><article><div id="post-bg"><div id="post-title"><h1>AGC007 DEF 题解</h1><div id="post-info"><span>文章发布时间: <div class="control"><time datetime="2023-05-02T06:20:14.261Z" id="date"> 2023-05-02</time></div></span><br><span>最后更新时间: <div class="control"><time datetime="2023-03-29T09:15:07.980Z" id="updated"> 2023-03-29</time></div></span></div></div><hr><div id="post-content"><h4 id="agc007d"><a href="#AGC007D" class="headerlink" title="AGC007D"></a>AGC007D</h4>
-<p>简单题，虽然对数轴上游走的题还是不太会。</p>
+}</style><meta name="generator" content="Hexo 6.3.0"></head><body><div class="loading" style="opacity: 0"><div class="loadingBar left"></div><div class="loadingBar right"></div></div><main><header class="closed"><nav><div class="navBtn hide"><i class="navBtnIcon"><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span></i></div><div class="navItem" id="search-header"><span class="navItemTitle"><input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="Search" spellcheck="false" maxlength="50" type="text" id="search-input"></span></div><div class="navItem" id="search-holder"></div><div class="search-popup"><div id="search-result"></div></div><ol class="navContent"><li class="navItem"><a class="navBlock" href="/"><span class="navItemTitle">Home</span></a></li><li class="navItem" matchdata="categories,tags"><a class="navBlock" href="/archives/"><span class="navItemTitle">Archives</span></a></li></ol></nav></header><article><div id="post-bg"><div id="post-title"><h1>AGC007 DEF 题解</h1><div id="post-info"><span>First Post: <div class="control"><time datetime="2023-05-02T06:20:14.261Z" id="date"> 2023-05-02</time></div></span><br><span>Last Update: <div class="control"><time datetime="2023-05-03T04:13:10.676Z" id="updated"> 2023-05-03</time></div></span></div></div><hr><div id="post-content"><h4 id="AGC007D"><a href="#AGC007D" class="headerlink" title="AGC007D"></a>AGC007D</h4><p>简单题，虽然对数轴上游走的题还是不太会。</p>
 <span id="more"></span>
+
 <p>一眼看出了状态，转移懒得编了（以后还是要编转移，现在编转移的能力有些弱）。</p>
 <p>容易发现，路径一定是先往前走一段，再折回一段，再往前走，走了一段再折，再走。</p>
 <p>说白了，一个点要么被经过一次，要么被经过三次。</p>
-<p>那么设 <span class="math inline">\(f[i]\)</span> 表示收到前 <span
-class="math inline">\(i\)</span> 个糖果的最小时间，此时人一定在 <span
-class="math inline">\(x_i\)</span>。</p>
-<p>那么枚举位置 <span class="math inline">\(j\)</span>，<span
-class="math inline">\(j + 1 \sim i\)</span>
-中的点被一次折返收完，那么有转移 <span class="math inline">\(f[i] =
-\min\{f[j] + (x[i] - x[j]) + \max(2(x[i]-x[j+1]),T)\}\)</span></p>
-<p>写出这个转移式子之后，优化非常简单，分类讨论那个 <span
-class="math inline">\(\max\)</span> 取到谁即可。因为 <span
-class="math inline">\(x\)</span> 和 <span
-class="math inline">\(f\)</span> 均不降，转移容易。</p>
-<h4 id="agc007e"><a href="#AGC007E" class="headerlink" title="AGC007E"></a>AGC007E</h4>
-<p>好题。</p>
-<p>题意：给出一棵二叉树，每个节点只有 <span
-class="math inline">\(2\)</span> 或 <span
-class="math inline">\(0\)</span> 个儿子。</p>
-<p>要求你从 <span class="math inline">\(1\)</span> 走回 <span
-class="math inline">\(1\)</span>，每天你可以从二叉树的一个叶子走到另一个叶子，或从
-<span class="math inline">\(1\)</span> 走到某个叶子，或从某个叶子走到
-<span
-class="math inline">\(1\)</span>。要求你经过二叉树上的所有叶子，且每条边被经过恰好两次。</p>
+<p>那么设 $f[i]$ 表示收到前 $i$ 个糖果的最小时间，此时人一定在 $x_i$。</p>
+<p>那么枚举位置 $j$，$j + 1 \sim i$ 中的点被一次折返收完，那么有转移 $f[i] &#x3D; \min{f[j] + (x[i] - x[j]) + \max(2(x[i]-x[j+1]),T)}$</p>
+<p>写出这个转移式子之后，优化非常简单，分类讨论那个 $\max$ 取到谁即可。因为 $x$ 和 $f$ 均不降，转移容易。</p>
+<h4 id="AGC007E"><a href="#AGC007E" class="headerlink" title="AGC007E"></a>AGC007E</h4><p>好题。</p>
+<p>题意：给出一棵二叉树，每个节点只有 $2$ 或 $0$ 个儿子。</p>
+<p>要求你从 $1$ 走回 $1$，每天你可以从二叉树的一个叶子走到另一个叶子，或从 $1$ 走到某个叶子，或从某个叶子走到 $1$。要求你经过二叉树上的所有叶子，且每条边被经过恰好两次。</p>
 <p>你的花费是最大的，从叶子到叶子的那一天经过的边的权值和，求最小花费。</p>
-<p><span class="math inline">\(n \le 2 \times 10^5\)</span>。</p>
-<p>首先二分答案，然后设 <span class="math inline">\(bool\)</span> 状态
-<span class="math inline">\(f_{x,a,b}\)</span> 表示从 <span
-class="math inline">\(x\)</span> 开始游走，能否在第一天走过不超过 <span
-class="math inline">\(a\)</span> 的距离，在第二天走过不超过 <span
-class="math inline">\(b\)</span> 的距离。</p>
-<p>那么有转移 <span class="math inline">\(f_{x,a,b} = OR_{k_1,k_2,k_1 +
-k_2 \le mid} f_{ls,a,k_1} \and f_{rs,k_2,b}\)</span></p>
-<p>交换 <span class="math inline">\(ls,rs\)</span>
-后再转移一遍即可。</p>
+<p>$n \le 2 \times 10^5$。</p>
+<p>首先二分答案，然后设 $bool$ 状态 $f_{x,a,b}$ 表示从 $x$ 开始游走，能否在第一天走过不超过 $a$ 的距离，在第二天走过不超过 $b$ 的距离。</p>
+<p>那么有转移 $f_{x,a,b} &#x3D; OR_{k_1,k_2,k_1 + k_2 \le mid} f_{ls,a,k_1} &amp; f_{rs,k_2,b}$</p>
+<p>交换 $ls,rs$ 后再转移一遍即可。</p>
 <p>当时只是觉得，这个转移形式有点双指针，然后想着能不能只记录一维，觉得挺假就没往下想了。</p>
 <p>事实证明，确实需要双指针。</p>
-<p>首先，对于同为 <span class="math inline">\(true\)</span> 的状态 <span
-class="math inline">\(f_{l_1,r_1}\)</span> 和 <span
-class="math inline">\(f_{l_2,r_2}\)</span> ，如果 <span
-class="math inline">\(l_1 \le l_2,r_1 \le
-r_2\)</span>，那么后者完全无用。</p>
-<p>所以你按 <span class="math inline">\(l\)</span> 升序排序之后，<span
-class="math inline">\(r\)</span> 一定是降序的。</p>
-<p>显然，对于每一个 <span class="math inline">\(f_{ls,l_1,r_1}\)</span>
-都只需要考虑一个令 <span class="math inline">\(r_2\)</span>
-最小且满足转移式的 <span
-class="math inline">\(f_{rs,l_2,r_2}\)</span>。所以，每一个 <span
-class="math inline">\(f_{ls}\)</span> 中的状态都只需要与一个对应的 <span
-class="math inline">\(f_{rs}\)</span> 转移到 <span
-class="math inline">\(f_x\)</span>
-中的唯一一个状态。所以，设左右子树的状态数分别为 <span
-class="math inline">\(x,y\)</span>，那么一次转移只会增加最多 <span
-class="math inline">\(2 \times \min\{x,y\}\)</span> 个状态（因为要把
-<span class="math inline">\(ls,rs\)</span> 交换后再转移一遍，所以要乘个
-<span class="math inline">\(2\)</span>）。</p>
-<p>根据启发式合并的复杂度分析，总状态数是 <span
-class="math inline">\(\Theta(n \log n)\)</span> 的。</p>
-<p>找到每个状态对应的状态可以使用双指针，总时间复杂度是 <span
-class="math inline">\(\Theta(n \log n \log W)\)</span> 的。</p>
+<p>首先，对于同为 $true$ 的状态 $f_{l_1,r_1}$ 和 $f_{l_2,r_2}$ ，如果 $l_1 \le l_2,r_1 \le r_2$，那么后者完全无用。</p>
+<p>所以你按 $l$ 升序排序之后，$r$ 一定是降序的。</p>
+<p>显然，对于每一个 $f_{ls,l_1,r_1}$ 都只需要考虑一个令 $r_2$ 最小且满足转移式的 $f_{rs,l_2,r_2}$。所以，每一个 $f_{ls}$ 中的状态都只需要与一个对应的 $f_{rs}$ 转移到 $f_x$ 中的唯一一个状态。所以，设左右子树的状态数分别为 $x,y$，那么一次转移只会增加最多 $2 \times \min{x,y}$ 个状态（因为要把 $ls,rs$ 交换后再转移一遍，所以要乘个 $2$）。</p>
+<p>根据启发式合并的复杂度分析，总状态数是 $\Theta(n \log n)$ 的。</p>
+<p>找到每个状态对应的状态可以使用双指针，总时间复杂度是 $\Theta(n \log n \log W)$ 的。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><span class="hljs-type">const</span> <span class="hljs-type">int</span> N = (<span class="hljs-number">1</span> &lt;&lt; <span class="hljs-number">17</span>) | <span class="hljs-number">5</span>;<br><span class="hljs-keyword">typedef</span> <span class="hljs-type">long</span> <span class="hljs-type">long</span> ll;<br><span class="hljs-keyword">typedef</span> pair&lt;ll,ll&gt; pll;<br><span class="hljs-meta">#<span class="hljs-keyword">define</span> FI first</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> SE second</span><br><span class="hljs-type">int</span> n;<br><span class="hljs-type">int</span> son[N][<span class="hljs-number">2</span>],w[N][<span class="hljs-number">2</span>];<br><br>vector&lt;pll&gt; st[N]; <span class="hljs-comment">// 状态集合</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">DP</span><span class="hljs-params">(<span class="hljs-type">int</span> x,ll mid)</span></span><br><span class="hljs-function"></span>&#123;<br>	st[x].<span class="hljs-built_in">clear</span>();<br>	<span class="hljs-keyword">if</span>(!son[x][<span class="hljs-number">0</span>]) &#123;st[x].<span class="hljs-built_in">emplace_back</span>(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>);<span class="hljs-keyword">return</span>;&#125;<br>	<span class="hljs-built_in">DP</span>(son[x][<span class="hljs-number">0</span>],mid);<span class="hljs-built_in">DP</span>(son[x][<span class="hljs-number">1</span>],mid);<br>	ll tmp = mid - w[x][<span class="hljs-number">0</span>] - w[x][<span class="hljs-number">1</span>];<br>	vector&lt;pll&gt; vec;<br>	<span class="hljs-type">int</span> num = <span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> d = <span class="hljs-number">0</span>;d &lt; <span class="hljs-number">2</span>;d++)<br>	&#123;<br>		<span class="hljs-type">int</span> lc = son[x][d],rc = son[x][d ^ <span class="hljs-number">1</span>];<br>		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>,j = <span class="hljs-number">0</span>;i &lt; st[lc].<span class="hljs-built_in">size</span>();i++)<br>		&#123;<br>			<span class="hljs-keyword">while</span>(j + <span class="hljs-number">1</span> &lt; st[rc].<span class="hljs-built_in">size</span>() &amp;&amp; st[rc][j + <span class="hljs-number">1</span>].FI + st[lc][i].SE &lt;= tmp) ++j; <span class="hljs-comment">//双指针</span><br>			<span class="hljs-keyword">if</span>(j &gt;= st[rc].<span class="hljs-built_in">size</span>() || st[lc][i].SE + st[rc][j].FI &gt; tmp) <span class="hljs-keyword">continue</span>;<br>			vec.<span class="hljs-built_in">emplace_back</span>(w[x][d] + st[lc][i].FI,w[x][d ^ <span class="hljs-number">1</span>] + st[rc][j].SE);<br>		&#125;<br>		<span class="hljs-keyword">if</span>(d == <span class="hljs-number">0</span>) num = vec.<span class="hljs-built_in">size</span>();<br>	&#125;<br>	<span class="hljs-built_in">inplace_merge</span>(vec.<span class="hljs-built_in">begin</span>(),vec.<span class="hljs-built_in">begin</span>() + num,vec.<span class="hljs-built_in">end</span>()); <span class="hljs-comment">// 用归并来合并两个状态序列。用 sort 是 3 log 的。</span><br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>;i &lt; vec.<span class="hljs-built_in">size</span>();i++) <span class="hljs-comment">// 删去无用状态</span><br>	&#123;<br>		<span class="hljs-keyword">if</span>(st[x].<span class="hljs-built_in">size</span>() &amp;&amp; st[x].<span class="hljs-built_in">back</span>().SE &lt;= vec[i].SE) <span class="hljs-keyword">continue</span>;<br>		st[x].<span class="hljs-built_in">push_back</span>(vec[i]);<br>	&#125;<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">bool</span> <span class="hljs-title">Check</span><span class="hljs-params">(ll mid)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-built_in">DP</span>(<span class="hljs-number">1</span>,mid);<br>	<span class="hljs-keyword">return</span> st[<span class="hljs-number">1</span>].<span class="hljs-built_in">size</span>() != <span class="hljs-number">0</span>;<br>&#125;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	cin &gt;&gt; n;<br>	ll lef = <span class="hljs-number">0</span>,righ = <span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">2</span>;i &lt;= n;i++)<br>	&#123;<br>		<span class="hljs-type">int</span> fa,v;<br>		cin &gt;&gt; fa &gt;&gt; v;righ += v;<br>		<span class="hljs-keyword">if</span>(!son[fa][<span class="hljs-number">0</span>]) son[fa][<span class="hljs-number">0</span>] = i,w[fa][<span class="hljs-number">0</span>] = v;<br>		<span class="hljs-keyword">else</span> son[fa][<span class="hljs-number">1</span>] = i,w[fa][<span class="hljs-number">1</span>] = v;<br>	&#125;<br>	<span class="hljs-keyword">while</span>(lef &lt; righ)<br>	&#123;<br>		ll mid = lef + righ &gt;&gt;<span class="hljs-number">1</span>;<br>		<span class="hljs-keyword">if</span>(<span class="hljs-built_in">Check</span>(mid)) righ = mid;<br>		<span class="hljs-keyword">else</span> lef = mid + <span class="hljs-number">1</span>;<br>	&#125;<br>	cout &lt;&lt; lef &lt;&lt; endl;<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-<h4 id="agc007f"><a href="#AGC007F" class="headerlink" title="AGC007F"></a>AGC007F</h4>
-<p>题意：</p>
-<p>Shik 需要抄写一个字符串，一开始，纸面上有一个字符串 <span
-class="math inline">\(S_0\)</span>，每次她写下字符串 <span
-class="math inline">\(S_i\)</span> 的时候，<span
-class="math inline">\(S_i[j]\)</span> 有可能与 <span
-class="math inline">\(S_{i-1}[j]\)</span> 相同，也可能与 <span
-class="math inline">\(S_{i}[j-1]\)</span> 相同。</p>
-<p>Shik 希望抄写尽量少的字符串，就能使最后再纸上的字符串与 <span
-class="math inline">\(T\)</span> 相同，具体地，她希望找到最小的整数
-<span class="math inline">\(K\)</span>，使得存在一种方案让 <span
-class="math inline">\(S_K = T\)</span>。</p>
-<p><span class="math inline">\(|S_0| = |T|,1 \le |S_0| \le
-10^6\)</span>。</p>
-<p>首先把图画出来，<span class="math inline">\(S_0\)</span>
-中的一个字符肯定对应的是 <span class="math inline">\(T\)</span>
-中的一段区间。每个字符相当于在平面上向右或向下走。</p>
-<p>当时的直觉是从后往前做，每个字符的匹配段都往右靠一定不劣，然后根据每个字符对应的区间设计
-DP。</p>
+
+<h4 id="AGC007F"><a href="#AGC007F" class="headerlink" title="AGC007F"></a>AGC007F</h4><p>题意：</p>
+<p>Shik 需要抄写一个字符串，一开始，纸面上有一个字符串 $S_0$，每次她写下字符串 $S_i$ 的时候，$S_i[j]$ 有可能与 $S_{i-1}[j]$ 相同，也可能与 $S_{i}[j-1]$ 相同。</p>
+<p>Shik 希望抄写尽量少的字符串，就能使最后再纸上的字符串与 $T$ 相同，具体地，她希望找到最小的整数 $K$，使得存在一种方案让 $S_K &#x3D; T$。</p>
+<p>$|S_0| &#x3D; |T|,1 \le |S_0| \le 10^6$。</p>
+<p>首先把图画出来，$S_0$ 中的一个字符肯定对应的是 $T$ 中的一段区间。每个字符相当于在平面上向右或向下走。</p>
+<p>当时的直觉是从后往前做，每个字符的匹配段都往右靠一定不劣，然后根据每个字符对应的区间设计 DP。</p>
 <p>事实上，这样设计 DP 反倒会丢失路径信息。</p>
 <p>考虑我们在不改变每个字符所对应区间的情况下，把<strong>中间走过的路径</strong>尽量往右靠，那么一定不劣。</p>
 <p>而具体的策略就是：一直尽量右移，直到走到要覆盖的左边界，然后一直向下，最后横向覆盖。</p>
-<p>有图如下（来自 <span class="citation"
-data-cites="command_block">@command_block</span>）：</p>
-<p class='item-img' data-src='/images/AGC007F-1.webp'><img src="/images/AGC007F-1.webp" /></p>
+<p>有图如下（来自 @command_block）：</p>
+<p class='item-img' data-src='/images/AGC007F-1.webp'><img src="/images/AGC007F-1.webp"></p>
 <p>考虑从右往左，从一条折线变到另一条折线时的变化。</p>
-<p>假设当前 <span class="math inline">\(S_i\)</span> 要到达 <span
-class="math inline">\(T_j\)</span> （<span
-class="math inline">\(j\)</span> 是区间左边界）</p>
-<p>那么那些横坐标大于等于 <span class="math inline">\(j\)</span>
-的拐点要弹出。</p>
+<p>假设当前 $S_i$ 要到达 $T_j$ （$j$ 是区间左边界）</p>
+<p>那么那些横坐标大于等于 $j$ 的拐点要弹出。</p>
 <p>然后，原来所有的拐点都会往左下方平移一格（因为新折线要尽量贴近原来的折线）。</p>
-<p>最后，如果 <span class="math inline">\(i \ne j\)</span>
-，那么在横坐标为 <span class="math inline">\(i\)</span>
-的地方会有一个拐点。</p>
+<p>最后，如果 $i \ne j$ ，那么在横坐标为 $i$ 的地方会有一个拐点。</p>
 <p>（上述所有拐点均不包括最后一行）。</p>
-<p>我们可以用一个队列来维护拐点集合，队头是更加靠近目标串的，队尾是更加靠近
-<span class="math inline">\(S_0\)</span> 的。</p>
+<p>我们可以用一个队列来维护拐点集合，队头是更加靠近目标串的，队尾是更加靠近 $S_0$ 的。</p>
 <p>上述操作都可以用队列维护。</p>
 <p>核心代码如下：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">while</span>(down)<br>&#123;<br>	<span class="hljs-keyword">while</span>(down &gt; <span class="hljs-number">1</span> &amp;&amp; t[down - <span class="hljs-number">1</span>] == t[down]) --down;<br>	<span class="hljs-keyword">while</span>(up &gt;= <span class="hljs-number">1</span> &amp;&amp; (up &gt; down || s[up] != t[down])) --up;<br>	<span class="hljs-keyword">if</span>(!up) &#123; <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;-1&quot;</span>);<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;&#125;<br>	<span class="hljs-keyword">while</span>(!Q.<span class="hljs-built_in">empty</span>() &amp;&amp; Q.<span class="hljs-built_in">front</span>() - (<span class="hljs-type">int</span>)Q.<span class="hljs-built_in">size</span>() &gt;= down) <span class="hljs-comment">// 这里减去 Q.size 是因为，每加入一个拐点，已有的拐点都会往左下方平移一格，这是本题所维护的折线的性质。</span><br>		Q.<span class="hljs-built_in">pop</span>();<br>	<span class="hljs-keyword">if</span>(up != down) Q.<span class="hljs-built_in">push</span>(up);<br>	ans = <span class="hljs-built_in">max</span>(ans,(<span class="hljs-type">int</span>)Q.<span class="hljs-built_in">size</span>() + <span class="hljs-number">1</span>);<br>	--down;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
 <p>答案是队列大小 +1 的历史最大值。</p>
 <p>因为可以归纳证明，每条折线的拐点的横坐标都是连续的（即都位于连续的前几行）。</p>
 <p>大致是说，这对于最右的折线显然成立，而其它的折线都会尽量往右靠。</p>
 <p>一道思路比较清奇的题。</p>
-<div id="paginator"></div></div><div id="post-footer"><div id="pages"><div class="footer-link" style="width: 50%;text-align:right;border-right:1px #fe2 solid"><a href="/posts/302081082/">← Next ARC146E 题解</a></div><div class="footer-link" style="width: 50%;right:1px;border-left:1px #fe2 solid"><a href="/posts/2642165753/">P7213 题解 Prev →</a></div></div></div></div><div class="bottom-btn"><div><a id="to-top" onClick="scrolls.scrolltop();" title="回到顶部" style="opacity: 0; display: none;">∧</a><a id="to-index" href="#toc-div" title="文章目录">≡</a><a id="color-mode" onClick="colorMode.change()" title="切换主题"></a></div></div></article><aside><div id="about"><a href="/" id="logo"><img src="https://ak.hypergryph.com/assets/index/images/ak/pc/faction/1.png" alt="Logo"></a><h1 id="Dr"><a href="/">Dualqwq</a></h1><div id="description"><p></p></div></div><div id="aside-block"><div id="toc-div"><h1>目录</h1><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#agc007d"><span class="toc-number">1.</span> <span class="toc-text">AGC007D</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#agc007e"><span class="toc-number">2.</span> <span class="toc-text">AGC007E</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#agc007f"><span class="toc-number">3.</span> <span class="toc-text">AGC007F</span></a></li></ol></div></div><footer><nobr>构建自 <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></nobr><wbr><nobr> 使用主题 <a target="_blank" rel="noopener" href="https://github.com/Yue-plus/hexo-theme-arknights">Arknights</a></nobr><wbr><nobr>主题作者 <a target="_blank" rel="noopener" href="https://github.com/Yue-plus">Yue_plus</a></nobr></footer></aside></main><canvas id="canvas-dust"></canvas><script src="/js/search.js"></script><script src="/js/arknights.js"></script><script src="//unpkg.com/lightgallery@2.7.1/lightgallery.min.js"></script><script src="//unpkg.com/lightgallery@2.7.1/plugins/zoom/lg-zoom.min.js"></script><script src="//unpkg.com/lightgallery@2.7.1/plugins/thumbnail/lg-thumbnail.min.js"></script><script src="/js/pjax.js"></script><script class="pjax-js">reset= () => {code.findCode();
+<div id="paginator"></div></div><div id="post-footer"><div id="pages"><div class="footer-link" style="width: 50%;text-align:right;border-right:1px #fe2 solid"><a href="/posts/302081082/">← Next ARC146E 题解</a></div><div class="footer-link" style="width: 50%;right:1px;border-left:1px #fe2 solid"><a href="/posts/2642165753/">P7213 题解 Prev →</a></div></div></div></div><div class="bottom-btn"><div><a id="to-top" onClick="scrolls.scrolltop();" title="To Top" style="opacity: 0; display: none;">∧</a><a id="to-index" href="#toc-div" title="To Catalog">≡</a><a id="color-mode" onClick="colorMode.change()" title="Change Theme"></a></div></div></article><aside><div id="about"><a href="/" id="logo"><img src="https://ak.hypergryph.com/assets/index/images/ak/pc/faction/1.png" alt="Logo"></a><h1 id="Dr"><a href="/">Dualqwq</a></h1><div id="description"><p></p></div></div><div id="aside-block"><div id="toc-div"><h1>Catalog</h1><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#AGC007D"><span class="toc-number">1.</span> <span class="toc-text">AGC007D</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#AGC007E"><span class="toc-number">2.</span> <span class="toc-text">AGC007E</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#AGC007F"><span class="toc-number">3.</span> <span class="toc-text">AGC007F</span></a></li></ol></div></div><footer><nobr>Published with <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></nobr><wbr><nobr> Theme <a target="_blank" rel="noopener" href="https://github.com/Yue-plus/hexo-theme-arknights">Arknights</a></nobr><wbr><nobr>by <a target="_blank" rel="noopener" href="https://github.com/Yue-plus">Yue_plus</a></nobr></footer></aside></main><canvas id="canvas-dust"></canvas><script src="/js/search.js"></script><script src="/js/arknights.js"></script><script src="//unpkg.com/lightgallery@2.7.1/lightgallery.min.js"></script><script src="//unpkg.com/lightgallery@2.7.1/plugins/zoom/lg-zoom.min.js"></script><script src="//unpkg.com/lightgallery@2.7.1/plugins/thumbnail/lg-thumbnail.min.js"></script><script src="/js/pjax.js"></script><script class="pjax-js">reset= () => {code.findCode();
 document.querySelector('.lg-container')?.remove()
 lightGallery(document.getElementById('post-bg'), {
   plugins: [lgZoom,lgThumbnail],

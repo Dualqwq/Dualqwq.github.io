@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="zh-CN" theme-mode="dark"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>AGC006 DEF 题解 | 天命之路 的博客</title><link rel="icon" type="image/x-icon" href="/favicon.ico"><script>var config = {"root":"/","search":{"preload":false,"activeHolder":"键入以继续","blurHolder":"数据检索","noResult":"无 $0 相关数据"},"code":{"codeInfo":"$0 - 共 $1 行","copy":"复制","copyFinish":"复制成功","expand":"展开"}}</script><script src="//unpkg.com/mermaid@9.2.2/dist/mermaid.min.js"></script><script src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.1/MathJax.js"></script><script>MathJax.Hub.Config({
+<!DOCTYPE html><html lang="zh-CN" theme-mode="dark"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>AGC006 DEF 题解 | 天命之路 的博客</title><link rel="icon" type="image/x-icon" href="/favicon.ico"><script>var config = {"root":"/","search":{"preload":false,"activeHolder":"Enter here","blurHolder":"Search","noResult":"Data \"$0\" not found"},"code":{"codeInfo":"$0 - $1 lines","copy":"copy","copyFinish":"copied","expand":"expand"}}</script><script src="//unpkg.com/mermaid@9.2.2/dist/mermaid.min.js"></script><script src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.1/MathJax.js"></script><script>MathJax.Hub.Config({
  menuSettings: {
    zoom: "None"
  },
@@ -34,102 +34,46 @@ if (window.localStorage.getItem('theme-mode') === 'dark') document.documentEleme
 }</style><style>:root {
   --dark-background: url('https://ak.hypergryph.com/assets/index/images/ak/pc/bk.jpg');
   --light-background: url('/img/bk.jpg');
-}</style><meta name="generator" content="Hexo 6.3.0"></head><body><div class="loading" style="opacity: 0"><div class="loadingBar left"></div><div class="loadingBar right"></div></div><main><header class="closed"><nav><div class="navBtn hide"><i class="navBtnIcon"><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span></i></div><div class="navItem" id="search-header"><span class="navItemTitle"><input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="数据检索" spellcheck="false" maxlength="50" type="text" id="search-input"></span></div><div class="navItem" id="search-holder"></div><div class="search-popup"><div id="search-result"></div></div><ol class="navContent"><li class="navItem"><a class="navBlock" href="/"><span class="navItemTitle">Home</span></a></li><li class="navItem" matchdata="categories,tags"><a class="navBlock" href="/archives/"><span class="navItemTitle">Archives</span></a></li></ol></nav></header><article><div id="post-bg"><div id="post-title"><h1>AGC006 DEF 题解</h1><div id="post-info"><span>文章发布时间: <div class="control"><time datetime="2023-05-02T06:20:14.268Z" id="date"> 2023-05-02</time></div></span><br><span>最后更新时间: <div class="control"><time datetime="2023-03-30T12:12:23.810Z" id="updated"> 2023-03-30</time></div></span></div></div><hr><div id="post-content"><h4 id="agc006d"><a href="#AGC006D" class="headerlink" title="AGC006D"></a>AGC006D</h4>
-<p>题意：给出一个长度为 <span class="math inline">\(2n - 1\)</span>
-的排列。构造一个 <span class="math inline">\(n\)</span>
-层金字塔，最底层是该排列，其他层的数字按如下方式生成：方格 <span
-class="math inline">\(b\)</span> 中填写的整数，是方格 <span
-class="math inline">\(b\)</span>
-正下方，左下方和右下方方格中所写整数的中位数。<span
-class="math inline">\(n \le 2 \times 10^5\)</span>。</p>
+}</style><meta name="generator" content="Hexo 6.3.0"></head><body><div class="loading" style="opacity: 0"><div class="loadingBar left"></div><div class="loadingBar right"></div></div><main><header class="closed"><nav><div class="navBtn hide"><i class="navBtnIcon"><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span></i></div><div class="navItem" id="search-header"><span class="navItemTitle"><input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="Search" spellcheck="false" maxlength="50" type="text" id="search-input"></span></div><div class="navItem" id="search-holder"></div><div class="search-popup"><div id="search-result"></div></div><ol class="navContent"><li class="navItem"><a class="navBlock" href="/"><span class="navItemTitle">Home</span></a></li><li class="navItem" matchdata="categories,tags"><a class="navBlock" href="/archives/"><span class="navItemTitle">Archives</span></a></li></ol></nav></header><article><div id="post-bg"><div id="post-title"><h1>AGC006 DEF 题解</h1><div id="post-info"><span>First Post: <div class="control"><time datetime="2023-05-02T06:20:14.268Z" id="date"> 2023-05-02</time></div></span><br><span>Last Update: <div class="control"><time datetime="2023-05-02T13:05:44.932Z" id="updated"> 2023-05-02</time></div></span></div></div><hr><div id="post-content"><h4 id="AGC006D"><a href="#AGC006D" class="headerlink" title="AGC006D"></a>AGC006D</h4><p>题意：给出一个长度为 $2n - 1$ 的排列。构造一个 $n$ 层金字塔，最底层是该排列，其他层的数字按如下方式生成：方格 $b$ 中填写的整数，是方格 $b$ 正下方，左下方和右下方方格中所写整数的中位数。$n \le 2 \times 10^5$。</p>
 <span id="more"></span>
+
 <p>现在请求出第一层的数字。</p>
-<p class='item-img' data-src='/images/AGC006D-1.webp'><img src="/images/AGC006D-1.webp" /></p>
+<p class='item-img' data-src='/images/AGC006D-1.webp'><img src="/images/AGC006D-1.webp"></p>
 <p>看到题之后一眼二分答案，然后找性质失败。</p>
-<p>事实证明当时做的时候还是太浮躁了。如果二分答案完了之后，有两个连续的
-<span class="math inline">\(0\)</span> 或两个连续的 <span
-class="math inline">\(1\)</span>，那么它们肯定不会被别的东西给抹掉，只有可能因为到达边界而自行消除。</p>
-<p>所以我们找到距离中点最近的相邻的一对 <span
-class="math inline">\(0/1\)</span> 即可。</p>
-<p>事实上，不会出现最近的 <span class="math inline">\(00\)</span>
-和最近的 <span class="math inline">\(11\)</span>
-离中点距离相同的情况，读者可以自证。</p>
-<p>如果找不到，说明原序列一定是 <span class="math inline">\(01\)</span>
-相间，判断是容易的。</p>
-<h4 id="agc006e"><a href="#AGC006E" class="headerlink" title="AGC006E"></a>AGC006E</h4>
-<p>题意：给出 <span class="math inline">\(3\)</span> 行 <span
-class="math inline">\(n\)</span> 列的初始矩阵，第 <span
-class="math inline">\(i\)</span> 行第 <span
-class="math inline">\(j\)</span> 列的数为 <span class="math inline">\(i
-+ 3j -3\)</span>。</p>
-<p>我们有一个这样的操作：选择一个 <span class="math inline">\(3 \times
-3\)</span> 的子矩阵，将这个子矩阵旋转 <span
-class="math inline">\(180^{\circ}\)</span> （具体见下面的图）。</p>
-<p>现在给出一个 <span class="math inline">\(3\)</span> 行 <span
-class="math inline">\(n\)</span>
-列的矩阵，问能否若干次操作使初始矩阵变成目标矩阵。</p>
-<p class='item-img' data-src='/images/AGC006E-1.webp'><img src="/images/AGC006E-1.webp" /></p>
-<p>没有找到什么基本性质。/kk</p>
-<p>首先，每一列的状态只可能是 <span class="math inline">\(123\)</span>
-或者 <span class="math inline">\(321\)</span>
-之类的，连续三个递增或递减的数。因为每次操作只会颠倒某些列，并移动某些列的位置。先把这个判掉。</p>
-<p>那么每一列的状态就可以编码成一个数 <span
-class="math inline">\(a_i\)</span>，一次操作相当于让 <span
-class="math inline">\(a_i,a_{i+1},a_{i+2}\)</span>
-变成它们的相反数，并交换 <span
-class="math inline">\(a_i,a_{i+2}\)</span>。目标是让 <span
-class="math inline">\(a_i = i\)</span>。</p>
-<p>我们发现奇数位置和偶数位置是相对独立的。如果交换了两个奇数位置，那么奇数位置的负号个数的奇偶性不会改变，而偶数位置的会改变
-<span class="math inline">\(1\)</span>。</p>
+<p>事实证明当时做的时候还是太浮躁了。如果二分答案完了之后，有两个连续的 $0$ 或两个连续的 $1$，那么它们肯定不会被别的东西给抹掉，只有可能因为到达边界而自行消除。</p>
+<p>所以我们找到距离中点最近的相邻的一对 $0&#x2F;1$ 即可。</p>
+<p>事实上，不会出现最近的 $00$ 和最近的 $11$ 离中点距离相同的情况，读者可以自证。</p>
+<p>如果找不到，说明原序列一定是 $01$ 相间，判断是容易的。</p>
+<h4 id="AGC006E"><a href="#AGC006E" class="headerlink" title="AGC006E"></a>AGC006E</h4><p>题意：给出 $3$ 行 $n$ 列的初始矩阵，第 $i$ 行第 $j$ 列的数为 $i + 3j -3$。</p>
+<p>我们有一个这样的操作：选择一个 $3 \times 3$ 的子矩阵，将这个子矩阵旋转 $180^{\circ}$ （具体见下面的图）。</p>
+<p>现在给出一个 $3$ 行 $n$ 列的矩阵，问能否若干次操作使初始矩阵变成目标矩阵。</p>
+<p class='item-img' data-src='/images/AGC006E-1.webp'><img src="/images/AGC006E-1.webp"></p>
+<p>没有找到什么基本性质。&#x2F;kk</p>
+<p>首先，每一列的状态只可能是 $123$ 或者 $321$ 之类的，连续三个递增或递减的数。因为每次操作只会颠倒某些列，并移动某些列的位置。先把这个判掉。</p>
+<p>那么每一列的状态就可以编码成一个数 $a_i$，一次操作相当于让 $a_i,a_{i+1},a_{i+2}$ 变成它们的相反数，并交换 $a_i,a_{i+2}$。目标是让 $a_i &#x3D; i$。</p>
+<p>我们发现奇数位置和偶数位置是相对独立的。如果交换了两个奇数位置，那么奇数位置的负号个数的奇偶性不会改变，而偶数位置的会改变 $1$。</p>
 <p>而为了让绝对值从小到大排序，我们对奇数位置的交换次数必须和奇数位置的逆序对数同奇偶。</p>
 <p>那么这就说明：奇数位置的逆序对数和偶数位置的负号个数，奇偶性应该是相同的。同理，偶数位置的逆序对数和奇数位置的负号个数的奇偶性应该是相同的。</p>
-<p>这是一个必要条件。充分性的话，因为我们能用若干次操作把 <span
-class="math inline">\(a_i\)</span> 和 <span
-class="math inline">\(a_{i+2}\)</span>
-同时变成它们的相反数，并不改变其他数，所以先按绝对值进行排序，然后用这种操作把负号都做掉即可。</p>
+<p>这是一个必要条件。充分性的话，因为我们能用若干次操作把 $a_i$ 和 $a_{i+2}$ 同时变成它们的相反数，并不改变其他数，所以先按绝对值进行排序，然后用这种操作把负号都做掉即可。</p>
 <p>这个“若干次操作”可以参看洛谷题解。</p>
-<h4 id="agc006f"><a href="#AGC006F" class="headerlink" title="AGC006F"></a>AGC006F</h4>
-<p>题意：给出一张有向图 <span class="math inline">\(G\)</span>。</p>
-<p>不断重复如下操作：取出三个点 <span
-class="math inline">\(x,y,z\)</span>，如果 <span
-class="math inline">\((x,y)\)</span> 有边，<span
-class="math inline">\((y,z)\)</span> 有边，<span
-class="math inline">\((z,x)\)</span> 没有边，那么连边 <span
-class="math inline">\((z,x)\)</span>。</p>
+<h4 id="AGC006F"><a href="#AGC006F" class="headerlink" title="AGC006F"></a>AGC006F</h4><p>题意：给出一张有向图 $G$。</p>
+<p>不断重复如下操作：取出三个点 $x,y,z$，如果 $(x,y)$ 有边，$(y,z)$ 有边，$(z,x)$ 没有边，那么连边 $(z,x)$。</p>
 <p>请计算没有边可以添加的时候的边数。</p>
 <p>做的时候在手玩树形图，看出来了跟层有关，但根本想不到如何推广。</p>
 <p>首先对每个连通块单独考虑，然后尝试三染色。</p>
-<p>这个三染色是怎么染色呢，我们希望对于边 <span
-class="math inline">\((x,y)\)</span>，都有 <span
-class="math inline">\(col_y \equiv col_x + 1
-\pmod{3}\)</span>，所以我们连边 <span
-class="math inline">\((x,y,1)\)</span>，<span
-class="math inline">\((y,x,-1)\)</span>，然后进行 dfs 即可。</p>
-<p>考虑三染色失败了怎么办，这个时候任意两点之间都会有连边，答案为点数的平方，证明就是考虑
-dfs 树上一条使其失败的返祖边。</p>
-<p>如果成功了，但三种颜色没有用满，那么不会出现 <span
-class="math inline">\(x \to y,y\to z\)</span>
-这种东西，故答案为原先的边数。</p>
-<p>否则可以猜出答案为 <span
-class="math inline">\(cnt_0cnt_1+cnt_1cnt_2+cnt_2cnt_0\)</span>，即异色点之间有单向边。接下来考虑证明。</p>
-<p>肯定存在一条链 <span class="math inline">\(u\to v \to w\)</span> 满足
-<span class="math inline">\(col_u = 0,col_v = 1,col_w = 2\)</span>。</p>
-<p>归纳构造，假设图 <span class="math inline">\(G\)</span>
-已经满足上述结论，考虑新加入一条边 <span class="math inline">\(u \to
-p\)</span> 的情况。</p>
-<p>接下来设 <span class="math inline">\(\{0/1/2\}\)</span> 表示 <span
-class="math inline">\(col = 0/1/2\)</span> 的点的集合。</p>
-<p>由于 <span class="math inline">\(\{2\} \to u,u \to p\)</span>，所以
-<span class="math inline">\(p \to \{2\}\)</span>。</p>
-<p>由于 <span class="math inline">\(p \to \{2\},\{2\} \to
-\{0\}\)</span>，所以 <span class="math inline">\(\{0\} \to
-p\)</span>。</p>
+<p>这个三染色是怎么染色呢，我们希望对于边 $(x,y)$，都有 $col_y \equiv col_x + 1 \pmod{3}$，所以我们连边 $(x,y,1)$，$(y,x,-1)$，然后进行 dfs 即可。</p>
+<p>考虑三染色失败了怎么办，这个时候任意两点之间都会有连边，答案为点数的平方，证明就是考虑 dfs 树上一条使其失败的返祖边。</p>
+<p>如果成功了，但三种颜色没有用满，那么不会出现 $x \to y,y\to z$ 这种东西，故答案为原先的边数。</p>
+<p>否则可以猜出答案为 $cnt_0cnt_1+cnt_1cnt_2+cnt_2cnt_0$，即异色点之间有单向边。接下来考虑证明。</p>
+<p>肯定存在一条链 $u\to v \to w$ 满足 $col_u &#x3D; 0,col_v &#x3D; 1,col_w &#x3D; 2$。 </p>
+<p>归纳构造，假设图 $G$ 已经满足上述结论，考虑新加入一条边 $u \to p$ 的情况。</p>
+<p>接下来设 ${0&#x2F;1&#x2F;2}$ 表示 $col &#x3D; 0&#x2F;1&#x2F;2$ 的点的集合。</p>
+<p>由于 ${2} \to u,u \to p$，所以 $p \to {2}$。</p>
+<p>由于 $p \to {2},{2} \to {0}$，所以 ${0} \to p$。</p>
 <p>可以发现无法存在其他的边，得证。</p>
-<p>因为 <span class="math inline">\(u,v,w\)</span> 是本质相同的，<span
-class="math inline">\(u \to p\)</span> 和 <span class="math inline">\(p
-\to u\)</span> 也是本质相同的，故其他情况不再赘述。</p>
+<p>因为 $u,v,w$ 是本质相同的，$u \to p$ 和 $p \to u$ 也是本质相同的，故其他情况不再赘述。</p>
 <p>直接算答案即可。属于是想到了“染色”就能做大部分甚至做完的题。</p>
-<div id="paginator"></div></div><div id="post-footer"><div id="pages"><div class="footer-link" style="width: 50%;text-align:right;border-right:1px #fe2 solid"><a href="/posts/2322247108/">← Next CF1229F 题解</a></div><div class="footer-link" style="width: 50%;right:1px;border-left:1px #fe2 solid"><a href="/posts/2035328838/">省选至暑假期间的计划 Prev →</a></div></div></div></div><div class="bottom-btn"><div><a id="to-top" onClick="scrolls.scrolltop();" title="回到顶部" style="opacity: 0; display: none;">∧</a><a id="to-index" href="#toc-div" title="文章目录">≡</a><a id="color-mode" onClick="colorMode.change()" title="切换主题"></a></div></div></article><aside><div id="about"><a href="/" id="logo"><img src="https://ak.hypergryph.com/assets/index/images/ak/pc/faction/1.png" alt="Logo"></a><h1 id="Dr"><a href="/">Dualqwq</a></h1><div id="description"><p></p></div></div><div id="aside-block"><div id="toc-div"><h1>目录</h1><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#agc006d"><span class="toc-number">1.</span> <span class="toc-text">AGC006D</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#agc006e"><span class="toc-number">2.</span> <span class="toc-text">AGC006E</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#agc006f"><span class="toc-number">3.</span> <span class="toc-text">AGC006F</span></a></li></ol></div></div><footer><nobr>构建自 <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></nobr><wbr><nobr> 使用主题 <a target="_blank" rel="noopener" href="https://github.com/Yue-plus/hexo-theme-arknights">Arknights</a></nobr><wbr><nobr>主题作者 <a target="_blank" rel="noopener" href="https://github.com/Yue-plus">Yue_plus</a></nobr></footer></aside></main><canvas id="canvas-dust"></canvas><script src="/js/search.js"></script><script src="/js/arknights.js"></script><script src="//unpkg.com/lightgallery@2.7.1/lightgallery.min.js"></script><script src="//unpkg.com/lightgallery@2.7.1/plugins/zoom/lg-zoom.min.js"></script><script src="//unpkg.com/lightgallery@2.7.1/plugins/thumbnail/lg-thumbnail.min.js"></script><script src="/js/pjax.js"></script><script class="pjax-js">reset= () => {code.findCode();
+<div id="paginator"></div></div><div id="post-footer"><div id="pages"><div class="footer-link" style="width: 50%;text-align:right;border-right:1px #fe2 solid"><a href="/posts/2322247108/">← Next CF1229F 题解</a></div><div class="footer-link" style="width: 50%;right:1px;border-left:1px #fe2 solid"><a href="/posts/2035328838/">省选至暑假期间的计划 Prev →</a></div></div></div></div><div class="bottom-btn"><div><a id="to-top" onClick="scrolls.scrolltop();" title="To Top" style="opacity: 0; display: none;">∧</a><a id="to-index" href="#toc-div" title="To Catalog">≡</a><a id="color-mode" onClick="colorMode.change()" title="Change Theme"></a></div></div></article><aside><div id="about"><a href="/" id="logo"><img src="https://ak.hypergryph.com/assets/index/images/ak/pc/faction/1.png" alt="Logo"></a><h1 id="Dr"><a href="/">Dualqwq</a></h1><div id="description"><p></p></div></div><div id="aside-block"><div id="toc-div"><h1>Catalog</h1><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#AGC006D"><span class="toc-number">1.</span> <span class="toc-text">AGC006D</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#AGC006E"><span class="toc-number">2.</span> <span class="toc-text">AGC006E</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#AGC006F"><span class="toc-number">3.</span> <span class="toc-text">AGC006F</span></a></li></ol></div></div><footer><nobr>Published with <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></nobr><wbr><nobr> Theme <a target="_blank" rel="noopener" href="https://github.com/Yue-plus/hexo-theme-arknights">Arknights</a></nobr><wbr><nobr>by <a target="_blank" rel="noopener" href="https://github.com/Yue-plus">Yue_plus</a></nobr></footer></aside></main><canvas id="canvas-dust"></canvas><script src="/js/search.js"></script><script src="/js/arknights.js"></script><script src="//unpkg.com/lightgallery@2.7.1/lightgallery.min.js"></script><script src="//unpkg.com/lightgallery@2.7.1/plugins/zoom/lg-zoom.min.js"></script><script src="//unpkg.com/lightgallery@2.7.1/plugins/thumbnail/lg-thumbnail.min.js"></script><script src="/js/pjax.js"></script><script class="pjax-js">reset= () => {code.findCode();
 document.querySelector('.lg-container')?.remove()
 lightGallery(document.getElementById('post-bg'), {
   plugins: [lgZoom,lgThumbnail],

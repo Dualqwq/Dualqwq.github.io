@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="zh-CN" theme-mode="dark"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>ARC135E 题解 | 天命之路 的博客</title><link rel="icon" type="image/x-icon" href="/favicon.ico"><script>var config = {"root":"/","search":{"preload":false,"activeHolder":"键入以继续","blurHolder":"数据检索","noResult":"无 $0 相关数据"},"code":{"codeInfo":"$0 - 共 $1 行","copy":"复制","copyFinish":"复制成功","expand":"展开"}}</script><script src="//unpkg.com/mermaid@9.2.2/dist/mermaid.min.js"></script><script src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.1/MathJax.js"></script><script>MathJax.Hub.Config({
+<!DOCTYPE html><html lang="zh-CN" theme-mode="dark"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>ARC135E 题解 | 天命之路 的博客</title><link rel="icon" type="image/x-icon" href="/favicon.ico"><script>var config = {"root":"/","search":{"preload":false,"activeHolder":"Enter here","blurHolder":"Search","noResult":"Data \"$0\" not found"},"code":{"codeInfo":"$0 - $1 lines","copy":"copy","copyFinish":"copied","expand":"expand"}}</script><script src="//unpkg.com/mermaid@9.2.2/dist/mermaid.min.js"></script><script src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.1/MathJax.js"></script><script>MathJax.Hub.Config({
  menuSettings: {
    zoom: "None"
  },
@@ -34,70 +34,39 @@ if (window.localStorage.getItem('theme-mode') === 'dark') document.documentEleme
 }</style><style>:root {
   --dark-background: url('https://ak.hypergryph.com/assets/index/images/ak/pc/bk.jpg');
   --light-background: url('/img/bk.jpg');
-}</style><meta name="generator" content="Hexo 6.3.0"></head><body><div class="loading" style="opacity: 0"><div class="loadingBar left"></div><div class="loadingBar right"></div></div><main><header class="closed"><nav><div class="navBtn hide"><i class="navBtnIcon"><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span></i></div><div class="navItem" id="search-header"><span class="navItemTitle"><input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="数据检索" spellcheck="false" maxlength="50" type="text" id="search-input"></span></div><div class="navItem" id="search-holder"></div><div class="search-popup"><div id="search-result"></div></div><ol class="navContent"><li class="navItem"><a class="navBlock" href="/"><span class="navItemTitle">Home</span></a></li><li class="navItem" matchdata="categories,tags"><a class="navBlock" href="/archives/"><span class="navItemTitle">Archives</span></a></li></ol></nav></header><article><div id="post-bg"><div id="post-title"><h1>ARC135E 题解</h1><div id="post-info"><span>文章发布时间: <div class="control"><time datetime="2023-05-02T06:20:14.283Z" id="date"> 2023-05-02</time></div></span><br><span>最后更新时间: <div class="control"><time datetime="2023-04-22T01:28:23.320Z" id="updated"> 2023-04-22</time></div></span></div></div><hr><div id="post-content"><p>不知道如何评价题。</p>
+}</style><meta name="generator" content="Hexo 6.3.0"></head><body><div class="loading" style="opacity: 0"><div class="loadingBar left"></div><div class="loadingBar right"></div></div><main><header class="closed"><nav><div class="navBtn hide"><i class="navBtnIcon"><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span></i></div><div class="navItem" id="search-header"><span class="navItemTitle"><input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="Search" spellcheck="false" maxlength="50" type="text" id="search-input"></span></div><div class="navItem" id="search-holder"></div><div class="search-popup"><div id="search-result"></div></div><ol class="navContent"><li class="navItem"><a class="navBlock" href="/"><span class="navItemTitle">Home</span></a></li><li class="navItem" matchdata="categories,tags"><a class="navBlock" href="/archives/"><span class="navItemTitle">Archives</span></a></li></ol></nav></header><article><div id="post-bg"><div id="post-title"><h1>ARC135E 题解</h1><div id="post-info"><span>First Post: <div class="control"><time datetime="2023-05-02T06:20:14.283Z" id="date"> 2023-05-02</time></div></span><br><span>Last Update: <div class="control"><time datetime="2023-04-22T01:28:23.320Z" id="updated"> 2023-04-22</time></div></span></div></div><hr><div id="post-content"><p>不知道如何评价题。</p>
 <span id="more"></span>
+
 <p>题意：</p>
-<p>给出两个数 <span class="math inline">\(n,x\)</span>，构造序列 <span
-class="math inline">\(A\)</span>，使其满足下列限制：</p>
-<ol type="1">
-<li><p><span class="math inline">\(A_1 = x\)</span>。</p></li>
-<li><p><span class="math inline">\(A_i &lt; A_{i+1}\)</span>。</p></li>
-<li><p><span class="math inline">\(A_i\)</span> 是 <span
-class="math inline">\(i\)</span> 的倍数。</p></li>
+<p>给出两个数 $n,x$，构造序列 $A$，使其满足下列限制：</p>
+<ol>
+<li><p>$A_1 &#x3D; x$。</p>
+</li>
+<li><p>$A_i &lt; A_{i+1}$。</p>
+</li>
+<li><p>$A_i$ 是 $i$ 的倍数。</p>
+</li>
 </ol>
-<p>在此基础上，使得 <span class="math inline">\(\sum A_i\)</span>
-最小，输出答案对 <span class="math inline">\(998244353\)</span>
-取模的值。</p>
-<p><span class="math inline">\(T\)</span> 组数据。<span
-class="math inline">\(1 \le T \le 10,1 \le n,x \le
-10^{18}\)</span>。</p>
-<p>显然，策略是让每个 <span class="math inline">\(A_i\)</span>
-都尽量小。</p>
-<p>那么设 <span class="math inline">\(B_i = A_i / i\)</span>，就有 <span
-class="math inline">\(B_{i+1} = \lfloor \dfrac{A_i}{i+1} \rfloor + 1 =
-\lfloor \dfrac{iB_i}{i+1}\rfloor + 1 = B_i + 1 +
-\lfloor{\dfrac{-B_i}{i+1}}\rfloor = B_i + 1 - \lceil \dfrac{B_i}{i+1}
-\rceil\)</span></p>
-<p>因为 <span class="math inline">\(B_i\)</span> 约等于 <span
-class="math inline">\(\dfrac{X}{i}\)</span> ，设 <span
-class="math inline">\(t = \dfrac{B_i}{i+1}\)</span>，那么会有 <span
-class="math inline">\(t(i+1)i = O(X)\)</span>。</p>
-<p>那么可以说明，在 <span class="math inline">\(i &gt;
-X^{\frac{1}{3}}\)</span> 的时候，<span class="math inline">\(t = O(
-X^{\frac{1}{3}})\)</span>。</p>
-<p>也就是说，<span class="math inline">\(\lceil \dfrac{B_i}{i+1}
-\rceil\)</span> 只有 <span
-class="math inline">\(O(X^{\frac{1}{3}})\)</span> 个本质不同的值！</p>
+<p>在此基础上，使得 $\sum A_i$ 最小，输出答案对 $998244353$ 取模的值。</p>
+<p>$T$ 组数据。$1 \le T \le 10,1 \le n,x \le 10^{18}$。</p>
+<p>显然，策略是让每个 $A_i$ 都尽量小。</p>
+<p>那么设 $B_i &#x3D; A_i &#x2F; i$，就有 $B_{i+1} &#x3D; \lfloor \dfrac{A_i}{i+1} \rfloor + 1 &#x3D; \lfloor \dfrac{iB_i}{i+1}\rfloor + 1  &#x3D; B_i + 1 + \lfloor{\dfrac{-B_i}{i+1}}\rfloor &#x3D; B_i + 1 - \lceil \dfrac{B_i}{i+1} \rceil$ </p>
+<p>因为 $B_i$ 约等于 $\dfrac{X}{i}$ ，设 $t &#x3D; \dfrac{B_i}{i+1}$，那么会有 $t(i+1)i &#x3D; O(X)$。</p>
+<p>那么可以说明，在 $i &gt; X^{\frac{1}{3}}$ 的时候，$t &#x3D; O( X^{\frac{1}{3}})$。</p>
+<p>也就是说，$\lceil \dfrac{B_i}{i+1} \rceil$ 只有 $O(X^{\frac{1}{3}})$ 个本质不同的值！</p>
 <p>因为这玩意单调不增，所以最终会呈现若干个连续段。</p>
 <p>然后我想到这里不会算端点！</p>
-<p>考虑一个 <span class="math inline">\(l\)</span>，设 <span
-class="math inline">\(t = \dfrac{B_l}{l+1}\)</span> ，我们想求出最大的
-<span class="math inline">\(r\)</span> 满足 <span
-class="math inline">\(x = \lceil\dfrac{B_l - (r - l)(x-1)}{r+1}
-\rceil\)</span></p>
-<p>化式子： <span class="math display">\[
-\begin{aligned}
-x = \lceil \dfrac{B_l - (r + 1)(x - 1) + (l + 1)(x-1)}{r+1} \rceil \\
-2x - 1 = \lceil \dfrac{B_l + (l+1)(x-1)}{r+1}\rceil \\
-r + 1 = \lfloor \dfrac{B_l + (l+1)(x-1) - 1}{2x-2} \rfloor
-\end{aligned}
-\]</span></p>
+<p>考虑一个 $l$，设 $t &#x3D; \dfrac{B_l}{l+1}$ ，我们想求出最大的 $r$ 满足 $x &#x3D; \lceil\dfrac{B_l - (r - l)(x-1)}{r+1} \rceil$</p>
+<p>化式子：<br>$$<br>\begin{aligned}<br>x &#x3D; \lceil \dfrac{B_l - (r + 1)(x - 1) + (l + 1)(x-1)}{r+1} \rceil \<br>2x - 1 &#x3D; \lceil \dfrac{B_l + (l+1)(x-1)}{r+1}\rceil \<br>r + 1 &#x3D; \lfloor \dfrac{B_l + (l+1)(x-1) - 1}{2x-2} \rfloor<br>\end{aligned}<br>$$</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><span class="hljs-type">const</span> <span class="hljs-type">int</span> P = <span class="hljs-number">998244353</span>,inv2 = (P + <span class="hljs-number">1</span>) / <span class="hljs-number">2</span>,inv6 = <span class="hljs-number">166374059</span>;<br><span class="hljs-keyword">typedef</span> <span class="hljs-type">long</span> <span class="hljs-type">long</span> ll;<br>ll n,nowb;<br><span class="hljs-function"><span class="hljs-keyword">inline</span> ll <span class="hljs-title">cdiv</span><span class="hljs-params">(ll x,ll y)</span> </span>&#123; <span class="hljs-keyword">return</span> (x + y - <span class="hljs-number">1</span>) / y;&#125;<br><span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">int</span> <span class="hljs-title">S1</span><span class="hljs-params">(ll x)</span> </span>&#123; x %= P;<span class="hljs-keyword">return</span> <span class="hljs-number">1ll</span> * x * (x + <span class="hljs-number">1</span>) % P * inv2 % P;&#125;<br><span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">int</span> <span class="hljs-title">S2</span><span class="hljs-params">(ll x)</span> </span>&#123; x %= P;<span class="hljs-keyword">return</span> <span class="hljs-number">1ll</span> * x * (x + <span class="hljs-number">1</span>) % P * (<span class="hljs-number">2</span> * x + <span class="hljs-number">1</span>) % P * inv6 % P;&#125;<br><span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">int</span> <span class="hljs-title">calc</span><span class="hljs-params">(ll fr,ll d,ll l,ll r)</span> <span class="hljs-comment">// Bl = fr,Bi+1-Bi = d</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-type">int</span> res1 = <span class="hljs-number">1ll</span> * (fr % P) * (<span class="hljs-built_in">S1</span>(r) - <span class="hljs-built_in">S1</span>(l - <span class="hljs-number">1</span>) + P) % P;<br>	<span class="hljs-type">int</span> res2 = <span class="hljs-number">1ll</span> * (d % P) * (<span class="hljs-built_in">S2</span>(r) - <span class="hljs-built_in">S2</span>(l - <span class="hljs-number">1</span>) + P) % P;<br>	<span class="hljs-type">int</span> res3 = <span class="hljs-number">1ll</span> * (l % P) * (d % P) % P * (<span class="hljs-built_in">S1</span>(r) - <span class="hljs-built_in">S1</span>(l - <span class="hljs-number">1</span>) + P) % P;<br>	<span class="hljs-keyword">return</span> (<span class="hljs-number">1ll</span> * res1 + res2 - res3 + P) % P;<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">void</span> <span class="hljs-title">Work</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	cin &gt;&gt; n &gt;&gt; nowb;<br>	<span class="hljs-type">int</span> ans = <span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">for</span>(ll l = <span class="hljs-number">1</span>,r;l &lt;= n;l = r + <span class="hljs-number">1</span>)<br>	&#123;<br>		ll x = <span class="hljs-built_in">cdiv</span>(nowb,l + <span class="hljs-number">1</span>);<br>		<span class="hljs-keyword">if</span>(x == <span class="hljs-number">1</span>) r = n;<br>		<span class="hljs-keyword">else</span> r = <span class="hljs-built_in">min</span>(n,(nowb + (l + <span class="hljs-number">1</span>) * (x - <span class="hljs-number">1</span>) - <span class="hljs-number">1</span>) / (<span class="hljs-number">2</span> * x - <span class="hljs-number">2</span>) - <span class="hljs-number">1</span>);<br>		(ans += <span class="hljs-built_in">calc</span>(nowb,<span class="hljs-number">1</span> - x,l,r)) %= P;<br>		nowb -= (r - l + <span class="hljs-number">1</span>) * (x - <span class="hljs-number">1</span>);<br>	&#125;<br>	cout &lt;&lt; ans &lt;&lt; endl;<br>&#125;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-type">int</span> T;<br>	cin &gt;&gt; T;<br>	<span class="hljs-keyword">while</span>(T--) <span class="hljs-built_in">Work</span>();<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-<p>事实上，上文中的 "<span class="math inline">\(B_i\)</span> 约等于
-<span class="math inline">\(\dfrac{X}{i}\)</span> " 是可以严谨的给出一个
-上界的。</p>
-<p>因为 <span class="math inline">\(A_i \le X + \sum_{j=2}^i j &lt; X +
-\dfrac{1}{2}i(i+1)\)</span></p>
-<p>所以 <span class="math inline">\(B_i \lt \dfrac{X}{i} +
-\dfrac{1}{2}(i+1)\)</span>。</p>
-<p>设 <span class="math inline">\(L = X^{1/3}\)</span>。</p>
-<p>由此可以算出 <span class="math inline">\(\lceil \dfrac{B_L}{L+1}
-\rceil - 1\)</span> 处于 <span class="math inline">\(O(L)\)</span>
-级别，即在 <span class="math inline">\(i &gt; L\)</span> 的时候，<span
-class="math inline">\(B_i - B_{i+1}\)</span> 的取值也只有 <span
-class="math inline">\(O(L)\)</span> 个。</p>
-<p>于是总段数就是 <span class="math inline">\(O(L)\)</span> 的了。</p>
-<div id="paginator"></div></div><div id="post-footer"><div id="pages"><div class="footer-link" style="width: 50%;text-align:right;border-right:1px #fe2 solid"><a href="/posts/2012520028/">← Next CF1172F 题解</a></div><div class="footer-link" style="width: 50%;right:1px;border-left:1px #fe2 solid"><a href="/posts/3813915453/">ARC117E 题解 Prev →</a></div></div></div></div><div class="bottom-btn"><div><a id="to-top" onClick="scrolls.scrolltop();" title="回到顶部" style="opacity: 0; display: none;">∧</a><a id="to-index" href="#toc-div" title="文章目录">≡</a><a id="color-mode" onClick="colorMode.change()" title="切换主题"></a></div></div></article><aside><div id="about"><a href="/" id="logo"><img src="https://ak.hypergryph.com/assets/index/images/ak/pc/faction/1.png" alt="Logo"></a><h1 id="Dr"><a href="/">Dualqwq</a></h1><div id="description"><p></p></div></div><div id="aside-block"></div><footer><nobr>构建自 <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></nobr><wbr><nobr> 使用主题 <a target="_blank" rel="noopener" href="https://github.com/Yue-plus/hexo-theme-arknights">Arknights</a></nobr><wbr><nobr>主题作者 <a target="_blank" rel="noopener" href="https://github.com/Yue-plus">Yue_plus</a></nobr></footer></aside></main><canvas id="canvas-dust"></canvas><script src="/js/search.js"></script><script src="/js/arknights.js"></script><script src="//unpkg.com/lightgallery@2.7.1/lightgallery.min.js"></script><script src="//unpkg.com/lightgallery@2.7.1/plugins/zoom/lg-zoom.min.js"></script><script src="//unpkg.com/lightgallery@2.7.1/plugins/thumbnail/lg-thumbnail.min.js"></script><script src="/js/pjax.js"></script><script class="pjax-js">reset= () => {code.findCode();
+
+<p>事实上，上文中的 “$B_i$ 约等于 $\dfrac{X}{i}$ “ 是可以严谨的给出一个 上界的。</p>
+<p>因为 $A_i \le X + \sum_{j&#x3D;2}^i j &lt; X + \dfrac{1}{2}i(i+1)$</p>
+<p>所以 $B_i \lt \dfrac{X}{i} + \dfrac{1}{2}(i+1)$。</p>
+<p>设 $L &#x3D; X^{1&#x2F;3}$。</p>
+<p>由此可以算出 $\lceil \dfrac{B_L}{L+1} \rceil - 1$ 处于 $O(L)$ 级别，即在 $i &gt; L$ 的时候，$B_i - B_{i+1}$ 的取值也只有 $O(L)$ 个。</p>
+<p>于是总段数就是 $O(L)$ 的了。</p>
+<div id="paginator"></div></div><div id="post-footer"><div id="pages"><div class="footer-link" style="width: 50%;text-align:right;border-right:1px #fe2 solid"><a href="/posts/2012520028/">← Next CF1172F 题解</a></div><div class="footer-link" style="width: 50%;right:1px;border-left:1px #fe2 solid"><a href="/posts/3813915453/">ARC117E 题解 Prev →</a></div></div></div></div><div class="bottom-btn"><div><a id="to-top" onClick="scrolls.scrolltop();" title="To Top" style="opacity: 0; display: none;">∧</a><a id="to-index" href="#toc-div" title="To Catalog">≡</a><a id="color-mode" onClick="colorMode.change()" title="Change Theme"></a></div></div></article><aside><div id="about"><a href="/" id="logo"><img src="https://ak.hypergryph.com/assets/index/images/ak/pc/faction/1.png" alt="Logo"></a><h1 id="Dr"><a href="/">Dualqwq</a></h1><div id="description"><p></p></div></div><div id="aside-block"></div><footer><nobr>Published with <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></nobr><wbr><nobr> Theme <a target="_blank" rel="noopener" href="https://github.com/Yue-plus/hexo-theme-arknights">Arknights</a></nobr><wbr><nobr>by <a target="_blank" rel="noopener" href="https://github.com/Yue-plus">Yue_plus</a></nobr></footer></aside></main><canvas id="canvas-dust"></canvas><script src="/js/search.js"></script><script src="/js/arknights.js"></script><script src="//unpkg.com/lightgallery@2.7.1/lightgallery.min.js"></script><script src="//unpkg.com/lightgallery@2.7.1/plugins/zoom/lg-zoom.min.js"></script><script src="//unpkg.com/lightgallery@2.7.1/plugins/thumbnail/lg-thumbnail.min.js"></script><script src="/js/pjax.js"></script><script class="pjax-js">reset= () => {code.findCode();
 document.querySelector('.lg-container')?.remove()
 lightGallery(document.getElementById('post-bg'), {
   plugins: [lgZoom,lgThumbnail],

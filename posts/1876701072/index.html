@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="zh-CN" theme-mode="dark"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>CF1415F 题解 | 天命之路 的博客</title><link rel="icon" type="image/x-icon" href="/favicon.ico"><script>var config = {"root":"/","search":{"preload":false,"activeHolder":"键入以继续","blurHolder":"数据检索","noResult":"无 $0 相关数据"},"code":{"codeInfo":"$0 - 共 $1 行","copy":"复制","copyFinish":"复制成功","expand":"展开"}}</script><script src="//unpkg.com/mermaid@9.2.2/dist/mermaid.min.js"></script><script src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.1/MathJax.js"></script><script>MathJax.Hub.Config({
+<!DOCTYPE html><html lang="zh-CN" theme-mode="dark"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>CF1415F 题解 | 天命之路 的博客</title><link rel="icon" type="image/x-icon" href="/favicon.ico"><script>var config = {"root":"/","search":{"preload":false,"activeHolder":"Enter here","blurHolder":"Search","noResult":"Data \"$0\" not found"},"code":{"codeInfo":"$0 - $1 lines","copy":"copy","copyFinish":"copied","expand":"expand"}}</script><script src="//unpkg.com/mermaid@9.2.2/dist/mermaid.min.js"></script><script src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.1/MathJax.js"></script><script>MathJax.Hub.Config({
  menuSettings: {
    zoom: "None"
  },
@@ -34,111 +34,64 @@ if (window.localStorage.getItem('theme-mode') === 'dark') document.documentEleme
 }</style><style>:root {
   --dark-background: url('https://ak.hypergryph.com/assets/index/images/ak/pc/bk.jpg');
   --light-background: url('/img/bk.jpg');
-}</style><meta name="generator" content="Hexo 6.3.0"></head><body><div class="loading" style="opacity: 0"><div class="loadingBar left"></div><div class="loadingBar right"></div></div><main><header class="closed"><nav><div class="navBtn hide"><i class="navBtnIcon"><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span></i></div><div class="navItem" id="search-header"><span class="navItemTitle"><input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="数据检索" spellcheck="false" maxlength="50" type="text" id="search-input"></span></div><div class="navItem" id="search-holder"></div><div class="search-popup"><div id="search-result"></div></div><ol class="navContent"><li class="navItem"><a class="navBlock" href="/"><span class="navItemTitle">Home</span></a></li><li class="navItem" matchdata="categories,tags"><a class="navBlock" href="/archives/"><span class="navItemTitle">Archives</span></a></li></ol></nav></header><article><div id="post-bg"><div id="post-title"><h1>CF1415F 题解</h1><div id="post-info"><span>文章发布时间: <div class="control"><time datetime="2023-05-02T06:20:14.231Z" id="date"> 2023-05-02</time></div></span><br><span>最后更新时间: <div class="control"><time datetime="2023-02-14T13:56:24.680Z" id="updated"> 2023-02-14</time></div></span></div></div><hr><div id="post-content"><p>遇到新题型，茫然无措是必然的，但只有冷静下来，运用自己掌握的思维模式，才能从茫然中找到柳暗花明。</p>
+}</style><meta name="generator" content="Hexo 6.3.0"></head><body><div class="loading" style="opacity: 0"><div class="loadingBar left"></div><div class="loadingBar right"></div></div><main><header class="closed"><nav><div class="navBtn hide"><i class="navBtnIcon"><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span></i></div><div class="navItem" id="search-header"><span class="navItemTitle"><input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="Search" spellcheck="false" maxlength="50" type="text" id="search-input"></span></div><div class="navItem" id="search-holder"></div><div class="search-popup"><div id="search-result"></div></div><ol class="navContent"><li class="navItem"><a class="navBlock" href="/"><span class="navItemTitle">Home</span></a></li><li class="navItem" matchdata="categories,tags"><a class="navBlock" href="/archives/"><span class="navItemTitle">Archives</span></a></li></ol></nav></header><article><div id="post-bg"><div id="post-title"><h1>CF1415F 题解</h1><div id="post-info"><span>First Post: <div class="control"><time datetime="2023-05-02T06:20:14.231Z" id="date"> 2023-05-02</time></div></span><br><span>Last Update: <div class="control"><time datetime="2023-02-14T13:56:24.680Z" id="updated"> 2023-02-14</time></div></span></div></div><hr><div id="post-content"><p>遇到新题型，茫然无措是必然的，但只有冷静下来，运用自己掌握的思维模式，才能从茫然中找到柳暗花明。</p>
 <span id="more"></span>
+
 <p>考虑已经确定了本体和分身完成的任务集合，怎么判定合法性。</p>
 <p>设本体完成的任务为 A 类，分身完成的任务为 B 类。</p>
-<p>把 <span class="math inline">\((t,x)\)</span>
-看成二维平面上的点，容易绘制以下图像：</p>
-<p class='item-img' data-src='/images/CF1415F-1.png'><img src="/images/CF1415F-1.png" /></p>
+<p>把 $(t,x)$ 看成二维平面上的点，容易绘制以下图像：</p>
+<p class='item-img' data-src='/images/CF1415F-1.png'><img src="/images/CF1415F-1.png"></p>
 <p>我们的行动轨迹需要经过上图所有的点。</p>
-<p>A 类任务可以限制人的行动轨迹，相比 B
-类任务具有更加”稳定“的约束，我们考虑研究两个 A 任务之间的间隔。</p>
-<p class='item-img' data-src='/images/CF1415F-2.png'><img src="/images/CF1415F-2.png" /></p>
+<p>A 类任务可以限制人的行动轨迹，相比 B 类任务具有更加”稳定“的约束，我们考虑研究两个 A 任务之间的间隔。</p>
+<p class='item-img' data-src='/images/CF1415F-2.png'><img src="/images/CF1415F-2.png"></p>
 <p>右图是两个 A 夹着一段极长的 B ，左图是一段极长的 A。</p>
 <p>蓝色是不管 B 的路线，红色是管 B 的路线。</p>
-<p>容易发现，一段极长的 A，只会贡献一个 B，一段极长的 B
-的<strong>非开头部分</strong> 只会由夹着这一段的两个 A
-解决（开头那个被绿色圈住的部分可能已经被前一段解决）</p>
-<p>（上述图片来自 <span class="citation"
-data-cites="command_block">@command_block</span>，感谢 cmd 的题解）</p>
+<p>容易发现，一段极长的 A，只会贡献一个 B，一段极长的 B 的<strong>非开头部分</strong> 只会由夹着这一段的两个 A 解决（开头那个被绿色圈住的部分可能已经被前一段解决）</p>
+<p>（上述图片来自 @command_block，感谢 cmd 的题解）</p>
 <p>两个 A 之间的间隔，就是一段 B 的极长连续段。</p>
-<p>假设这些 <span class="math inline">\(B\)</span> 任务按时间顺序为
-<span class="math inline">\(p_1,p_2,\dots,p_k\)</span>，<span
-class="math inline">\(p_i\)</span> 对应的时间区间为 <span
-class="math inline">\([l_i,r_i]\)</span>，其实就是 <span
-class="math inline">\([t_{p_{i-1}},t_{p_i}]\)</span>。</p>
-<p>设初始时间为 <span class="math inline">\(t\)</span>，初始位置为 <span
-class="math inline">\(x\)</span>，假设下一个任务为 <span
-class="math inline">\(p_i\)</span>，那么如果 <span
-class="math inline">\(t + | x - x_{p_i} | &gt;
-r_i\)</span>，则方案不合法，否则 <span class="math inline">\(t\)</span>
-变为 <span class="math inline">\(\max(l_i,t + |x -
-x_{p_i}|)\)</span>，<span class="math inline">\(x\)</span>
-也对应变化（对 <span class="math inline">\(l_i\)</span> 取 <span
-class="math inline">\(\max\)</span> 是因为，假如我在 <span
-class="math inline">\(t_{p_{i-1}}\)</span> 之前就到达了 <span
-class="math inline">\(x_{p_i}\)</span>，我也必须等到 <span
-class="math inline">\(t_{p_{i-1}}\)</span>
-的时候才能撤销原本放在那里的分身，把它移到当前位置）</p>
-<p>观察上述的贪心算法，我们只需在 <span
-class="math inline">\(dp\)</span> 的时候维护上面的 <span
-class="math inline">\(t\)</span> ，然后一个一个加入 B 类任务即可。</p>
-<p>具体地，设 <span class="math inline">\(dp_{i,0/1}\)</span> 表示任务
-<span class="math inline">\(i\)</span> 是 B 类，任务 <span
-class="math inline">\(i\)</span> 是/否已经被 <span
-class="math inline">\(i - 1\)</span> 之前的某一段 A
-解决。（也就是那个绿色圈的情况）</p>
-<p>对于 <span class="math inline">\(f_{i,0}\)</span> ，当前本体肯定在
-<span class="math inline">\(x_i\)</span>，对于 <span
-class="math inline">\(f_{i,1}\)</span>，<span class="math inline">\(i -
-1\)</span> 是 A 类，并且本体在 <span
-class="math inline">\(x_{i-1}\)</span>。</p>
-<p>记 <span class="math inline">\(g_{l,r}\)</span> 表示任务 <span
-class="math inline">\(l \sim r\)</span> 是否能成为一段 A。</p>
-<p>记 <span class="math inline">\((a,b) = |x_a - x_b|\)</span>。</p>
-<p>对于 <span class="math inline">\(f_{i,0}\)</span>:</p>
+<p>假设这些 $B$ 任务按时间顺序为 $p_1,p_2,\dots,p_k$，$p_i$ 对应的时间区间为 $[l_i,r_i]$，其实就是 $[t_{p_{i-1}},t_{p_i}]$。</p>
+<p>设初始时间为 $t$，初始位置为 $x$，假设下一个任务为 $p_i$，那么如果 $t + | x - x_{p_i} | &gt; r_i$，则方案不合法，否则 $t$ 变为 $\max(l_i,t + |x - x_{p_i}|)$，$x$ 也对应变化（对 $l_i$ 取 $\max$ 是因为，假如我在 $t_{p_{i-1}}$ 之前就到达了 $x_{p_i}$，我也必须等到 $t_{p_{i-1}}$ 的时候才能撤销原本放在那里的分身，把它移到当前位置）</p>
+<p>观察上述的贪心算法，我们只需在 $dp$ 的时候维护上面的 $t$ ，然后一个一个加入 B 类任务即可。</p>
+<p>具体地，设 $dp_{i,0&#x2F;1}$ 表示任务 $i$ 是 B 类，任务 $i$ 是&#x2F;否已经被 $i - 1$ 之前的某一段 A 解决。（也就是那个绿色圈的情况）</p>
+<p>对于 $f_{i,0}$ ，当前本体肯定在 $x_i$，对于 $f_{i,1}$，$i - 1$ 是 A 类，并且本体在 $x_{i-1}$。</p>
+<p>记 $g_{l,r}$ 表示任务 $l \sim r$ 是否能成为一段 A。</p>
+<p>记 $(a,b) &#x3D; |x_a - x_b|$。</p>
+<p>对于 $f_{i,0}$:	</p>
 <ul>
-<li><p><span class="math inline">\(i - 1\)</span> 是 B 类</p>
-<ol type="1">
-<li>从 <span class="math inline">\(f_{i-1,0}\)</span> 转移：<span
-class="math inline">\(f_{i,0} \gets \max(f_{i-1,0} + (i - 1,i),t_{i-1})
-,(f_{i-1,0} + (i - 1,i) \le t_i)\)</span></li>
-<li>从 <span class="math inline">\(f_{i-1,1}\)</span> 转移：<span
-class="math inline">\(f_{i,0} \gets \max(f_{i-1,1} + (i -
-2,i),t_{i-1}),(f_{i-1,1} + (i - 2,i) \le t_i)\)</span></li>
-</ol></li>
-<li><p><span class="math inline">\(i - 1\)</span> 是 A 类</p>
-<p>枚举 A 类极长连续段 <span class="math inline">\([j + 1,i -
-1]\)</span>。</p>
-<p><span class="math inline">\(f_{i,0} \gets t_{i - 1} + (i -
-1,i)\)</span></p>
+<li><p>$i - 1$ 是 B 类</p>
+<ol>
+<li>从 $f_{i-1,0}$ 转移：$f_{i,0} \gets \max(f_{i-1,0} + (i - 1,i),t_{i-1}) ,(f_{i-1,0} + (i - 1,i) \le t_i)$</li>
+<li>从 $f_{i-1,1}$ 转移：$f_{i,0} \gets \max(f_{i-1,1} + (i - 2,i),t_{i-1}),(f_{i-1,1} + (i - 2,i) \le t_i)$</li>
+</ol>
+</li>
+<li><p>$i - 1$ 是 A 类</p>
+<p>枚举 A 类极长连续段 $[j + 1,i - 1]$。</p>
+<p>$f_{i,0} \gets t_{i - 1} + (i - 1,i)$</p>
 <p>条件：</p>
-<p><span class="math inline">\(g_{j + 1,i - 1}\)</span> 为真</p>
-<p>且 <span class="math inline">\(\min(f_{j,0} + dis(j,j + 1),f_{j-1,1}
-+ dis(j - 1,j + 1)) \le t_{j+1}\)</span> （<span
-class="math inline">\(j\)</span> 可以走到 <span class="math inline">\(j
-+ 1\)</span>）</p>
-<p>且 <span class="math inline">\(t_{i-1} + (i - 1,i) \le t_i\)</span>
-（可以从 <span class="math inline">\(i - 1\)</span> 走到 <span
-class="math inline">\(i\)</span>）</p></li>
+<p>$g_{j + 1,i - 1}$ 为真</p>
+<p>且 $\min(f_{j,0} + dis(j,j + 1),f_{j-1,1} + dis(j - 1,j + 1)) \le t_{j+1}$ （$j$ 可以走到 $j + 1$）</p>
+<p>且 $t_{i-1} + (i - 1,i) \le t_i$ （可以从 $i - 1$ 走到 $i$）</p>
+</li>
 </ul>
-<p>对于 <span class="math inline">\(f_{i,1}\)</span>：</p>
-<p><span class="math inline">\(f_{i,1} \gets t_{i-1}\)</span></p>
+<p>对于 $f_{i,1}$：</p>
+<p>$f_{i,1} \gets t_{i-1}$</p>
 <p>条件：</p>
-<p>枚举 A 类极长连续段 <span class="math inline">\([j + 1,i -
-1]\)</span>。</p>
-<p>存在一个 <span class="math inline">\(j\)</span> 满足：</p>
+<p>枚举 A 类极长连续段 $[j + 1,i - 1]$。</p>
+<p>存在一个 $j$ 满足：</p>
 <ul>
-<li><p><span class="math inline">\(g_{j +1,i - 1}\)</span> 为真</p></li>
-<li><p>且 <span class="math inline">\(\min(f_{j,0} + dis(j,j +
-1),f_{j-1,1} + dis(j - 1,j + 1)) \le t_{j+1}\)</span> （<span
-class="math inline">\(j\)</span> 可以走到 <span class="math inline">\(j
-+ 1\)</span>）</p></li>
-<li><p>且存在一个 <span class="math inline">\(k \in [j + 1,i - 2],(i,k)
-+ (i,k + 1) \le t_{k + 1} - t_k\)</span>
-（存在一个空隙使得人可以拐出来，先放好分身再走回去） 或者 <span
-class="math inline">\(\max(\min(f_{j,0} + dis(j,i),f_{j,1} + dis(j -
-1,i)),t_j) + dis(i,j + 1) \le t_{j+1}\)</span> （这一段 A 的开头和上一段
-B 的结尾之间有个空隙可以让人出来放分身）</p></li>
+<li><p>$g_{j +1,i - 1}$ 为真</p>
+</li>
+<li><p>且 $\min(f_{j,0} + dis(j,j + 1),f_{j-1,1} + dis(j - 1,j + 1)) \le t_{j+1}$ （$j$ 可以走到 $j + 1$）</p>
+</li>
+<li><p>且存在一个 $k \in [j + 1,i - 2],(i,k) + (i,k + 1) \le t_{k + 1} - t_k$ （存在一个空隙使得人可以拐出来，先放好分身再走回去） 或者 $\max(\min(f_{j,0} + dis(j,i),f_{j,1} + dis(j - 1,i)),t_j) + dis(i,j + 1) \le t_{j+1}$ （这一段 A 的开头和上一段 B 的结尾之间有个空隙可以让人出来放分身）</p>
+</li>
 </ul>
 <p>把转移都分讨完后，代码就比较简单了：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><span class="hljs-keyword">typedef</span> <span class="hljs-type">long</span> <span class="hljs-type">long</span> ll;<br><span class="hljs-type">const</span> ll llinf = <span class="hljs-number">0x3f3f3f3f3f3f3f3f</span>;<br><span class="hljs-type">const</span> <span class="hljs-type">int</span> N = <span class="hljs-number">5e3</span> + <span class="hljs-number">5</span>;<br><span class="hljs-type">int</span> n;<br><span class="hljs-keyword">struct</span> <span class="hljs-title class_">node</span> &#123;ll x,t;&#125; p[N];<br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">cmp</span><span class="hljs-params">(<span class="hljs-type">const</span> node &amp;a,<span class="hljs-type">const</span> node &amp;b)</span> </span>&#123; <span class="hljs-keyword">return</span> a.t &lt; b.t;&#125;<br><span class="hljs-function">ll <span class="hljs-title">dis</span><span class="hljs-params">(<span class="hljs-type">int</span> x,<span class="hljs-type">int</span> y)</span> </span>&#123; <span class="hljs-keyword">return</span> <span class="hljs-built_in">abs</span>(p[x].x - p[y].x);&#125;<br><br>ll f[N][<span class="hljs-number">2</span>];<br><span class="hljs-type">bool</span> g[N];<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	cin &gt;&gt; n;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>;i &lt;= n;i++)<br>		cin &gt;&gt; p[i].t &gt;&gt; p[i].x;<br>	p[++n].t = <span class="hljs-number">0</span>;p[n].x = <span class="hljs-number">0</span>;<br>	p[++n].t = llinf - <span class="hljs-number">1</span>;p[n].x = <span class="hljs-number">0</span>;<br>	<span class="hljs-built_in">sort</span>(p + <span class="hljs-number">1</span>,p + n + <span class="hljs-number">1</span>,cmp);<br>	f[<span class="hljs-number">1</span>][<span class="hljs-number">1</span>] = llinf;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">2</span>;i &lt;= n;i++)<br>	&#123;<br>		g[i - <span class="hljs-number">1</span>] = <span class="hljs-built_in">dis</span>(i - <span class="hljs-number">1</span>,i) &lt;= p[i].t - p[i - <span class="hljs-number">1</span>].t;<br>		f[i][<span class="hljs-number">0</span>] = f[i][<span class="hljs-number">1</span>] = llinf;<br>		ll now = f[i - <span class="hljs-number">1</span>][<span class="hljs-number">0</span>] + <span class="hljs-built_in">dis</span>(i - <span class="hljs-number">1</span>,i);<br>		<span class="hljs-keyword">if</span>(now &lt;= p[i].t) f[i][<span class="hljs-number">0</span>] = <span class="hljs-built_in">min</span>(f[i][<span class="hljs-number">0</span>],<span class="hljs-built_in">max</span>(now,p[i - <span class="hljs-number">1</span>].t));<br>		now = f[i - <span class="hljs-number">1</span>][<span class="hljs-number">1</span>] + <span class="hljs-built_in">dis</span>(i - <span class="hljs-number">2</span>,i);<br>		<span class="hljs-keyword">if</span>(now &lt;= p[i].t) f[i][<span class="hljs-number">0</span>] = <span class="hljs-built_in">min</span>(f[i][<span class="hljs-number">0</span>],<span class="hljs-built_in">max</span>(now,p[i - <span class="hljs-number">1</span>].t));<br>		<span class="hljs-type">bool</span> flag = <span class="hljs-number">0</span>;<br>		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = i - <span class="hljs-number">2</span>;j &gt;= <span class="hljs-number">1</span>;j--) <span class="hljs-comment">// 枚举 A 类极长连续段 [j + 1,i - 1]</span><br>		&#123;<br>			<span class="hljs-keyword">if</span>(j + <span class="hljs-number">2</span> &lt; i)<br>			&#123;<br>				<span class="hljs-keyword">if</span>(!g[j + <span class="hljs-number">1</span>]) <span class="hljs-keyword">break</span>;<br>				flag |= (<span class="hljs-built_in">dis</span>(i,j + <span class="hljs-number">1</span>) + <span class="hljs-built_in">dis</span>(i,j + <span class="hljs-number">2</span>) &lt;= p[j + <span class="hljs-number">2</span>].t - p[j + <span class="hljs-number">1</span>].t);<br>			&#125;<br>			<span class="hljs-comment">// B 类 j 要接上 A 类 j + 1</span><br>			<span class="hljs-keyword">if</span>(<span class="hljs-built_in">min</span>(f[j][<span class="hljs-number">0</span>] + <span class="hljs-built_in">dis</span>(j,j + <span class="hljs-number">1</span>),f[j][<span class="hljs-number">1</span>] + <span class="hljs-built_in">dis</span>(j - <span class="hljs-number">1</span>,j + <span class="hljs-number">1</span>)) &lt;= p[j + <span class="hljs-number">1</span>].t)<br>			&#123;<br>				<span class="hljs-keyword">if</span>(flag || <span class="hljs-built_in">max</span>(<span class="hljs-built_in">min</span>(f[j][<span class="hljs-number">1</span>] + <span class="hljs-built_in">dis</span>(j - <span class="hljs-number">1</span>,i),f[j][<span class="hljs-number">0</span>] + <span class="hljs-built_in">dis</span>(j,i)),p[j].t) + <span class="hljs-built_in">dis</span>(i,j + <span class="hljs-number">1</span>) &lt;= p[j + <span class="hljs-number">1</span>].t)<br>					f[i][<span class="hljs-number">1</span>] = p[i - <span class="hljs-number">1</span>].t;<br>				<span class="hljs-keyword">if</span>(g[i - <span class="hljs-number">1</span>]) f[i][<span class="hljs-number">0</span>] = <span class="hljs-built_in">min</span>(f[i][<span class="hljs-number">0</span>],p[i - <span class="hljs-number">1</span>].t + <span class="hljs-built_in">dis</span>(i - <span class="hljs-number">1</span>,i));<br>			&#125;<br>		&#125;<br>	&#125;<br>	<span class="hljs-keyword">if</span>(<span class="hljs-built_in">min</span>(f[n][<span class="hljs-number">0</span>],f[n][<span class="hljs-number">1</span>]) &lt; llinf) <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;YES&quot;</span>);<br>	<span class="hljs-keyword">else</span> <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;NO&quot;</span>);<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-<p>总的来说，是一道比较复杂的 DP 题，非常具有 CF
-风格，虽然最后的转移情况很多，但并没有思维上的难度，真正的难点主要在前面的状态设计和对问题的刻画。注意到
-A 类和 B 类各自的贡献条件是十分重要的，这样才能开始后面的转化。</p>
+
+<p> 总的来说，是一道比较复杂的 DP 题，非常具有 CF 风格，虽然最后的转移情况很多，但并没有思维上的难度，真正的难点主要在前面的状态设计和对问题的刻画。注意到 A 类和 B 类各自的贡献条件是十分重要的，这样才能开始后面的转化。</p>
 <p>愈是复杂，愈要冷静。</p>
-<div id="paginator"></div></div><div id="post-footer"><div id="pages"><div class="footer-link" style="width: 50%;text-align:right;border-right:1px #fe2 solid"><a href="/posts/2273955663/">← Next CF1286E Fedya the Potter Strikes Back 题解</a></div><div class="footer-link" style="width: 50%;right:1px;border-left:1px #fe2 solid"><a href="/posts/2277016046/">P6789 题解 Prev →</a></div></div></div></div><div class="bottom-btn"><div><a id="to-top" onClick="scrolls.scrolltop();" title="回到顶部" style="opacity: 0; display: none;">∧</a><a id="to-index" href="#toc-div" title="文章目录">≡</a><a id="color-mode" onClick="colorMode.change()" title="切换主题"></a></div></div></article><aside><div id="about"><a href="/" id="logo"><img src="https://ak.hypergryph.com/assets/index/images/ak/pc/faction/1.png" alt="Logo"></a><h1 id="Dr"><a href="/">Dualqwq</a></h1><div id="description"><p></p></div></div><div id="aside-block"></div><footer><nobr>构建自 <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></nobr><wbr><nobr> 使用主题 <a target="_blank" rel="noopener" href="https://github.com/Yue-plus/hexo-theme-arknights">Arknights</a></nobr><wbr><nobr>主题作者 <a target="_blank" rel="noopener" href="https://github.com/Yue-plus">Yue_plus</a></nobr></footer></aside></main><canvas id="canvas-dust"></canvas><script src="/js/search.js"></script><script src="/js/arknights.js"></script><script src="//unpkg.com/lightgallery@2.7.1/lightgallery.min.js"></script><script src="//unpkg.com/lightgallery@2.7.1/plugins/zoom/lg-zoom.min.js"></script><script src="//unpkg.com/lightgallery@2.7.1/plugins/thumbnail/lg-thumbnail.min.js"></script><script src="/js/pjax.js"></script><script class="pjax-js">reset= () => {code.findCode();
+<div id="paginator"></div></div><div id="post-footer"><div id="pages"><div class="footer-link" style="width: 50%;text-align:right;border-right:1px #fe2 solid"><a href="/posts/2273955663/">← Next CF1286E Fedya the Potter Strikes Back 题解</a></div><div class="footer-link" style="width: 50%;right:1px;border-left:1px #fe2 solid"><a href="/posts/2277016046/">P6789 题解 Prev →</a></div></div></div></div><div class="bottom-btn"><div><a id="to-top" onClick="scrolls.scrolltop();" title="To Top" style="opacity: 0; display: none;">∧</a><a id="to-index" href="#toc-div" title="To Catalog">≡</a><a id="color-mode" onClick="colorMode.change()" title="Change Theme"></a></div></div></article><aside><div id="about"><a href="/" id="logo"><img src="https://ak.hypergryph.com/assets/index/images/ak/pc/faction/1.png" alt="Logo"></a><h1 id="Dr"><a href="/">Dualqwq</a></h1><div id="description"><p></p></div></div><div id="aside-block"></div><footer><nobr>Published with <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></nobr><wbr><nobr> Theme <a target="_blank" rel="noopener" href="https://github.com/Yue-plus/hexo-theme-arknights">Arknights</a></nobr><wbr><nobr>by <a target="_blank" rel="noopener" href="https://github.com/Yue-plus">Yue_plus</a></nobr></footer></aside></main><canvas id="canvas-dust"></canvas><script src="/js/search.js"></script><script src="/js/arknights.js"></script><script src="//unpkg.com/lightgallery@2.7.1/lightgallery.min.js"></script><script src="//unpkg.com/lightgallery@2.7.1/plugins/zoom/lg-zoom.min.js"></script><script src="//unpkg.com/lightgallery@2.7.1/plugins/thumbnail/lg-thumbnail.min.js"></script><script src="/js/pjax.js"></script><script class="pjax-js">reset= () => {code.findCode();
 document.querySelector('.lg-container')?.remove()
 lightGallery(document.getElementById('post-bg'), {
   plugins: [lgZoom,lgThumbnail],
