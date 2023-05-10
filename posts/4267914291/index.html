@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="zh-CN" theme-mode="dark"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>一种最长反链的构造方法 | 天命之路 的博客</title><link rel="icon" type="image/x-icon" href="/favicon.ico"><script>var config = {"root":"/","search":{"preload":false,"activeHolder":"Enter here","blurHolder":"Search","noResult":"Data \"$0\" not found"},"code":{"codeInfo":"$0 - $1 lines","copy":"copy","copyFinish":"copied","expand":"expand"}}</script><script src="/js/gitalk.js"></script><script src="//unpkg.com/mermaid@9.2.2/dist/mermaid.min.js"></script><script src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.1/MathJax.js"></script><script>MathJax.Hub.Config({
+<!DOCTYPE html><html lang="zh-CN" theme-mode="dark"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>一种最长反链的构造方法 | 天命之路 的博客</title><link rel="icon" type="image/x-icon" href="/favicon.ico"><script>var config = {"root":"/","search":{"preload":false,"activeHolder":"键入以继续","blurHolder":"数据检索","noResult":"无 $0 相关数据"},"code":{"codeInfo":"$0 - 共 $1 行","copy":"复制","copyFinish":"复制成功","expand":"展开"}}</script><script src="/js/gitalk.js"></script><script src="//unpkg.com/mermaid@9.2.2/dist/mermaid.min.js"></script><script src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.1/MathJax.js"></script><script>MathJax.Hub.Config({
  menuSettings: {
    zoom: "None"
  },
@@ -34,40 +34,52 @@ if (window.localStorage.getItem('theme-mode') === 'dark') document.documentEleme
 }</style><style>:root {
   --dark-background: url('https://ak.hypergryph.com/assets/index/images/ak/pc/bk.jpg');
   --light-background: url('/img/bk.jpg');
-}</style><meta name="generator" content="Hexo 6.3.0"></head><body><div class="loading" style="opacity: 0"><div class="loadingBar left"></div><div class="loadingBar right"></div></div><main><header class="closed"><nav><div class="navBtn hide"><i class="navBtnIcon"><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span></i></div><div class="navItem" id="search-header"><span class="navItemTitle"><input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="Search" spellcheck="false" maxlength="50" type="text" id="search-input"></span></div><div class="navItem" id="search-holder"></div><div class="search-popup"><div id="search-result"></div></div><ol class="navContent"><li class="navItem"><a class="navBlock" href="/"><span class="navItemTitle">Home</span></a></li><li class="navItem" matchdata="categories,tags"><a class="navBlock" href="/archives/"><span class="navItemTitle">Archives</span></a></li></ol></nav></header><article><div id="post-bg"><div id="post-title"><h1>一种最长反链的构造方法</h1><div id="post-info"><span>First Post: <div class="control"><time datetime="2023-05-02T06:20:14.306Z" id="date"> 2023-05-02</time></div></span><br><span>Last Update: <div class="control"><time datetime="2023-02-14T13:56:24.690Z" id="updated"> 2023-02-14</time></div></span></div></div><hr><div id="post-content"><p>下文简述在偏序集上构造最长反链的一种方法。</p>
+}</style><meta name="generator" content="Hexo 6.3.0"></head><body><div class="loading" style="opacity: 0"><div class="loadingBar left"></div><div class="loadingBar right"></div></div><main><header class="closed"><nav><div class="navBtn hide"><i class="navBtnIcon"><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span></i></div><div class="navItem" id="search-header"><span class="navItemTitle"><input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="数据检索" spellcheck="false" maxlength="50" type="text" id="search-input"></span></div><div class="navItem" id="search-holder"></div><div class="search-popup"><div id="search-result"></div></div><ol class="navContent"><li class="navItem"><a class="navBlock" href="/"><span class="navItemTitle">Home</span></a></li><li class="navItem" matchdata="categories,tags"><a class="navBlock" href="/archives/"><span class="navItemTitle">Archives</span></a></li></ol></nav></header><article><div id="post-bg"><div id="post-title"><h1>一种最长反链的构造方法</h1><div id="post-info"><span>文章发布时间: <div class="control"><time datetime="2023-05-02T06:20:14.306Z" id="date"> 2023-05-02</time></div></span><br><span>最后更新时间: <div class="control"><time datetime="2023-02-14T13:56:24.690Z" id="updated"> 2023-02-14</time></div></span></div></div><hr><div id="post-content"><p>下文简述在偏序集上构造最长反链的一种方法。</p>
 <span id="more"></span>
-
-<p>（实际上就是从  [CTSC2008] 祭祀 的题解区抄来的）。</p>
+<p>（实际上就是从 [CTSC2008] 祭祀 的题解区抄来的）。</p>
 <p>首先，根据 Dilworth 定理，最长反链等于最小不可重链覆盖。</p>
-<p>求最小链覆盖有个经典的拆点二分图做法，就是把每个点拆成两个点 $x_{in},x_{out}$。然后对于原图的边 $(x,y)$，连边 $(x_{out},y_{in})$。然后跑二分图最大匹配，一个关于 $in$ 点的匹配相当于给一个点找前驱，一个关于 $out$ 点的匹配相当于给一个点找后继。</p>
-<p>那么最小链覆盖就是 $n$ - 拆点二分图的最大匹配。</p>
+<p>求最小链覆盖有个经典的拆点二分图做法，就是把每个点拆成两个点 <span
+class="math inline">\(x_{in},x_{out}\)</span>。然后对于原图的边 <span
+class="math inline">\((x,y)\)</span>，连边 <span
+class="math inline">\((x_{out},y_{in})\)</span>。然后跑二分图最大匹配，一个关于
+<span class="math inline">\(in\)</span>
+点的匹配相当于给一个点找前驱，一个关于 <span
+class="math inline">\(out\)</span> 点的匹配相当于给一个点找后继。</p>
+<p>那么最小链覆盖就是 <span class="math inline">\(n\)</span> -
+拆点二分图的最大匹配。</p>
 <p>接下来，我们尝试从这个匹配中，构造出最长反链。</p>
 <p>我们先构造二分图最大独立集。</p>
 <p>首先引入最小点覆盖：选出一个最小的点集，使得每条边的两端都有至少一个点被选中。</p>
 <p>因为二分图最大独立集等于最小点覆盖的补（因为最小点覆盖不会出现一条边两端都没有点，等价于最大独立集中不会出现一条边两端都有点），这等价于构造最小点覆盖。</p>
 <p>而最小点覆盖等于最大匹配。</p>
 <p>因为最小点覆盖肯定大于等于最大匹配（匹配边的两端必须至少选一个点），我们接下来给出一种点覆盖使得其大小等于最大匹配。</p>
-<p>考虑从右侧的每个非匹配点开始 DFS，右部点只能走<strong>非匹配边</strong>向左访问，左部点只能走<strong>匹配边</strong>向右访问。</p>
-<p>我们取出<strong>左侧被 DFS 到</strong>的点和右侧<strong>没被 DFS 到</strong>的点，就构成了一个点覆盖。</p>
+<p>考虑从右侧的每个非匹配点开始
+DFS，右部点只能走<strong>非匹配边</strong>向左访问，左部点只能走<strong>匹配边</strong>向右访问。</p>
+<p>我们取出<strong>左侧被 DFS 到</strong>的点和右侧<strong>没被 DFS
+到</strong>的点，就构成了一个点覆盖。</p>
 <p>下文证明这是一个合法点覆盖，且大小等于最大匹配：</p>
-<ol>
+<ol type="1">
 <li><p>合法性</p>
-<p>对于右侧被 DFS 到的所有点，与其相邻的左侧点肯定也被 DFS 到了，这个可以根据这个右部点是否有匹配来讨论证明。</p>
-<p>我们取出的是左侧被搜到的和右侧没被搜到的，基于上述事实，每条边都会被覆盖。</p>
-</li>
+<p>对于右侧被 DFS 到的所有点，与其相邻的左侧点肯定也被 DFS
+到了，这个可以根据这个右部点是否有匹配来讨论证明。</p>
+<p>我们取出的是左侧被搜到的和右侧没被搜到的，基于上述事实，每条边都会被覆盖。</p></li>
 <li><p>大小等于最大匹配</p>
 <p>因为右侧的非匹配点肯定都被搜到了，在右侧选取的一定是匹配点。</p>
 <p>如果一个右侧的匹配点被搜到了，那与其匹配的左部点肯定也被搜到了，那么它的匹配点就会被选上。</p>
 <p>上述两个事实表明：每条匹配边的端点恰好选一个。</p>
-<p>而左侧的非匹配点肯定不会被搜到，因为如果被搜到了，在 DFS 的过程中就会形成一条增广路，与最大匹配矛盾。</p>
-</li>
+<p>而左侧的非匹配点肯定不会被搜到，因为如果被搜到了，在 DFS
+的过程中就会形成一条增广路，与最大匹配矛盾。</p></li>
 </ol>
-<p>我们取最小点覆盖的补就得到了最大独立集。也就是左侧没被 DFS 到的点和右侧被 DFS 到的点。</p>
+<p>我们取最小点覆盖的补就得到了最大独立集。也就是左侧没被 DFS
+到的点和右侧被 DFS 到的点。</p>
 <p>然后考虑怎么求出最长反链。</p>
-<p>我们对于原图所有点 $x$，取出 $x_{in}$ 与 $x_{out}$ 都在二分图独立集的点，就得到了最长反链。</p>
+<p>我们对于原图所有点 <span class="math inline">\(x\)</span>，取出 <span
+class="math inline">\(x_{in}\)</span> 与 <span
+class="math inline">\(x_{out}\)</span>
+都在二分图独立集的点，就得到了最长反链。</p>
 <p>显然这是一个合法的反链，大小也与 Dilworth 指出的结果相符。</p>
 <p>先记下来，以后应该用得上。</p>
-<div id="paginator"></div></div><div id="post-footer"><div id="pages"><div class="footer-link" style="width: 50%;text-align:right;border-right:1px #fe2 solid"><a href="/posts/606539281/">← Next CF704B 题解</a></div><div class="footer-link" style="width: 50%;right:1px;border-left:1px #fe2 solid"><a href="/posts/2615667224/">CF1782F Bracket Insertion 题解 Prev →</a></div></div></div><div id="comments"><div class="selector"><button class="gitalk-sel"></button></div><div id="gitalk"></div></div></div><div class="bottom-btn"><div><a id="to-top" onClick="scrolls.scrolltop();" title="To Top" style="opacity: 0; display: none;">∧</a><a id="to-index" href="#toc-div" title="To Catalog">≡</a><a id="color-mode" onClick="colorMode.change()" title="Change Theme"></a></div></div></article><aside><div id="about"><a href="/" id="logo"><img src="https://ak.hypergryph.com/assets/index/images/ak/pc/faction/1.png" alt="Logo"></a><h1 id="Dr"><a href="/">Dualqwq</a></h1><div id="description"><p></p></div></div><div id="aside-block"></div><footer><nobr>Published with <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></nobr><wbr><nobr> Theme <a target="_blank" rel="noopener" href="https://github.com/Yue-plus/hexo-theme-arknights">Arknights</a></nobr><wbr><nobr>by <a target="_blank" rel="noopener" href="https://github.com/Yue-plus">Yue_plus</a></nobr></footer></aside></main><canvas id="canvas-dust"></canvas><script src="/js/search.js"></script><script src="/js/arknights.js"></script><script src="//unpkg.com/lightgallery@2.7.1/lightgallery.min.js"></script><script src="//unpkg.com/lightgallery@2.7.1/plugins/zoom/lg-zoom.min.js"></script><script src="//unpkg.com/lightgallery@2.7.1/plugins/thumbnail/lg-thumbnail.min.js"></script><script src="/js/pjax.js"></script><script class="pjax-js">reset= () => {gitalk = new Gitalk({
+<div id="paginator"></div></div><div id="post-footer"><div id="pages"><div class="footer-link" style="width: 50%;text-align:right;border-right:1px #fe2 solid"><a href="/posts/606539281/">← Next CF704B 题解</a></div><div class="footer-link" style="width: 50%;right:1px;border-left:1px #fe2 solid"><a href="/posts/2615667224/">CF1782F Bracket Insertion 题解 Prev →</a></div></div></div><div id="comments"><div class="selector"><button class="gitalk-sel"></button></div><div id="gitalk"></div></div></div><div class="bottom-btn"><div><a id="to-top" onClick="scrolls.scrolltop();" title="回到顶部" style="opacity: 0; display: none;">∧</a><a id="to-index" href="#toc-div" title="文章目录">≡</a><a id="color-mode" onClick="colorMode.change()" title="切换主题"></a></div></div></article><aside><div id="about"><a href="/" id="logo"><img src="https://ak.hypergryph.com/assets/index/images/ak/pc/faction/1.png" alt="Logo"></a><h1 id="Dr"><a href="/">Dualqwq</a></h1><div id="description"><p></p></div></div><div id="aside-block"></div><footer><nobr>构建自 <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></nobr><wbr><nobr> 使用主题 <a target="_blank" rel="noopener" href="https://github.com/Yue-plus/hexo-theme-arknights">Arknights</a></nobr><wbr><nobr>主题作者 <a target="_blank" rel="noopener" href="https://github.com/Yue-plus">Yue_plus</a></nobr></footer></aside></main><canvas id="canvas-dust"></canvas><script src="/js/search.js"></script><script src="/js/arknights.js"></script><script src="//unpkg.com/lightgallery@2.7.1/lightgallery.min.js"></script><script src="//unpkg.com/lightgallery@2.7.1/plugins/zoom/lg-zoom.min.js"></script><script src="//unpkg.com/lightgallery@2.7.1/plugins/thumbnail/lg-thumbnail.min.js"></script><script src="/js/pjax.js"></script><script class="pjax-js">reset= () => {gitalk = new Gitalk({
  clientID: 'f3bca61c9bfc22f7350d',
  clientSecret: '313761dc715a2bba0f47651123ee2bb0952966a7',
  repo: 'dualqwq.github.io',
