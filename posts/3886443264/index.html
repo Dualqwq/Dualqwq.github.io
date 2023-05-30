@@ -37,55 +37,29 @@ if (window.localStorage.getItem('theme-mode') === 'dark') document.documentEleme
 }</style><meta name="generator" content="Hexo 6.3.0"></head><body><div class="loading" style="opacity: 0"><div class="loadingBar left"></div><div class="loadingBar right"></div></div><main><header class="closed"><nav><div class="navBtn hide"><i class="navBtnIcon"><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span></i></div><div class="navItem" id="search-header"><span class="navItemTitle"><input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="Search" spellcheck="false" maxlength="50" type="text" id="search-input"></span></div><div class="navItem" id="search-holder"></div><div class="search-popup"><div id="search-result"></div></div><ol class="navContent"><li class="navItem"><a class="navBlock" href="/"><span class="navItemTitle">Home</span></a></li><li class="navItem" matchdata="categories,tags"><a class="navBlock" href="/archives/"><span class="navItemTitle">Archives</span></a></li></ol></nav></header><article><div id="post-bg"><div id="post-title"><h1>ARC137E 题解</h1><div id="post-info"><span>First Post: <div class="control"><time datetime="2023-05-02T06:20:14.224Z" id="date"> 2023-05-02</time></div></span><br><span>Last Update: <div class="control"><time datetime="2023-04-23T09:45:28.160Z" id="updated"> 2023-04-23</time></div></span></div></div><hr><div id="post-content"><p>对与区间有关的建模不够熟悉，即使想到了根据面包师建模，也难以建出东西来。</p>
 <p>需要对这方面加以训练。</p>
 <span id="more"></span>
+
 <p>题意：</p>
-<p>有 <span class="math inline">\(n\)</span> 天，<span
-class="math inline">\(m\)</span> 个面包师，第 <span
-class="math inline">\(i\)</span> 个面包师需要花 <span
-class="math inline">\(C_i\)</span> 元雇佣，雇佣过后，他会在第 <span
-class="math inline">\(L_i\)</span> 到第 <span
-class="math inline">\(R_i\)</span> 天，每天给你生产一个面包。</p>
-<p>每天有个预期销售量 <span
-class="math inline">\(A_i\)</span>，如果你当天产出了 <span
-class="math inline">\(x_i\)</span> 个面包，你实际只能卖出 <span
-class="math inline">\(\min(x_i,A_i)\)</span> 个面包。</p>
-<p>卖出一个面包可以获得 <span class="math inline">\(D\)</span>
-元的收益。现在你是面包铺老板，请最大化自己的收益。</p>
-<p><span class="math inline">\(1 \le n,m \le 2000,1 \le C_i,D \le
-10^9\)</span>。</p>
+<p>有 $n$ 天，$m$ 个面包师，第 $i$ 个面包师需要花 $C_i$ 元雇佣，雇佣过后，他会在第 $L_i$ 到第 $R_i$ 天，每天给你生产一个面包。</p>
+<p>每天有个预期销售量 $A_i$，如果你当天产出了 $x_i$ 个面包，你实际只能卖出 $\min(x_i,A_i)$ 个面包。</p>
+<p>卖出一个面包可以获得 $D$ 元的收益。现在你是面包铺老板，请最大化自己的收益。</p>
+<p>$1 \le n,m \le 2000,1 \le C_i,D \le 10^9$。</p>
 <p>对面包建模是比较寄的。</p>
 <p>那不妨根据面包师建模。</p>
 <p>先把答案取反，变成最小费用模型。</p>
-<p>尝试建边 <span class="math inline">\(i + 1 \to i\)</span>
-代表每一天的情况，因为这一天卖 <span class="math inline">\(A_i\)</span>
-个面包，每个可以带来 <span class="math inline">\(-D\)</span>
-的贡献，溢出的则没贡献，所以建边 <span class="math inline">\((i +
-1,i,a_i,-D),(i+1,i,m - a_i,0)\)</span>。</p>
-<p>对于一个面包师，建边 <span class="math inline">\((L_i,R_i +
-1,1,C_i)\)</span>，那么这就是一个循环流模型。我们每次增广一个圈，就相当于选择了一个面包师。</p>
-<p>注意到边有负权，我们使用<a
-target="_blank" rel="noopener" href="https://dualqwq.github.io/posts/3143109410/">带负权的最小费用流</a>
-即可完成计算。</p>
-<p>因为这张图非常特殊，每个点连向 <span
-class="math inline">\(S&#39;\)</span> 与连向 <span
-class="math inline">\(T&#39;\)</span>
-的边的数量是相等的，所以我们甚至不需要虚拟源汇，直接以 <span
-class="math inline">\(1\)</span> 为源点，<span class="math inline">\(n +
-1\)</span> 为汇点跑就可以了。</p>
+<p>尝试建边 $i + 1 \to i$ 代表每一天的情况，因为这一天卖 $A_i$ 个面包，每个可以带来 $-D$ 的贡献，溢出的则没贡献，所以建边 $(i + 1,i,a_i,-D),(i+1,i,m - a_i,0)$。</p>
+<p>对于一个面包师，建边 $(L_i,R_i + 1,1,C_i)$，那么这就是一个循环流模型。我们每次增广一个圈，就相当于选择了一个面包师。</p>
+<p>注意到边有负权，我们使用<a target="_blank" rel="noopener" href="https://dualqwq.github.io/posts/3143109410/">带负权的最小费用流</a> 即可完成计算。</p>
+<p>因为这张图非常特殊，每个点连向 $S’$ 与连向 $T’$ 的边的数量是相等的，所以我们甚至不需要虚拟源汇，直接以 $1$ 为源点，$n + 1$ 为汇点跑就可以了。</p>
 <p>所以我们总共只需要建出三类边：</p>
-<ol type="1">
-<li><span class="math inline">\((i,i + 1,A_i,-D)\)</span></li>
-<li><span class="math inline">\((i,i + 1,m - A_i,0)\)</span></li>
-<li><span class="math inline">\((L_i,R_i + 1,1,C_i)\)</span></li>
+<ol>
+<li>$(i,i + 1,A_i,-D)$</li>
+<li>$(i,i + 1,m - A_i,0)$</li>
+<li>$(L_i,R_i + 1,1,C_i)$</li>
 </ol>
-<p><strong>注意： 本题在新图中需要保证流量不超过 <span
-class="math inline">\(m\)</span> ，因为在新图中有可能增广出大于 <span
-class="math inline">\(m\)</span>
-的流量，但这些东西是对应不回原来的流量意义的。</strong></p>
-<p>因为这题 <span class="math inline">\(n\)</span> 稍大，需要 <span
-class="math inline">\(O(n^2 \log n)\)</span>
-的原始对偶算法方可通过（我写了但被卡常乐），所以我最终使用的是 AtCoder
-Library 自带的费用流，跑得很快。</p>
+<p><strong>注意： 本题在新图中需要保证流量不超过 $m$ ，因为在新图中有可能增广出大于 $m$ 的流量，但这些东西是对应不回原来的流量意义的。</strong></p>
+<p>因为这题 $n$ 稍大，需要 $O(n^2 \log n)$ 的原始对偶算法方可通过（我写了但被卡常乐），所以我最终使用的是 AtCoder Library 自带的费用流，跑得很快。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;atcoder/mincostflow&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">pragma</span> GCC optimize(3)</span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><span class="hljs-keyword">typedef</span> <span class="hljs-type">long</span> <span class="hljs-type">long</span> ll;<br><span class="hljs-type">const</span> ll llinf = <span class="hljs-number">0x3f3f3f3f3f3f3f3f</span>;<br><span class="hljs-type">int</span> n,m,D;<br>ll ans;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	cin &gt;&gt; n &gt;&gt; m &gt;&gt; D;<br>	<span class="hljs-function">atcoder::mcf_graph&lt;ll,ll&gt; <span class="hljs-title">G</span><span class="hljs-params">(n+<span class="hljs-number">2</span>)</span></span>;<br><br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>;i &lt;= n;i++)<br>	&#123;<br>		<span class="hljs-type">int</span> a;<br>		cin &gt;&gt; a;<br>		G.<span class="hljs-built_in">add_edge</span>(i,i + <span class="hljs-number">1</span>,a,D);<br>		G.<span class="hljs-built_in">add_edge</span>(i,i + <span class="hljs-number">1</span>,m - a,<span class="hljs-number">0</span>);<br>		ans += <span class="hljs-number">1ll</span> * D * a;<br>	&#125;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>;i &lt;= m;i++)<br>	&#123;<br>		<span class="hljs-type">int</span> l,r,c;<br>		cin &gt;&gt; l &gt;&gt; r &gt;&gt; c;<br>		G.<span class="hljs-built_in">add_edge</span>(l,r + <span class="hljs-number">1</span>,<span class="hljs-number">1</span>,c);<br>	&#125;<br>	cout &lt;&lt; ans - G.<span class="hljs-built_in">flow</span>(<span class="hljs-number">1</span>,n + <span class="hljs-number">1</span>,m).second &lt;&lt; endl;<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
 <div id="paginator"></div></div><div id="post-footer"><div id="pages"><div class="footer-link" style="width: 50%;text-align:right;border-right:1px #fe2 solid"><a href="/posts/348044818/">← Next ABC221G 题解</a></div><div class="footer-link" style="width: 50%;right:1px;border-left:1px #fe2 solid"><a href="/posts/1243066710/">Hello World Prev →</a></div></div></div><div id="comments"><div class="selector"><button class="gitalk-sel"></button></div><div id="gitalk"></div></div></div><div class="bottom-btn"><div><a id="to-top" onClick="scrolls.scrolltop();" title="To Top" style="opacity: 0; display: none;">∧</a><a id="to-index" href="#toc-div" title="To Catalog">≡</a><a id="color-mode" onClick="colorMode.change()" title="Change Theme"></a></div></div></article><aside><div id="about"><a href="/" id="logo"><img src="https://ak.hypergryph.com/assets/index/images/ak/pc/faction/1.png" alt="Logo"></a><h1 id="Dr"><a href="/">Dualqwq</a></h1><div id="description"><p></p></div></div><div id="aside-block"></div><footer><nobr>Published with <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></nobr><wbr><nobr> Theme <a target="_blank" rel="noopener" href="https://github.com/Yue-plus/hexo-theme-arknights">Arknights</a></nobr><wbr><nobr>by <a target="_blank" rel="noopener" href="https://github.com/Yue-plus">Yue_plus</a></nobr></footer></aside></main><canvas id="canvas-dust"></canvas><script src="/js/search.js"></script><script src="/js/arknights.js"></script><script src="//unpkg.com/lightgallery@2.7.1/lightgallery.min.js"></script><script src="//unpkg.com/lightgallery@2.7.1/plugins/zoom/lg-zoom.min.js"></script><script src="//unpkg.com/lightgallery@2.7.1/plugins/thumbnail/lg-thumbnail.min.js"></script><script src="/js/pjax.js"></script><script class="pjax-js">reset= () => {gitalk = new Gitalk({
  clientID: 'f3bca61c9bfc22f7350d',
  clientSecret: '313761dc715a2bba0f47651123ee2bb0952966a7',
@@ -93,7 +67,7 @@ Library 自带的费用流，跑得很快。</p>
  owner: 'Dualqwq',
  admin: ['Dualqwq'],
  distractionFreeMode: false,
- id: 
+ id: location.pathname
 });
 if (document.querySelector("#gitalk")) gitalk.render("gitalk");code.findCode();
 document.querySelector('.lg-container')?.remove()

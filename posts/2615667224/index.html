@@ -34,65 +34,33 @@ if (window.localStorage.getItem('theme-mode') === 'dark') document.documentEleme
 }</style><style>:root {
   --dark-background: url('https://ak.hypergryph.com/assets/index/images/ak/pc/bk.jpg');
   --light-background: url('/img/bk.jpg');
-}</style><meta name="generator" content="Hexo 6.3.0"></head><body><div class="loading" style="opacity: 0"><div class="loadingBar left"></div><div class="loadingBar right"></div></div><main><header class="closed"><nav><div class="navBtn hide"><i class="navBtnIcon"><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span></i></div><div class="navItem" id="search-header"><span class="navItemTitle"><input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="Search" spellcheck="false" maxlength="50" type="text" id="search-input"></span></div><div class="navItem" id="search-holder"></div><div class="search-popup"><div id="search-result"></div></div><ol class="navContent"><li class="navItem"><a class="navBlock" href="/"><span class="navItemTitle">Home</span></a></li><li class="navItem" matchdata="categories,tags"><a class="navBlock" href="/archives/"><span class="navItemTitle">Archives</span></a></li></ol></nav></header><article><div id="post-bg"><div id="post-title"><h1>CF1782F Bracket Insertion 题解</h1><div id="post-info"><span>First Post: <div class="control"><time datetime="2023-05-02T06:20:14.305Z" id="date"> 2023-05-02</time></div></span><br><span>Last Update: <div class="control"><time datetime="2023-02-14T13:56:24.690Z" id="updated"> 2023-02-14</time></div></span></div></div><hr><div id="post-content"><p>打的时候在错误的思路上卡了半个小时，以至于最后 10
-分钟想到了正解，但已经没时间写了。</p>
+}</style><meta name="generator" content="Hexo 6.3.0"></head><body><div class="loading" style="opacity: 0"><div class="loadingBar left"></div><div class="loadingBar right"></div></div><main><header class="closed"><nav><div class="navBtn hide"><i class="navBtnIcon"><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span></i></div><div class="navItem" id="search-header"><span class="navItemTitle"><input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="Search" spellcheck="false" maxlength="50" type="text" id="search-input"></span></div><div class="navItem" id="search-holder"></div><div class="search-popup"><div id="search-result"></div></div><ol class="navContent"><li class="navItem"><a class="navBlock" href="/"><span class="navItemTitle">Home</span></a></li><li class="navItem" matchdata="categories,tags"><a class="navBlock" href="/archives/"><span class="navItemTitle">Archives</span></a></li></ol></nav></header><article><div id="post-bg"><div id="post-title"><h1>CF1782F Bracket Insertion 题解</h1><div id="post-info"><span>First Post: <div class="control"><time datetime="2023-05-02T06:20:14.305Z" id="date"> 2023-05-02</time></div></span><br><span>Last Update: <div class="control"><time datetime="2023-02-14T13:56:24.690Z" id="updated"> 2023-02-14</time></div></span></div></div><hr><div id="post-content"><p>打的时候在错误的思路上卡了半个小时，以至于最后 10 分钟想到了正解，但已经没时间写了。</p>
 <p>赛后把这题改过了，比改错了还难受。</p>
 <span id="more"></span>
+
 <p>考虑最终形成的序列满足什么条件。</p>
-<p>我们不妨把第 <span class="math inline">\(i\)</span>
-次插入的两个字符编号为 <span class="math inline">\(i\)</span>。</p>
-<p>那么会形成 <span class="math inline">\(1 2 2 1 3 3\)</span>
-之类的结构，但一定不会有 <span class="math inline">\(1 2 1
-2\)</span>（交错），也不会有 <span class="math inline">\(3 2 2
-3\)</span> (大包小）</p>
-<p>这其实是一个类似树的结构，跟括号树其实长得差不多，我们如果按包含关系建树（在上述例子中，<span
-class="math inline">\(2\)</span> 就是 <span
-class="math inline">\(1\)</span> 的儿子，如果有 <span
-class="math inline">\(1 2332441\)</span> 那 <span
-class="math inline">\(2,4\)</span> 就是 <span
-class="math inline">\(1\)</span>
-的儿子），那么问题实际上被分成两部分：</p>
-<ol type="1">
-<li><p>dp 这棵树以及节点上的状态，使得最终的括号串合法。</p></li>
-<li><p>处理插入顺序，使得父亲比儿子先插入。</p></li>
+<p>我们不妨把第 $i$ 次插入的两个字符编号为 $i$。</p>
+<p>那么会形成 $1 2 2 1 3 3$ 之类的结构，但一定不会有 $1 2 1 2$（交错），也不会有 $3 2 2 3$ (大包小）</p>
+<p>这其实是一个类似树的结构，跟括号树其实长得差不多，我们如果按包含关系建树（在上述例子中，$2$ 就是 $1$ 的儿子，如果有 $1 2332441$ 那 $2,4$ 就是 $1$ 的儿子），那么问题实际上被分成两部分：</p>
+<ol>
+<li><p>dp 这棵树以及节点上的状态，使得最终的括号串合法。</p>
+</li>
+<li><p>处理插入顺序，使得父亲比儿子先插入。</p>
+</li>
 </ol>
 <p>第二部分就是一个树的拓扑序，处理是容易的，下文再讲。</p>
 <p>考虑第一部分。</p>
-<p>这种对<strong>有包含关系区间</strong> 的
-DP（或者说对类似这种“括号树”的 DP),其实就是区间 <span
-class="math inline">\(DP\)</span> ，如果区间 <span
-class="math inline">\([l,r]\)</span> 是一个节点，我们枚举断点 <span
-class="math inline">\(k\)</span>
-相当于枚举这个节点最靠左的儿子。而在本题中，我们其实只要记录区间长度（或者说区间内有几对括号）即可。</p>
-<p>有个经典结论是，把 <code>(</code> 看作 1,把 <code>)</code> 看作
--1,那么一个括号串能够匹配，当且仅当这个串的所有前缀和都非负且左右括号数目相等。</p>
-<p>那我们不妨把这个前缀和的最小值记录进 <span
-class="math inline">\(DP\)</span> 状态，容易发现这个值 <span
-class="math inline">\(\le 0\)</span>。</p>
-<p>设 <span class="math inline">\(f[i][s]\)</span> 表示序列长度为 <span
-class="math inline">\(i\)</span>，最小前缀和为 <span
-class="math inline">\(-s\)</span> 的方案数（另一种解释是在序列两边添加
-<span class="math inline">\(s\)</span> 对括号才能使其合法）
-，那么会有转移。</p>
-$$
-<span class="math display">\[\begin{cases}
-f[i][max(s1 - 1,0,s2)] \gets \sum_{k=0}^{i-1}f[k][s1] \times f[i - k -
-1][s2] \times pro \times \binom{i}{k + 1} \\
-
-f[i][max(s1 + 1,0,s2)] \gets \sum_{k=0}^{i-1} f[k][s1] \times f[i - k -
-1][s2] \times (1 - pro) \times \binom{i}{k+1}
-\end{cases}\]</span>
-<p>$$</p>
-<p>上文的 <span class="math inline">\(pro\)</span> 是题目中的 <span
-class="math inline">\(p\)</span>，<span class="math inline">\(k\)</span>
-相当于枚举跟 <span class="math inline">\(l\)</span>
-一起被插入的是哪个位置，相当于枚举树上最靠左的儿子，而组合数是为了安排插入的顺序。</p>
-<p>直接实现上述转移是 <span class="math inline">\(\Theta(n^4)\)</span>
-的，注意到问题可以被转化成 <span class="math inline">\(h[max(x,y)] \gets
-f[x] * g[y]\)</span> 这种形式，使用前缀和优化，分类讨论 <span
-class="math inline">\(x &lt; y\)</span> 和 <span class="math inline">\(x
-\ge y\)</span> 转移即可。</p>
+<p>这种对<strong>有包含关系区间</strong> 的 DP（或者说对类似这种“括号树”的 DP),其实就是区间 $DP$ ，如果区间 $[l,r]$ 是一个节点，我们枚举断点 $k$ 相当于枚举这个节点最靠左的儿子。而在本题中，我们其实只要记录区间长度（或者说区间内有几对括号）即可。</p>
+<p>有个经典结论是，把 <code>(</code> 看作 1,把 <code>)</code> 看作 -1,那么一个括号串能够匹配，当且仅当这个串的所有前缀和都非负且左右括号数目相等。</p>
+<p>那我们不妨把这个前缀和的最小值记录进 $DP$ 状态，容易发现这个值 $\le 0$。</p>
+<p>设 $f[i][s]$ 表示序列长度为 $i$，最小前缀和为 $-s$ 的方案数（另一种解释是在序列两边添加 $s$ 对括号才能使其合法）<br>，那么会有转移。</p>
+<p>$$<br>\begin{cases}<br>f[i][max(s1 - 1,0,s2)] \gets \sum_{k&#x3D;0}^{i-1}f[k][s1] \times f[i - k - 1][s2] \times pro \times \binom{i}{k + 1} \</p>
+<p>f[i][max(s1 + 1,0,s2)] \gets \sum_{k&#x3D;0}^{i-1} f[k][s1] \times f[i - k - 1][s2] \times (1 - pro) \times \binom{i}{k+1}<br>\end{cases}<br>$$</p>
+<p>上文的 $pro$ 是题目中的 $p$，$k$ 相当于枚举跟 $l$ 一起被插入的是哪个位置，相当于枚举树上最靠左的儿子，而组合数是为了安排插入的顺序。</p>
+<p>直接实现上述转移是 $\Theta(n^4)$ 的，注意到问题可以被转化成 $h[max(x,y)] \gets f[x] * g[y]$ 这种形式，使用前缀和优化，分类讨论 $x &lt; y$ 和 $x \ge y$ 转移即可。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><span class="hljs-type">const</span> <span class="hljs-type">int</span> N = <span class="hljs-number">5e2</span> + <span class="hljs-number">5</span>,P = <span class="hljs-number">998244353</span>;<br><span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">int</span> <span class="hljs-title">qpow</span><span class="hljs-params">(<span class="hljs-type">int</span> a,<span class="hljs-type">int</span> b)</span> </span>&#123; <span class="hljs-type">int</span> res = <span class="hljs-number">1</span>;<span class="hljs-keyword">while</span>(b) &#123;<span class="hljs-keyword">if</span>(b&amp;<span class="hljs-number">1</span>) res = <span class="hljs-number">1ll</span> * res * a % P;a = <span class="hljs-number">1ll</span> * a * a % P;b &gt;&gt;= <span class="hljs-number">1</span>;&#125; <span class="hljs-keyword">return</span> res;&#125;<br><span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">void</span> <span class="hljs-title">Plus</span><span class="hljs-params">(<span class="hljs-type">int</span> &amp;a,<span class="hljs-type">const</span> <span class="hljs-type">int</span> &amp;b)</span> </span>&#123; a += b;<span class="hljs-keyword">if</span>(a &gt;= P) a -= P;&#125;<br><span class="hljs-type">int</span> n,pro;<br><span class="hljs-type">int</span> f[N][N];<br><span class="hljs-type">int</span> fac[N],ifac[N];<br><span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">void</span> <span class="hljs-title">init</span><span class="hljs-params">(<span class="hljs-type">int</span> n)</span></span><br><span class="hljs-function"></span>&#123;<br>	fac[<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>;i &lt;= n;i++) fac[i] = <span class="hljs-number">1ll</span> * fac[i - <span class="hljs-number">1</span>] * i % P;<br>	ifac[<span class="hljs-number">1</span>] = <span class="hljs-number">1</span>;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">2</span>;i &lt;= n;i++) ifac[i] = <span class="hljs-number">1ll</span> * (P - P / i) * ifac[P % i] % P;<br>	ifac[<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>;i &lt;= n;i++) ifac[i] = <span class="hljs-number">1ll</span> * ifac[i - <span class="hljs-number">1</span>] * ifac[i] % P;<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">int</span> <span class="hljs-title">C</span><span class="hljs-params">(<span class="hljs-type">int</span> n,<span class="hljs-type">int</span> m)</span> </span>&#123; <span class="hljs-keyword">return</span> <span class="hljs-number">1ll</span> * fac[n] * ifac[m] % P * ifac[n - m] % P;&#125;<br><span class="hljs-type">int</span> g[N],h[N];<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	cin &gt;&gt; n &gt;&gt; pro;<br>	<span class="hljs-built_in">init</span>(n);<br>	pro = <span class="hljs-number">1ll</span> * pro * <span class="hljs-built_in">qpow</span>(<span class="hljs-number">10000</span>,P - <span class="hljs-number">2</span>) % P;<br>	f[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>;i &lt;= n;i++)<br>	&#123;<br>		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> k = <span class="hljs-number">0</span>;k &lt; i;k++)<br>		&#123;<br>			<span class="hljs-type">int</span> r = i - k - <span class="hljs-number">1</span>;<br>			<span class="hljs-built_in">memset</span>(g,<span class="hljs-number">0</span>,<span class="hljs-keyword">sizeof</span> g);<br>			<span class="hljs-built_in">memset</span>(h,<span class="hljs-number">0</span>,<span class="hljs-keyword">sizeof</span> h);<br>			<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> s1 = <span class="hljs-number">0</span>;s1 &lt;= k;s1++)<br>				<span class="hljs-built_in">Plus</span>(g[<span class="hljs-built_in">max</span>(s1 - <span class="hljs-number">1</span>,<span class="hljs-number">0</span>)],<span class="hljs-number">1ll</span> * f[k][s1] * <span class="hljs-built_in">C</span>(i,k + <span class="hljs-number">1</span>) % P * pro % P),<br>				<span class="hljs-built_in">Plus</span>(g[s1 + <span class="hljs-number">1</span>],<span class="hljs-number">1ll</span> * f[k][s1] * <span class="hljs-built_in">C</span>(i,k + <span class="hljs-number">1</span>) % P * (P + <span class="hljs-number">1</span> - pro) % P);<br>			<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> s2 = <span class="hljs-number">0</span>;s2 &lt;= r;s2++)<br>				h[s2] = f[r][s2];<br>			<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> s1 = <span class="hljs-number">1</span>;s1 &lt;= i;s1++)<br>				<span class="hljs-built_in">Plus</span>(g[s1],g[s1 - <span class="hljs-number">1</span>]);<br>			<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> s2 = <span class="hljs-number">1</span>;s2 &lt;= i;s2++)<br>				<span class="hljs-built_in">Plus</span>(h[s2],h[s2 - <span class="hljs-number">1</span>]);<br>			<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> v = <span class="hljs-number">0</span>;v &lt;= i;v++)<br>			&#123;<br>				<span class="hljs-type">int</span> res = <span class="hljs-number">1ll</span> * g[v] * f[r][v] % P;<br>				<span class="hljs-keyword">if</span>(v &gt; <span class="hljs-number">0</span>) <span class="hljs-built_in">Plus</span>(res,<span class="hljs-number">1ll</span> * (g[v] - g[v - <span class="hljs-number">1</span>] + P) % P * h[v - <span class="hljs-number">1</span>] % P);<br>				<span class="hljs-built_in">Plus</span>(f[i][v],res);<br>			&#125;<br>		&#125;<br>	&#125;<br>	<span class="hljs-type">int</span> ans = f[n][<span class="hljs-number">0</span>];<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">3</span>;i &lt; <span class="hljs-number">2</span> * n;i += <span class="hljs-number">2</span>)<br>		ans = <span class="hljs-number">1ll</span> * ans * <span class="hljs-built_in">qpow</span>(i,P - <span class="hljs-number">2</span>) % P;<br>	cout &lt;&lt; ans &lt;&lt; endl;<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
 <p>其实不是很难的一道题。可以用来练习计数，提升竞技状态。</p>
 <p>但这场 E 好垃圾啊（</p>
 <div id="paginator"></div></div><div id="post-footer"><div id="pages"><div class="footer-link" style="width: 50%;text-align:right;border-right:1px #fe2 solid"><a href="/posts/4267914291/">← Next 一种最长反链的构造方法</a></div><div class="footer-link" style="width: 50%;right:1px;border-left:1px #fe2 solid"><a href="/posts/1707382016/">CF1792F2 题解（以及一种分治 FFT） Prev →</a></div></div></div><div id="comments"><div class="selector"><button class="gitalk-sel"></button></div><div id="gitalk"></div></div></div><div class="bottom-btn"><div><a id="to-top" onClick="scrolls.scrolltop();" title="To Top" style="opacity: 0; display: none;">∧</a><a id="to-index" href="#toc-div" title="To Catalog">≡</a><a id="color-mode" onClick="colorMode.change()" title="Change Theme"></a></div></div></article><aside><div id="about"><a href="/" id="logo"><img src="https://ak.hypergryph.com/assets/index/images/ak/pc/faction/1.png" alt="Logo"></a><h1 id="Dr"><a href="/">Dualqwq</a></h1><div id="description"><p></p></div></div><div id="aside-block"></div><footer><nobr>Published with <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></nobr><wbr><nobr> Theme <a target="_blank" rel="noopener" href="https://github.com/Yue-plus/hexo-theme-arknights">Arknights</a></nobr><wbr><nobr>by <a target="_blank" rel="noopener" href="https://github.com/Yue-plus">Yue_plus</a></nobr></footer></aside></main><canvas id="canvas-dust"></canvas><script src="/js/search.js"></script><script src="/js/arknights.js"></script><script src="//unpkg.com/lightgallery@2.7.1/lightgallery.min.js"></script><script src="//unpkg.com/lightgallery@2.7.1/plugins/zoom/lg-zoom.min.js"></script><script src="//unpkg.com/lightgallery@2.7.1/plugins/thumbnail/lg-thumbnail.min.js"></script><script src="/js/pjax.js"></script><script class="pjax-js">reset= () => {gitalk = new Gitalk({
@@ -102,7 +70,7 @@ class="math inline">\(x &lt; y\)</span> 和 <span class="math inline">\(x
  owner: 'Dualqwq',
  admin: ['Dualqwq'],
  distractionFreeMode: false,
- id: 
+ id: location.pathname
 });
 if (document.querySelector("#gitalk")) gitalk.render("gitalk");code.findCode();
 document.querySelector('.lg-container')?.remove()
