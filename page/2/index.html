@@ -34,7 +34,119 @@ if (window.localStorage.getItem('theme-mode') === 'dark') document.documentEleme
 }</style><style>:root {
   --dark-background: url('https://ak.hypergryph.com/assets/index/images/ak/pc/bk.jpg');
   --light-background: url('/img/bk.jpg');
-}</style><meta name="generator" content="Hexo 6.3.0"></head><body><div class="loading" style="opacity: 0"><div class="loadingBar left"></div><div class="loadingBar right"></div></div><main><header class="closed"><nav><div class="navBtn hide"><i class="navBtnIcon"><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span></i></div><div class="navItem" id="search-header"><span class="navItemTitle"><input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="Search" spellcheck="false" maxlength="50" type="text" id="search-input"></span></div><div class="navItem" id="search-holder"></div><div class="search-popup"><div id="search-result"></div></div><ol class="navContent"><li class="navItem"><a class="navBlock" href="/"><span class="navItemTitle">Home</span></a></li><li class="navItem" matchdata="categories,tags"><a class="navBlock" href="/archives/"><span class="navItemTitle">Archives</span></a></li></ol></nav></header><article><div class="posts"><a class="recent-post" href="/posts/606539281/"><object><div class="recent-info"><span class="categories"><span>NO CATEGORY</span></span><span class="tags"><object><a href="/tags/DP/">DP</a></object></span><time datetime="2023-05-02T06:20:14.307Z">2023-05-02</time></div><h1 class="recent-title">CF704B 题解</h1><div class="recent-excerpt"><hr><p>这是道充分体现了水淹笛卡尔树这个模型的应用的好题。</p>
+}</style><meta name="generator" content="Hexo 6.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head><body><div class="loading" style="opacity: 0"><div class="loadingBar left"></div><div class="loadingBar right"></div></div><main><header class="closed"><nav><div class="navBtn hide"><i class="navBtnIcon"><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span></i></div><div class="navItem" id="search-header"><span class="navItemTitle"><input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="Search" spellcheck="false" maxlength="50" type="text" id="search-input"></span></div><div class="navItem" id="search-holder"></div><div class="search-popup"><div id="search-result"></div></div><ol class="navContent"><li class="navItem"><a class="navBlock" href="/"><span class="navItemTitle">Home</span></a></li><li class="navItem" matchdata="categories,tags"><a class="navBlock" href="/archives/"><span class="navItemTitle">Archives</span></a></li></ol></nav></header><article><div class="posts"><a class="recent-post" href="/posts/606539281/"><object><div class="recent-info"><span class="categories"><span>NO CATEGORY</span></span><span class="tags"><object><a href="/tags/DP/">DP</a></object></span><time datetime="2023-05-02T06:20:14.307Z">2023-05-02</time></div><h1 class="recent-title">CF704B 题解</h1><div class="recent-excerpt"><hr><p>这是道充分体现了水淹笛卡尔树这个模型的应用的好题。</p>
 <p>类似题目：洛谷 P5999，ARC117E</p></div><span class="read-more">READ MORE +</span></object></a><a class="recent-post" href="/posts/4267914291/"><object><div class="recent-info"><span class="categories"><span>NO CATEGORY</span></span><span class="tags"><object><a href="/tags/graph-matching/">graph matching</a></object></span><time datetime="2023-05-02T06:20:14.306Z">2023-05-02</time></div><h1 class="recent-title">一种最长反链的构造方法</h1><div class="recent-excerpt"><hr><p>下文简述在偏序集上构造最长反链的一种方法。</p></div><span class="read-more">READ MORE +</span></object></a><a class="recent-post" href="/posts/2615667224/"><object><div class="recent-info"><span class="categories"><span>NO CATEGORY</span></span><span class="tags"><object><a href="/tags/counting/">counting</a></object></span><time datetime="2023-05-02T06:20:14.305Z">2023-05-02</time></div><h1 class="recent-title">CF1782F Bracket Insertion 题解</h1><div class="recent-excerpt"><hr><p>打的时候在错误的思路上卡了半个小时，以至于最后 10
 分钟想到了正解，但已经没时间写了。</p>
 <p>赛后把这题改过了，比改错了还难受。</p></div><span class="read-more">READ MORE +</span></object></a><a class="recent-post" href="/posts/1707382016/"><object><div class="recent-info"><span class="categories"><span>NO CATEGORY</span></span><span class="tags"><object><a href="/tags/counting/">counting</a></object><object><a href="/tags/poly/">poly</a></object></span><time datetime="2023-05-02T06:20:14.303Z">2023-05-02</time></div><h1 class="recent-title">CF1792F2 题解（以及一种分治 FFT）</h1><div class="recent-excerpt"><hr><p>这题推出平方的转移式不难，但是进一步优化需要技巧。</p></div><span class="read-more">READ MORE +</span></object></a><a class="recent-post" href="/posts/4041047875/"><object><div class="recent-info"><span class="categories"><span>NO CATEGORY</span></span><span class="tags"><object><a href="/tags/thinking/">thinking</a></object></span><time datetime="2023-05-02T06:20:14.293Z">2023-05-02</time></div><h1 class="recent-title">ARC136E 题解</h1><div class="recent-excerpt"><hr><p>一开始把图想错了，想了 40 分钟。后来图画对了，但还是没想出来。</p>
