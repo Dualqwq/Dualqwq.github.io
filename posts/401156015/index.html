@@ -35,34 +35,81 @@ if (window.localStorage.getItem('theme-mode') === 'dark') document.documentEleme
   --dark-background: url('https://ak.hypergryph.com/assets/index/images/ak/pc/bk.jpg');
   --light-background: url('/img/bk.jpg');
 }</style><meta name="generator" content="Hexo 6.3.0"></head><body><div class="loading" style="opacity: 0"><div class="loadingBar left"></div><div class="loadingBar right"></div></div><main><header class="closed"><nav><div class="navBtn hide"><i class="navBtnIcon"><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span></i></div><div class="navItem" id="search-header"><span class="navItemTitle"><input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="Search" spellcheck="false" maxlength="50" type="text" id="search-input"></span></div><div class="navItem" id="search-holder"></div><div class="search-popup"><div id="search-result"></div></div><ol class="navContent"><li class="navItem"><a class="navBlock" href="/"><span class="navItemTitle">Home</span></a></li><li class="navItem" matchdata="categories,tags"><a class="navBlock" href="/archives/"><span class="navItemTitle">Archives</span></a></li></ol></nav></header><article><div id="post-bg"><div id="post-title"><h1>JOISC2022 Day2 题解</h1><div id="post-info"><span>First Post: <div class="control"><time datetime="2023-05-10T13:39:44.780Z" id="date"> 2023-05-10</time></div></span><br><span>Last Update: <div class="control"><time datetime="2023-05-10T14:02:11.811Z" id="updated"> 2023-05-10</time></div></span></div></div><hr><div id="post-content"><p>事实上没有通信题题解。</p>
-<p>这两题都没想出完整做法，不知道是不是睡眠质量的问题。按道理来说都应是 “刚好会做” 的题。</p>
+<p>这两题都没想出完整做法，不知道是不是睡眠质量的问题。按道理来说都应是
+“刚好会做” 的题。</p>
 <p>按体感难度排序。</p>
 <span id="more"></span>
-
-<h4 id="loj3690-团队竞技"><a href="#loj3690-团队竞技" class="headerlink" title="loj3690 团队竞技"></a>loj3690 团队竞技</h4><p>题意： <a target="_blank" rel="noopener" href="https://loj.ac/p/3690">https://loj.ac/p/3690</a></p>
+<h4 id="loj3690-团队竞技"><a href="#loj3690-团队竞技" class="headerlink" title="loj3690-团队竞技"></a>loj3690 团队竞技</h4>
+<p>题意： https://loj.ac/p/3690</p>
 <p>老老实实地想了除最后一个包的所有点。</p>
 <p>无语住了。</p>
-<p>按 $x$ 从小到大排序，扫描 $x$ 最大的那个人，剩下两人都要在他前面。设剩下两人为 $(y_1,z_1),(y_2,z_2)$，那么有 $y_1 &gt; y_2,z_1 &lt; z_2$。</p>
-<p>我们加入一个 $(y,z)$ 的时候，其实就可以找到与其配对的另一个人 (满足 $y_0 &lt; y$ 的 $(y_0,z_0)$ 中 $z_0$ 最大的，以及满足 $z_0 &lt; z$ 的 $(y_0,z_0)$ 中 $y_0$ 最大的)。</p>
-<p>将 $(y,z)$ 与和其配对的点合成一对 $(Y,Z)$，扔到一个二维数据结构里面。扫描到 $i$ 时，查询 $Y &gt; y_i,Z &gt; z_i$ 的 $Y + Z$ 最大值即可。</p>
-<p>时间复杂度 $\Theta(n \log^2 n)$。</p>
-<h4 id="loj3688-复制粘贴-3"><a href="#loj3688-复制粘贴-3" class="headerlink" title="loj3688 复制粘贴 3"></a>loj3688 复制粘贴 3</h4><p>题意 : <a target="_blank" rel="noopener" href="https://loj.ac/p/3688">https://loj.ac/p/3688</a></p>
-<p>想到了区间 DP，但脑子不在状态，只是描绘了一个复制粘贴的形态，没有在纸上细推，导致转移没有编出来。</p>
-<p>至于如何想到，其实可以考虑观察样例 $1$ 的构造过程。其没有明显的顺序或倒序构造的特征，不过仍然是从小串构造出包含它的大串，即 $\text{ssi} \to \text{ssissi} \to \text{mississi} \to \text{mississippi}$，这反映到区间上就是 $[3,5] \to [3,8] \to [1,8] \to [1,11]$。一条区间 DP 的转移路径。</p>
-<p>那么我们可设 $f(l,r)$ 表示不管当前的剪贴板是什么，构造出 $f(l,r)$ 的最小步数。</p>
-<p>考虑我们剪切了一个串后，用其构造出来的串一定形如 $A_1YA_2Y\dots YA_k$ （其中 $A_i$ 都是我们手打的字符）。</p>
+<p>按 <span class="math inline">\(x\)</span> 从小到大排序，扫描 <span
+class="math inline">\(x\)</span>
+最大的那个人，剩下两人都要在他前面。设剩下两人为 <span
+class="math inline">\((y_1,z_1),(y_2,z_2)\)</span>，那么有 <span
+class="math inline">\(y_1 &gt; y_2,z_1 &lt; z_2\)</span>。</p>
+<p>我们加入一个 <span class="math inline">\((y,z)\)</span>
+的时候，其实就可以找到与其配对的另一个人 (满足 <span
+class="math inline">\(y_0 &lt; y\)</span> 的 <span
+class="math inline">\((y_0,z_0)\)</span> 中 <span
+class="math inline">\(z_0\)</span> 最大的，以及满足 <span
+class="math inline">\(z_0 &lt; z\)</span> 的 <span
+class="math inline">\((y_0,z_0)\)</span> 中 <span
+class="math inline">\(y_0\)</span> 最大的)。</p>
+<p>将 <span class="math inline">\((y,z)\)</span> 与和其配对的点合成一对
+<span
+class="math inline">\((Y,Z)\)</span>，扔到一个二维数据结构里面。扫描到
+<span class="math inline">\(i\)</span> 时，查询 <span
+class="math inline">\(Y &gt; y_i,Z &gt; z_i\)</span> 的 <span
+class="math inline">\(Y + Z\)</span> 最大值即可。</p>
+<p>时间复杂度 <span class="math inline">\(\Theta(n \log^2
+n)\)</span>。</p>
+<h4 id="loj3688-复制粘贴-3"><a href="#loj3688-复制粘贴 3" class="headerlink" title="loj3688-复制粘贴 3"></a>loj3688 复制粘贴 3</h4>
+<p>题意 : https://loj.ac/p/3688</p>
+<p>想到了区间
+DP，但脑子不在状态，只是描绘了一个复制粘贴的形态，没有在纸上细推，导致转移没有编出来。</p>
+<p>至于如何想到，其实可以考虑观察样例 <span
+class="math inline">\(1\)</span>
+的构造过程。其没有明显的顺序或倒序构造的特征，不过仍然是从小串构造出包含它的大串，即
+<span class="math inline">\(\text{ssi} \to \text{ssissi} \to
+\text{mississi} \to \text{mississippi}\)</span>，这反映到区间上就是
+<span class="math inline">\([3,5] \to [3,8] \to [1,8] \to
+[1,11]\)</span>。一条区间 DP 的转移路径。</p>
+<p>那么我们可设 <span class="math inline">\(f(l,r)\)</span>
+表示不管当前的剪贴板是什么，构造出 <span
+class="math inline">\(f(l,r)\)</span> 的最小步数。</p>
+<p>考虑我们剪切了一个串后，用其构造出来的串一定形如 <span
+class="math inline">\(A_1YA_2Y\dots YA_k\)</span> （其中 <span
+class="math inline">\(A_i\)</span> 都是我们手打的字符）。</p>
 <p>其中头尾两段不是很好处理，我们考虑编两个转移来包含这两段。</p>
-<p>显然有 $f(l,r+1) \gets f(l,r) + A$ (其中 $\gets$ 表示 $\text{ckmin}$)。</p>
-<p>考虑 $A_1$ 怎么办 ，我们设 $g(l,r)$ 表示构造出 $[l,r]$ ，且最后一次操作是粘贴的最小步数。</p>
-<p>当我们从 $f(l,r)$ 向外转移时，可以先令 $f(l,r) \gets g(l,r)$，然后 $g(l,r) \gets f(l,r) + B + C$。</p>
-<p>依据 $g$ 的定义，我们可以转移 $g(l - 1,r) \gets g(l,r) + A$。</p>
-<p>至此，$A_1$ 和 $A_k$ 都处理完了。</p>
-<p>那么我们多次粘贴 $S[l,r]$ 时，可以默认我们构造出来的串开头是 $S[l,r]$，结尾也是 $S[l,r]$。</p>
-<p>那么我们设 $nxt(l,r)$ 表示 $S[l,r]$ 最早的出现位置使得该位置不在 $[l,r]$ 中。</p>
-<p>那么我们每次转移暴力跳 $nxt$ 即可转移。</p>
-<p>因为我们至多跳 $\dfrac{n}{r-l+1}$ 次，复杂度是 $O(n^2 \log n)$ 的 ($\log$ 是调和级数)。</p>
+<p>显然有 <span class="math inline">\(f(l,r+1) \gets f(l,r) + A\)</span>
+(其中 <span class="math inline">\(\gets\)</span> 表示 <span
+class="math inline">\(\text{ckmin}\)</span>)。</p>
+<p>考虑 <span class="math inline">\(A_1\)</span> 怎么办 ，我们设 <span
+class="math inline">\(g(l,r)\)</span> 表示构造出 <span
+class="math inline">\([l,r]\)</span>
+，且最后一次操作是粘贴的最小步数。</p>
+<p>当我们从 <span class="math inline">\(f(l,r)\)</span>
+向外转移时，可以先令 <span class="math inline">\(f(l,r) \gets
+g(l,r)\)</span>，然后 <span class="math inline">\(g(l,r) \gets f(l,r) +
+B + C\)</span>。</p>
+<p>依据 <span class="math inline">\(g\)</span> 的定义，我们可以转移
+<span class="math inline">\(g(l - 1,r) \gets g(l,r) + A\)</span>。</p>
+<p>至此，<span class="math inline">\(A_1\)</span> 和 <span
+class="math inline">\(A_k\)</span> 都处理完了。</p>
+<p>那么我们多次粘贴 <span class="math inline">\(S[l,r]\)</span>
+时，可以默认我们构造出来的串开头是 <span
+class="math inline">\(S[l,r]\)</span>，结尾也是 <span
+class="math inline">\(S[l,r]\)</span>。</p>
+<p>那么我们设 <span class="math inline">\(nxt(l,r)\)</span> 表示 <span
+class="math inline">\(S[l,r]\)</span> 最早的出现位置使得该位置不在 <span
+class="math inline">\([l,r]\)</span> 中。</p>
+<p>那么我们每次转移暴力跳 <span class="math inline">\(nxt\)</span>
+即可转移。</p>
+<p>因为我们至多跳 <span class="math inline">\(\dfrac{n}{r-l+1}\)</span>
+次，复杂度是 <span class="math inline">\(O(n^2 \log n)\)</span> 的
+(<span class="math inline">\(\log\)</span> 是调和级数)。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><span class="hljs-function"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt; <span class="hljs-keyword">inline</span> <span class="hljs-type">void</span> <span class="hljs-title">ckmin</span><span class="hljs-params">(T &amp;x,<span class="hljs-type">const</span> T &amp;y)</span> </span>&#123; <span class="hljs-keyword">if</span>(x &gt; y) x = y;&#125;<br><span class="hljs-type">const</span> <span class="hljs-type">int</span> N = <span class="hljs-number">2.5e3</span> + <span class="hljs-number">5</span>;<br><span class="hljs-keyword">typedef</span> <span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> <span class="hljs-type">long</span> ull;<br><span class="hljs-type">const</span> ull base = <span class="hljs-number">13331</span>;<br><span class="hljs-type">int</span> n;<br><span class="hljs-type">int</span> A,B,C;<br><span class="hljs-type">char</span> s[N];<br><span class="hljs-type">int</span> nxt[N][N];<br><span class="hljs-type">long</span> <span class="hljs-type">long</span> f[N][N],g[N][N];<br>ull hsh[N],Pow[N];<br>ull h[N][N];<br>map&lt;ull,<span class="hljs-type">int</span>&gt; ton;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	cin &gt;&gt; n;<br>	cin &gt;&gt; (s + <span class="hljs-number">1</span>);<br>	cin &gt;&gt; A &gt;&gt; B &gt;&gt; C;<br>	Pow[<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>;i &lt;= n;i++) Pow[i] = Pow[i - <span class="hljs-number">1</span>] * base;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>;i &lt;= n;i++) hsh[i] = hsh[i - <span class="hljs-number">1</span>] * base + (s[i] - <span class="hljs-string">&#x27;a&#x27;</span> + <span class="hljs-number">1</span>);<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>;i &lt;= n;i++)<br>		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = i;j &lt;= n;j++)<br>			h[i][j] = hsh[j] - hsh[i - <span class="hljs-number">1</span>] * Pow[j - i + <span class="hljs-number">1</span>];<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> l = <span class="hljs-number">1</span>;l &lt;= n;l++)<br>	&#123;<br>		ton.<span class="hljs-built_in">clear</span>();<br>		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = n - l + <span class="hljs-number">1</span>;i + l - <span class="hljs-number">1</span> &gt; n - l;i--)<br>		nxt[i][i + l - <span class="hljs-number">1</span>] = n + <span class="hljs-number">1</span>;<br>		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = n - l - l + <span class="hljs-number">1</span>;i &gt;= <span class="hljs-number">1</span>;i--)<br>		&#123;<br>			ton[h[i + l][i + l + l - <span class="hljs-number">1</span>]] = i + l;<br>			<span class="hljs-keyword">if</span>(ton.<span class="hljs-built_in">find</span>(h[i][i + l - <span class="hljs-number">1</span>]) == ton.<span class="hljs-built_in">end</span>())<br>				nxt[i][i + l - <span class="hljs-number">1</span>] = n + <span class="hljs-number">1</span>;<br>			<span class="hljs-keyword">else</span> nxt[i][i + l - <span class="hljs-number">1</span>] = ton[h[i][i + l - <span class="hljs-number">1</span>]];<br>		&#125;<br>	&#125;<br>	<span class="hljs-built_in">memset</span>(f,<span class="hljs-number">0x3f</span>,<span class="hljs-keyword">sizeof</span> f);<br>	<span class="hljs-built_in">memset</span>(g,<span class="hljs-number">0x3f</span>,<span class="hljs-keyword">sizeof</span> g);<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>;i &lt;= n;i++)<br>		f[i][i] = A;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> len = <span class="hljs-number">1</span>;len &lt;= n;len++)<br>	&#123;<br>		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>;i + len - <span class="hljs-number">1</span> &lt;= n;i++)<br>		&#123;<br>			<span class="hljs-type">int</span> j = i + len - <span class="hljs-number">1</span>;<br>			<span class="hljs-built_in">ckmin</span>(f[i][j],g[i][j]);<br>			<span class="hljs-keyword">if</span>(j &lt; n) <span class="hljs-built_in">ckmin</span>(f[i][j + <span class="hljs-number">1</span>],f[i][j] + A);<br>			<span class="hljs-type">int</span> now = nxt[i][j],cnt = <span class="hljs-number">2</span>;<br>			<span class="hljs-keyword">while</span>(now &lt;= n)<br>				<span class="hljs-built_in">ckmin</span>(f[i][now + len - <span class="hljs-number">1</span>],f[i][j] + B + <span class="hljs-number">1ll</span> * cnt * C + <span class="hljs-number">1ll</span> * A * (now + len - i - cnt * len)),<br>				++cnt,now = nxt[now][now + len - <span class="hljs-number">1</span>];<br>		&#125;<br>		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">2</span>;i + len - <span class="hljs-number">1</span> &lt;= n;i++)<br>			<span class="hljs-built_in">ckmin</span>(f[i - <span class="hljs-number">1</span>][i + len - <span class="hljs-number">1</span>],f[i][i + len - <span class="hljs-number">1</span>] + A);<br>	&#125;<br>		<br>	cout &lt;&lt; f[<span class="hljs-number">1</span>][n] &lt;&lt; endl;<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-
 <div id="paginator"></div></div><div id="post-footer"><div id="pages"><div class="footer-link" style="width: 50%;text-align:right;border-right:1px #fe2 solid"><a href="/posts/499612066/">← Next JOISC 2021 大部分题解</a></div><div class="footer-link" style="width: 50%;right:1px;border-left:1px #fe2 solid"><a href="/posts/2573606988/">JOISC2022 Day1 题解 Prev →</a></div></div></div><div id="comments"><div class="selector"><button class="gitalk-sel"></button></div><div id="gitalk"></div></div></div><div class="bottom-btn"><div><a id="to-top" onClick="scrolls.scrolltop();" title="To Top" style="opacity: 0; display: none;">∧</a><a id="to-index" href="#toc-div" title="To Catalog">≡</a><a id="color-mode" onClick="colorMode.change()" title="Change Theme"></a></div></div></article><aside><div id="about"><a href="/" id="logo"><img src="https://ak.hypergryph.com/assets/index/images/ak/pc/faction/1.png" alt="Logo"></a><h1 id="Dr"><a href="/">Dualqwq</a></h1><div id="description"><p></p></div></div><div id="aside-block"><div id="toc-div"><h1>Catalog</h1><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#loj3690-%E5%9B%A2%E9%98%9F%E7%AB%9E%E6%8A%80"><span class="toc-number">1.</span> <span class="toc-text">loj3690 团队竞技</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#loj3688-%E5%A4%8D%E5%88%B6%E7%B2%98%E8%B4%B4-3"><span class="toc-number">2.</span> <span class="toc-text">loj3688 复制粘贴 3</span></a></li></ol></div></div><footer><nobr>Published with <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></nobr><wbr><nobr> Theme <a target="_blank" rel="noopener" href="https://github.com/Yue-plus/hexo-theme-arknights">Arknights</a></nobr><wbr><nobr>by <a target="_blank" rel="noopener" href="https://github.com/Yue-plus">Yue_plus</a></nobr></footer></aside></main><canvas id="canvas-dust"></canvas><script src="/js/search.js"></script><script src="/js/arknights.js"></script><script src="//unpkg.com/lightgallery@2.7.1/lightgallery.min.js"></script><script src="//unpkg.com/lightgallery@2.7.1/plugins/zoom/lg-zoom.min.js"></script><script src="//unpkg.com/lightgallery@2.7.1/plugins/thumbnail/lg-thumbnail.min.js"></script><script src="/js/pjax.js"></script><script class="pjax-js">reset= () => {gitalk = new Gitalk({
  clientID: 'f3bca61c9bfc22f7350d',
  clientSecret: '313761dc715a2bba0f47651123ee2bb0952966a7',

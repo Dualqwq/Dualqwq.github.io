@@ -36,35 +36,110 @@ if (window.localStorage.getItem('theme-mode') === 'dark') document.documentEleme
   --light-background: url('/img/bk.jpg');
 }</style><meta name="generator" content="Hexo 6.3.0"></head><body><div class="loading" style="opacity: 0"><div class="loadingBar left"></div><div class="loadingBar right"></div></div><main><header class="closed"><nav><div class="navBtn hide"><i class="navBtnIcon"><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span></i></div><div class="navItem" id="search-header"><span class="navItemTitle"><input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="Search" spellcheck="false" maxlength="50" type="text" id="search-input"></span></div><div class="navItem" id="search-holder"></div><div class="search-popup"><div id="search-result"></div></div><ol class="navContent"><li class="navItem"><a class="navBlock" href="/"><span class="navItemTitle">Home</span></a></li><li class="navItem" matchdata="categories,tags"><a class="navBlock" href="/archives/"><span class="navItemTitle">Archives</span></a></li></ol></nav></header><article><div id="post-bg"><div id="post-title"><h1>洛谷 P8340 山河重整 题解</h1><div id="post-info"><span>First Post: <div class="control"><time datetime="2023-05-02T06:20:14.273Z" id="date"> 2023-05-02</time></div></span><br><span>Last Update: <div class="control"><time datetime="2023-02-14T13:56:24.700Z" id="updated"> 2023-02-14</time></div></span></div></div><hr><div id="post-content"><p>一道很有启发意义的数数题。</p>
 <span id="more"></span>
-
-<p>看到这题之后，当然是首先从 $O(n^2)$ 开始想起。</p>
-<p>如果我们从小到大地决策某个数是否被加入，那么现在已经被加入的数字，在值域上能表示的一定是一段前缀，即一个形如 $[1,r]$ 的区间，那么可以设计状态 $dp_{i,r}$ 表示加入了前 $i$ 个数，当前能表示的区间为 $[1,r]$ 的方案数。</p>
-<p>在加入数 $i + 1$ 之后，能表示的区间变为 $[1,r] \cup [i + 1,r + i + 1]$，转移合法当且仅当 $r \ge i$，也就是说，对于 $r \ge i$ 的 $dp_{i,r}$，其可以转移到 $dp_{i+1,r+i+1}$。</p>
-<p>分析上述的 $dp$ 过程，可以得到一个很重要的结论，即 $\forall i \in [0,n),\sum_{j \in S,j \le i} \gt i$。这个结论跟上述 dp 的转移式是等价的。</p>
-<p>对每个 $i$ 都要求其合法是比较困难的，我们不如计数不合法的方案数。</p>
+<p>看到这题之后，当然是首先从 <span
+class="math inline">\(O(n^2)\)</span> 开始想起。</p>
+<p>如果我们从小到大地决策某个数是否被加入，那么现在已经被加入的数字，在值域上能表示的一定是一段前缀，即一个形如
+<span class="math inline">\([1,r]\)</span> 的区间，那么可以设计状态
+<span class="math inline">\(dp_{i,r}\)</span> 表示加入了前 <span
+class="math inline">\(i\)</span> 个数，当前能表示的区间为 <span
+class="math inline">\([1,r]\)</span> 的方案数。</p>
+<p>在加入数 <span class="math inline">\(i + 1\)</span>
+之后，能表示的区间变为 <span class="math inline">\([1,r] \cup [i + 1,r +
+i + 1]\)</span>，转移合法当且仅当 <span class="math inline">\(r \ge
+i\)</span>，也就是说，对于 <span class="math inline">\(r \ge i\)</span>
+的 <span class="math inline">\(dp_{i,r}\)</span>，其可以转移到 <span
+class="math inline">\(dp_{i+1,r+i+1}\)</span>。</p>
+<p>分析上述的 <span class="math inline">\(dp\)</span>
+过程，可以得到一个很重要的结论，即 <span class="math inline">\(\forall i
+\in [0,n),\sum_{j \in S,j \le i} \gt i\)</span>。这个结论跟上述 dp
+的转移式是等价的。</p>
+<p>对每个 <span class="math inline">\(i\)</span>
+都要求其合法是比较困难的，我们不如计数不合法的方案数。</p>
 <p>因为不合法的位置可能有很多，一个计数的套路是考察第一个不合法的位置。</p>
-<p>设考虑位置 $[1,i]$ 且位置 $i$ 为第一个不合法位置的方案数为  $f_i$。</p>
-<p>也就是说，满足 $[1,i]$ 均可被拼出，但 $i + 1$ 无法被拼出。</p>
-<p>通过上面的结论，我们可以知道 $[1,i]$ 中被选中的数的和恰好为 $i$。</p>
-<p>为了保证 $i$ 是第一个不合法的位置，我们可以用满足上述条件的所有方案，减去第一个不合法位置为 $j(j &lt; i)$ 的方案数。</p>
-<p>形式化地说，$f_i &#x3D; g_i - \sum_{j&#x3D;1}^{i-1}f_j \times  \operatorname{val}(j,i)$，其中 $\operatorname{val}(j,i)$ 是转移的系数，因为根据 $f_j$ 的意义，$j + 1$ 不能填数，且 $1 \sim j$ 中的数和为 $j$，那么 $val(j,i)$ 就是在 $[j+2,i]$ 中选数，使这些数的和为 $i - j$ 的方案数。</p>
-<p>先考虑 $g_i$ 怎么求，显然，它是  $i$ 的 <strong>互异拆分数</strong>，也就是将 $i$ 拆分为若干个不同的数的和的方案数。</p>
-<p>回顾互异拆分数的经典做法，我们知道，$n$ 只会被拆为最多 $\sqrt{2n}$ 个数，我们可以据此设计 DP。</p>
-<p>将 $n$ 拆成若干个数 $p_1,p_2,\dots,p_k$ 的时候，我们会限制 $p_1 &gt; p_2 &gt; \dots &gt; p_k$ 来保证计数不重复，但这个限制本身很麻烦，我们考虑差分数组 $d_i &#x3D; p_i - p_{i+1},d_k &#x3D; p_k$，那我们就只需要保证 $d_i &gt; 0$ 就可以了，而每个 $d_i$ 对全局的贡献就是 $d_i \times i$。那么每个 $i$ 就相当于一个大小为 $i$ 的物品，这个 DP 则相当于完全背包（因为 $d_i$ 没有上界），因为 $i \in [1,\sqrt{2n}]$，我们对这些 $i$ 跑完全背包即可求出拆分数。</p>
+<p>设考虑位置 <span class="math inline">\([1,i]\)</span> 且位置 <span
+class="math inline">\(i\)</span> 为第一个不合法位置的方案数为 <span
+class="math inline">\(f_i\)</span>。</p>
+<p>也就是说，满足 <span class="math inline">\([1,i]\)</span>
+均可被拼出，但 <span class="math inline">\(i + 1\)</span>
+无法被拼出。</p>
+<p>通过上面的结论，我们可以知道 <span
+class="math inline">\([1,i]\)</span> 中被选中的数的和恰好为 <span
+class="math inline">\(i\)</span>。</p>
+<p>为了保证 <span class="math inline">\(i\)</span>
+是第一个不合法的位置，我们可以用满足上述条件的所有方案，减去第一个不合法位置为
+<span class="math inline">\(j(j &lt; i)\)</span> 的方案数。</p>
+<p>形式化地说，<span class="math inline">\(f_i = g_i -
+\sum_{j=1}^{i-1}f_j \times \operatorname{val}(j,i)\)</span>，其中 <span
+class="math inline">\(\operatorname{val}(j,i)\)</span>
+是转移的系数，因为根据 <span class="math inline">\(f_j\)</span>
+的意义，<span class="math inline">\(j + 1\)</span> 不能填数，且 <span
+class="math inline">\(1 \sim j\)</span> 中的数和为 <span
+class="math inline">\(j\)</span>，那么 <span
+class="math inline">\(val(j,i)\)</span> 就是在 <span
+class="math inline">\([j+2,i]\)</span> 中选数，使这些数的和为 <span
+class="math inline">\(i - j\)</span> 的方案数。</p>
+<p>先考虑 <span class="math inline">\(g_i\)</span> 怎么求，显然，它是
+<span class="math inline">\(i\)</span> 的
+<strong>互异拆分数</strong>，也就是将 <span
+class="math inline">\(i\)</span> 拆分为若干个不同的数的和的方案数。</p>
+<p>回顾互异拆分数的经典做法，我们知道，<span
+class="math inline">\(n\)</span> 只会被拆为最多 <span
+class="math inline">\(\sqrt{2n}\)</span> 个数，我们可以据此设计 DP。</p>
+<p>将 <span class="math inline">\(n\)</span> 拆成若干个数 <span
+class="math inline">\(p_1,p_2,\dots,p_k\)</span> 的时候，我们会限制
+<span class="math inline">\(p_1 &gt; p_2 &gt; \dots &gt; p_k\)</span>
+来保证计数不重复，但这个限制本身很麻烦，我们考虑差分数组 <span
+class="math inline">\(d_i = p_i - p_{i+1},d_k =
+p_k\)</span>，那我们就只需要保证 <span class="math inline">\(d_i &gt;
+0\)</span> 就可以了，而每个 <span class="math inline">\(d_i\)</span>
+对全局的贡献就是 <span class="math inline">\(d_i \times
+i\)</span>。那么每个 <span class="math inline">\(i\)</span>
+就相当于一个大小为 <span class="math inline">\(i\)</span> 的物品，这个
+DP 则相当于完全背包（因为 <span class="math inline">\(d_i\)</span>
+没有上界），因为 <span class="math inline">\(i \in
+[1,\sqrt{2n}]\)</span>，我们对这些 <span
+class="math inline">\(i\)</span> 跑完全背包即可求出拆分数。</p>
 <p>代码如下：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs cpp">f[<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>;<span class="hljs-type">int</span> lim = <span class="hljs-built_in">sqrt</span>(<span class="hljs-number">2</span> * n);<br><span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = lim;i &gt;= <span class="hljs-number">1</span>;i--) <span class="hljs-comment">// 倒序枚举 i，方便滚动数组</span><br>&#123;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = n;j &gt; i;j--) f[j] = f[j - i];<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = i;j &gt;= <span class="hljs-number">1</span>;j--) f[j] = <span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = i;j &lt;= n;j++)<br>        <span class="hljs-built_in">Plus</span>(f[j],f[j - i]); <span class="hljs-comment">// 完全背包</span><br>&#125;<br></code></pre></td></tr></table></figure>
-
-
-
-<p>回到上面的式子，我们考虑 $\sum_{j&#x3D;1}^{i-1}f_j \times \operatorname{val}(j,i)$ 怎么处理，假设我们已经知道了 $f_j$，那么我们要解决的是 $\operatorname{val}(j,i)$，也就是在 $[j + 2,i]$ 中选数，使得它们的和为 $i - j$ 的方案数。</p>
-<p>假设我们已经确定了 $j + 2 \sim i$ 中选多少个数，设其为 $c$，那么我们可以把这其中的所有数全部减去 $(j + 2)$，然后接着做互异拆分数的 DP,事实上，我们只要把 $f_j$ 贡献到数组中 $j + (j + 2) \times c$ 的位置，那么最后提取背包数组中位置 $i$ 的值就可以得到这个 $j$ 的贡献。</p>
-<p>因为我们是倒序枚举的 $i \in [1,\sqrt{2n}]$（注意这里的 $i$ 是完全背包中的 $i$），所以枚举到某个数的时候，我们不妨假设其就是 $c$ ，在后续的枚举中，我们会把其他的物品（也就是其他的 $d_i$ 一步一步加入进去），DP 完了之后，这个方案自然会被贡献到正确的位置。</p>
+<p>回到上面的式子，我们考虑 <span
+class="math inline">\(\sum_{j=1}^{i-1}f_j \times
+\operatorname{val}(j,i)\)</span> 怎么处理，假设我们已经知道了 <span
+class="math inline">\(f_j\)</span>，那么我们要解决的是 <span
+class="math inline">\(\operatorname{val}(j,i)\)</span>，也就是在 <span
+class="math inline">\([j + 2,i]\)</span> 中选数，使得它们的和为 <span
+class="math inline">\(i - j\)</span> 的方案数。</p>
+<p>假设我们已经确定了 <span class="math inline">\(j + 2 \sim i\)</span>
+中选多少个数，设其为 <span
+class="math inline">\(c\)</span>，那么我们可以把这其中的所有数全部减去
+<span class="math inline">\((j + 2)\)</span>，然后接着做互异拆分数的
+DP,事实上，我们只要把 <span class="math inline">\(f_j\)</span>
+贡献到数组中 <span class="math inline">\(j + (j + 2) \times c\)</span>
+的位置，那么最后提取背包数组中位置 <span
+class="math inline">\(i\)</span> 的值就可以得到这个 <span
+class="math inline">\(j\)</span> 的贡献。</p>
+<p>因为我们是倒序枚举的 <span class="math inline">\(i \in
+[1,\sqrt{2n}]\)</span>（注意这里的 <span
+class="math inline">\(i\)</span> 是完全背包中的 <span
+class="math inline">\(i\)</span>），所以枚举到某个数的时候，我们不妨假设其就是
+<span class="math inline">\(c\)</span>
+，在后续的枚举中，我们会把其他的物品（也就是其他的 <span
+class="math inline">\(d_i\)</span> 一步一步加入进去），DP
+完了之后，这个方案自然会被贡献到正确的位置。</p>
 <p>上述两段可以结合代码理解。</p>
-<p>另一个问题是，我们在求 $f_i$ 的时候，假设 $f_j \in [1,i - 1]$ 已经被算出来了，那我们怎么实现这个算法呢？</p>
-<p>事实上，$f_j$ 能贡献到 $f_i$ ，说明 $j + (j + 2) \le i$，即 $j \le \dfrac{i}{2}$。也就是说，如果要求 $[1,n]$ 的 $f_i$，我们可以先递归求出 $[1,\dfrac{n}{2}]$ 的 $f_i$，再用上述做法求出后半部分的 $f_i$ 即可。</p>
+<p>另一个问题是，我们在求 <span class="math inline">\(f_i\)</span>
+的时候，假设 <span class="math inline">\(f_j \in [1,i - 1]\)</span>
+已经被算出来了，那我们怎么实现这个算法呢？</p>
+<p>事实上，<span class="math inline">\(f_j\)</span> 能贡献到 <span
+class="math inline">\(f_i\)</span> ，说明 <span class="math inline">\(j
++ (j + 2) \le i\)</span>，即 <span class="math inline">\(j \le
+\dfrac{i}{2}\)</span>。也就是说，如果要求 <span
+class="math inline">\([1,n]\)</span> 的 <span
+class="math inline">\(f_i\)</span>，我们可以先递归求出 <span
+class="math inline">\([1,\dfrac{n}{2}]\)</span> 的 <span
+class="math inline">\(f_i\)</span>，再用上述做法求出后半部分的 <span
+class="math inline">\(f_i\)</span> 即可。</p>
 <p>代码如下：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><span class="hljs-type">const</span> <span class="hljs-type">int</span> N = <span class="hljs-number">5e5</span> + <span class="hljs-number">5</span>;<br><span class="hljs-type">int</span> n,P;<br><span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">void</span> <span class="hljs-title">Plus</span><span class="hljs-params">(<span class="hljs-type">int</span> &amp;x,<span class="hljs-type">const</span> <span class="hljs-type">int</span> &amp;y)</span> </span>&#123; x += y;<span class="hljs-keyword">if</span>(x &gt;= P) x -= P;&#125;<br><span class="hljs-type">int</span> f[N],t[N];<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">Solve</span><span class="hljs-params">(<span class="hljs-type">int</span> n)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">if</span>(n &lt;= <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span>;<br>	<span class="hljs-type">int</span> lim = <span class="hljs-built_in">sqrt</span>(<span class="hljs-number">2</span> * n);<br>	<span class="hljs-built_in">Solve</span>(n &gt;&gt; <span class="hljs-number">1</span>);<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>;i &lt;= n;i++) t[i] = <span class="hljs-number">0</span>;         <br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = lim;i &gt;= <span class="hljs-number">1</span>;i--)<br>	&#123;<br>		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = n;j &gt;= i;j--) t[j] = t[j - i];<br>		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = i - <span class="hljs-number">1</span>;j &gt;= <span class="hljs-number">0</span>;j--) t[j] = <span class="hljs-number">0</span>;<br>		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>;j + (j + <span class="hljs-number">2</span>) * i &lt;= n;j++)<br>			<span class="hljs-built_in">Plus</span>(t[j + (j + <span class="hljs-number">2</span>) * i],f[j]);<br>		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = i;j &lt;= n;j++) <span class="hljs-built_in">Plus</span>(t[j],t[j - i]);<br>	&#125;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = (n &gt;&gt; <span class="hljs-number">1</span>) + <span class="hljs-number">1</span>;i &lt;= n;i++)<br>		<span class="hljs-built_in">Plus</span>(f[i],P - t[i]);<br>&#125;<br><span class="hljs-type">int</span> Pow2[N];<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>  	Pow2[<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>;i &lt;= n;i++) Pow2[i] = (Pow2[i - <span class="hljs-number">1</span>] + Pow2[i - <span class="hljs-number">1</span>]) % P;<br>	f[<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>;<span class="hljs-type">int</span> lim = <span class="hljs-built_in">sqrt</span>(<span class="hljs-number">2</span> * n);<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = lim;i &gt;= <span class="hljs-number">1</span>;i--)<br>	&#123;<br>		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = n;j &gt; i;j--) f[j] = f[j - i];<br>		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = i;j &gt;= <span class="hljs-number">1</span>;j--) f[j] = <span class="hljs-number">0</span>;<br>		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = i;j &lt;= n;j++)<br>			<span class="hljs-built_in">Plus</span>(f[j],f[j - i]);<br>	&#125;<br>	<span class="hljs-built_in">Solve</span>(n);<br>	<span class="hljs-type">int</span> ans = <span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>;i &lt; n;i++)<br>		ans = (ans + <span class="hljs-number">1ll</span> * f[i] * Pow2[n - i - <span class="hljs-number">1</span>] % P) % P;<br>	ans = (Pow2[n] + P - ans) % P;<br>	cout &lt;&lt; ans &lt;&lt; endl;<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-
 <div id="paginator"></div></div><div id="post-footer"><div id="pages"><div class="footer-link" style="width: 50%;text-align:right;border-right:1px #fe2 solid"><a href="/posts/2844372658/">← Next 杭州中超联赛战前培训（上）</a></div><div class="footer-link" style="width: 50%;right:1px;border-left:1px #fe2 solid"><a href="/posts/2791595810/">洛谷 P3642 烟火表演 题解 Prev →</a></div></div></div><div id="comments"><div class="selector"><button class="gitalk-sel"></button></div><div id="gitalk"></div></div></div><div class="bottom-btn"><div><a id="to-top" onClick="scrolls.scrolltop();" title="To Top" style="opacity: 0; display: none;">∧</a><a id="to-index" href="#toc-div" title="To Catalog">≡</a><a id="color-mode" onClick="colorMode.change()" title="Change Theme"></a></div></div></article><aside><div id="about"><a href="/" id="logo"><img src="https://ak.hypergryph.com/assets/index/images/ak/pc/faction/1.png" alt="Logo"></a><h1 id="Dr"><a href="/">Dualqwq</a></h1><div id="description"><p></p></div></div><div id="aside-block"></div><footer><nobr>Published with <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></nobr><wbr><nobr> Theme <a target="_blank" rel="noopener" href="https://github.com/Yue-plus/hexo-theme-arknights">Arknights</a></nobr><wbr><nobr>by <a target="_blank" rel="noopener" href="https://github.com/Yue-plus">Yue_plus</a></nobr></footer></aside></main><canvas id="canvas-dust"></canvas><script src="/js/search.js"></script><script src="/js/arknights.js"></script><script src="//unpkg.com/lightgallery@2.7.1/lightgallery.min.js"></script><script src="//unpkg.com/lightgallery@2.7.1/plugins/zoom/lg-zoom.min.js"></script><script src="//unpkg.com/lightgallery@2.7.1/plugins/thumbnail/lg-thumbnail.min.js"></script><script src="/js/pjax.js"></script><script class="pjax-js">reset= () => {gitalk = new Gitalk({
  clientID: 'f3bca61c9bfc22f7350d',
  clientSecret: '313761dc715a2bba0f47651123ee2bb0952966a7',

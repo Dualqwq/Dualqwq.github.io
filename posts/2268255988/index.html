@@ -34,29 +34,50 @@ if (window.localStorage.getItem('theme-mode') === 'dark') document.documentEleme
 }</style><style>:root {
   --dark-background: url('https://ak.hypergryph.com/assets/index/images/ak/pc/bk.jpg');
   --light-background: url('/img/bk.jpg');
-}</style><meta name="generator" content="Hexo 6.3.0"></head><body><div class="loading" style="opacity: 0"><div class="loadingBar left"></div><div class="loadingBar right"></div></div><main><header class="closed"><nav><div class="navBtn hide"><i class="navBtnIcon"><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span></i></div><div class="navItem" id="search-header"><span class="navItemTitle"><input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="Search" spellcheck="false" maxlength="50" type="text" id="search-input"></span></div><div class="navItem" id="search-holder"></div><div class="search-popup"><div id="search-result"></div></div><ol class="navContent"><li class="navItem"><a class="navBlock" href="/"><span class="navItemTitle">Home</span></a></li><li class="navItem" matchdata="categories,tags"><a class="navBlock" href="/archives/"><span class="navItemTitle">Archives</span></a></li></ol></nav></header><article><div id="post-bg"><div id="post-title"><h1>ARC110E 题解</h1><div id="post-info"><span>First Post: <div class="control"><time datetime="2023-05-02T06:20:14.241Z" id="date"> 2023-05-02</time></div></span><br><span>Last Update: <div class="control"><time datetime="2023-05-02T13:08:00.852Z" id="updated"> 2023-05-02</time></div></span></div></div><hr><div id="post-content"><p>本题我是想到了个做法的，成功的过了第一个样例，后来与题解比对，发现我的做法考察的条件还是太弱了（</p>
-<span id="more"></span>
-
+}</style><meta name="generator" content="Hexo 6.3.0"></head><body><div class="loading" style="opacity: 0"><div class="loadingBar left"></div><div class="loadingBar right"></div></div><main><header class="closed"><nav><div class="navBtn hide"><i class="navBtnIcon"><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span></i></div><div class="navItem" id="search-header"><span class="navItemTitle"><input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="Search" spellcheck="false" maxlength="50" type="text" id="search-input"></span></div><div class="navItem" id="search-holder"></div><div class="search-popup"><div id="search-result"></div></div><ol class="navContent"><li class="navItem"><a class="navBlock" href="/"><span class="navItemTitle">Home</span></a></li><li class="navItem" matchdata="categories,tags"><a class="navBlock" href="/archives/"><span class="navItemTitle">Archives</span></a></li></ol></nav></header><article><div id="post-bg"><div id="post-title"><h1>ARC110E 题解</h1><div id="post-info"><span>First Post: <div class="control"><time datetime="2023-05-02T06:20:14.241Z" id="date"> 2023-05-02</time></div></span><br><span>Last Update: <div class="control"><time datetime="2023-05-02T13:08:00.852Z" id="updated"> 2023-05-02</time></div></span></div></div><hr><div id="post-content"><p>本题我是想到了个做法的，成功的过了第一个样例，后来与题解比对，发现我的做法考察的条件还是太弱了（
+<span id="more"></span></p>
 <p>容易发现，最后的每个字符都是由原串的一段区间操作得来的。</p>
-<p>把 A,B,C 的权值分别看成 $1,2,3$，那么一次操作相当于替换为异或和。</p>
+<p>把 A,B,C 的权值分别看成 <span
+class="math inline">\(1,2,3\)</span>，那么一次操作相当于替换为异或和。</p>
 <p>考虑选出一段区间能干嘛：</p>
-<ol>
-<li>如果这段区间的异或和为 $0$，显然不能操作为单个字符。</li>
+<ol type="1">
+<li>如果这段区间的异或和为 <span
+class="math inline">\(0\)</span>，显然不能操作为单个字符。</li>
 <li>如果这段区间只有一种字符，显然啥都干不了。</li>
-<li>除开上述两种情况，归纳可得这段区间肯定能被操作成单个字符。我们称这类区间为 “好段”</li>
+<li>除开上述两种情况，归纳可得这段区间肯定能被操作成单个字符。我们称这类区间为
+“好段”</li>
 </ol>
-<p>（我之前的做法默认区间长度 $\le 4$，理所当然的寄了）</p>
-<p>然后就是利用常规的思维模式，考虑如何让原串 $S$ 唯一映射到能被构造出来的串 $T$。</p>
-<p>首先 $T$ 的异或和要等于 $S$ 的异或和。</p>
+<p>（我之前的做法默认区间长度 <span class="math inline">\(\le
+4\)</span>，理所当然的寄了）</p>
+<p>然后就是利用常规的思维模式，考虑如何让原串 <span
+class="math inline">\(S\)</span> 唯一映射到能被构造出来的串 <span
+class="math inline">\(T\)</span>。</p>
+<p>首先 <span class="math inline">\(T\)</span> 的异或和要等于 <span
+class="math inline">\(S\)</span> 的异或和。</p>
 <p>其次，我们在找方案的时候，只考虑每个“好段”右端点最靠前的方案。</p>
-<p>有一个转移方法是，每次选一个最短的可行的段向后转移，如果 $T$ 的最后一个字符取完了但还有剩余，就把剩下的字符全部补在后面（显然这些字符异或和肯定为 $0$）。</p>
-<p>为了说明正确性，我们要说明对于可以被构造的串 $T$，上述方法一定能够构造一个方案。</p>
-<p>我们取出串 $T$ 的任意一个方案，去掉第一个“好段”的最长的异或和 $0$ 的后缀，且保证去掉后第一段仍是“好段”，把这段后缀接在第二个”好段“的前方，以此类推，这样得到的方案就能被上面的转移方法所表示。</p>
-<p>那么我们设 $dp[i]$ 表示处理了前 $i$ 个字符的方案数，预处理 $nxt[i][k]$ 表示 $i$ 位置往后最短的异或和为 $k$ 的“好段”，据此转移即可。</p>
-<p>最后取出 $i + 1 \sim n$ 的异或和为 $0$ 的位置 $i$，将答案加上 $f[i]$ 即可。</p>
-<p>注意整个串清一色要特判，这个时候补 $0$ 操作是错的，但答案为 $1$。</p>
+<p>有一个转移方法是，每次选一个最短的可行的段向后转移，如果 <span
+class="math inline">\(T\)</span>
+的最后一个字符取完了但还有剩余，就把剩下的字符全部补在后面（显然这些字符异或和肯定为
+<span class="math inline">\(0\)</span>）。</p>
+<p>为了说明正确性，我们要说明对于可以被构造的串 <span
+class="math inline">\(T\)</span>，上述方法一定能够构造一个方案。</p>
+<p>我们取出串 <span class="math inline">\(T\)</span>
+的任意一个方案，去掉第一个“好段”的最长的异或和 <span
+class="math inline">\(0\)</span>
+的后缀，且保证去掉后第一段仍是“好段”，把这段后缀接在第二个”好段“的前方，以此类推，这样得到的方案就能被上面的转移方法所表示。</p>
+<p>那么我们设 <span class="math inline">\(dp[i]\)</span> 表示处理了前
+<span class="math inline">\(i\)</span> 个字符的方案数，预处理 <span
+class="math inline">\(nxt[i][k]\)</span> 表示 <span
+class="math inline">\(i\)</span> 位置往后最短的异或和为 <span
+class="math inline">\(k\)</span> 的“好段”，据此转移即可。</p>
+<p>最后取出 <span class="math inline">\(i + 1 \sim n\)</span> 的异或和为
+<span class="math inline">\(0\)</span> 的位置 <span
+class="math inline">\(i\)</span>，将答案加上 <span
+class="math inline">\(f[i]\)</span> 即可。</p>
+<p>注意整个串清一色要特判，这个时候补 <span
+class="math inline">\(0\)</span> 操作是错的，但答案为 <span
+class="math inline">\(1\)</span>。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><span class="hljs-type">const</span> <span class="hljs-type">int</span> N = <span class="hljs-number">1e6</span> + <span class="hljs-number">5</span>,P = <span class="hljs-number">1e9</span> + <span class="hljs-number">7</span>;<br><span class="hljs-type">int</span> n;<br><span class="hljs-type">char</span> s[N];<br><span class="hljs-type">int</span> f[N];<br><span class="hljs-type">int</span> ton[<span class="hljs-number">4</span>],nxt[N][<span class="hljs-number">4</span>];<br><span class="hljs-type">int</span> sum[N];<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	cin &gt;&gt; n &gt;&gt; (s + <span class="hljs-number">1</span>);<br>	<span class="hljs-type">int</span> flg = <span class="hljs-number">1</span>;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>;i &lt;= n;i++)<br>	&#123;<br>		<span class="hljs-keyword">if</span>(i &lt; n) flg &amp;= (s[i] == s[i + <span class="hljs-number">1</span>]);<br>		sum[i] = sum[i - <span class="hljs-number">1</span>] ^ (s[i] == <span class="hljs-string">&#x27;A&#x27;</span> ? <span class="hljs-number">1</span> : (s[i] == <span class="hljs-string">&#x27;B&#x27;</span> ? <span class="hljs-number">2</span> : <span class="hljs-number">3</span>));<br>	&#125;<br>	<span class="hljs-keyword">if</span>(flg) <span class="hljs-keyword">return</span> <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;1&quot;</span>),<span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>;i &lt;= <span class="hljs-number">3</span>;i++)<br>		ton[i] = n + <span class="hljs-number">1</span>;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = n;i &gt;= <span class="hljs-number">0</span>;i--)<br>	&#123;<br>		ton[sum[i]] = i;<br>		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> k = <span class="hljs-number">0</span>;k &lt;= <span class="hljs-number">3</span>;k++)<br>			<span class="hljs-keyword">if</span>(k != sum[i])<br>				nxt[i][sum[i] ^ k] = ton[k];<br>		nxt[i][sum[i] ^ sum[i + <span class="hljs-number">1</span>]] = i + <span class="hljs-number">1</span>;<br>	&#125;<br>	f[<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>;i &lt; n;i++)<br>		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> k = <span class="hljs-number">1</span>;k &lt;= <span class="hljs-number">3</span>;k++)<br>			(f[nxt[i][k]] += f[i]) %= P;<br>	<span class="hljs-type">int</span> ans = <span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>;i &lt;= n;i++)<br>		<span class="hljs-keyword">if</span>(sum[i] == sum[n])<br>			(ans += f[i]) %= P;<br>	cout &lt;&lt; ans &lt;&lt; endl;<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-
 <div id="paginator"></div></div><div id="post-footer"><div id="pages"><div class="footer-link" style="width: 50%;text-align:right;border-right:1px #fe2 solid"><a href="/posts/4126244439/">← Next ARC121F 题解</a></div><div class="footer-link" style="width: 50%;right:1px;border-left:1px #fe2 solid"><a href="/posts/2809317364/">CF388D 题解 Prev →</a></div></div></div><div id="comments"><div class="selector"><button class="gitalk-sel"></button></div><div id="gitalk"></div></div></div><div class="bottom-btn"><div><a id="to-top" onClick="scrolls.scrolltop();" title="To Top" style="opacity: 0; display: none;">∧</a><a id="to-index" href="#toc-div" title="To Catalog">≡</a><a id="color-mode" onClick="colorMode.change()" title="Change Theme"></a></div></div></article><aside><div id="about"><a href="/" id="logo"><img src="https://ak.hypergryph.com/assets/index/images/ak/pc/faction/1.png" alt="Logo"></a><h1 id="Dr"><a href="/">Dualqwq</a></h1><div id="description"><p></p></div></div><div id="aside-block"></div><footer><nobr>Published with <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></nobr><wbr><nobr> Theme <a target="_blank" rel="noopener" href="https://github.com/Yue-plus/hexo-theme-arknights">Arknights</a></nobr><wbr><nobr>by <a target="_blank" rel="noopener" href="https://github.com/Yue-plus">Yue_plus</a></nobr></footer></aside></main><canvas id="canvas-dust"></canvas><script src="/js/search.js"></script><script src="/js/arknights.js"></script><script src="//unpkg.com/lightgallery@2.7.1/lightgallery.min.js"></script><script src="//unpkg.com/lightgallery@2.7.1/plugins/zoom/lg-zoom.min.js"></script><script src="//unpkg.com/lightgallery@2.7.1/plugins/thumbnail/lg-thumbnail.min.js"></script><script src="/js/pjax.js"></script><script class="pjax-js">reset= () => {gitalk = new Gitalk({
  clientID: 'f3bca61c9bfc22f7350d',
  clientSecret: '313761dc715a2bba0f47651123ee2bb0952966a7',

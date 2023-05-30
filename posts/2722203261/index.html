@@ -34,50 +34,176 @@ if (window.localStorage.getItem('theme-mode') === 'dark') document.documentEleme
 }</style><style>:root {
   --dark-background: url('https://ak.hypergryph.com/assets/index/images/ak/pc/bk.jpg');
   --light-background: url('/img/bk.jpg');
-}</style><meta name="generator" content="Hexo 6.3.0"></head><body><div class="loading" style="opacity: 0"><div class="loadingBar left"></div><div class="loadingBar right"></div></div><main><header class="closed"><nav><div class="navBtn hide"><i class="navBtnIcon"><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span></i></div><div class="navItem" id="search-header"><span class="navItemTitle"><input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="Search" spellcheck="false" maxlength="50" type="text" id="search-input"></span></div><div class="navItem" id="search-holder"></div><div class="search-popup"><div id="search-result"></div></div><ol class="navContent"><li class="navItem"><a class="navBlock" href="/"><span class="navItemTitle">Home</span></a></li><li class="navItem" matchdata="categories,tags"><a class="navBlock" href="/archives/"><span class="navItemTitle">Archives</span></a></li></ol></nav></header><article><div id="post-bg"><div id="post-title"><h1>CF1770G 题解（分治 NTT 在格路计数中的应用）</h1><div id="post-info"><span>First Post: <div class="control"><time datetime="2023-05-02T06:20:14.287Z" id="date"> 2023-05-02</time></div></span><br><span>Last Update: <div class="control"><time datetime="2023-03-02T03:18:12.760Z" id="updated"> 2023-03-02</time></div></span></div></div><hr><div id="post-content"><p>之前没有接触过这方面的应用（没想到分治 NTT 这么强大），故记录一下。</p>
+}</style><meta name="generator" content="Hexo 6.3.0"></head><body><div class="loading" style="opacity: 0"><div class="loadingBar left"></div><div class="loadingBar right"></div></div><main><header class="closed"><nav><div class="navBtn hide"><i class="navBtnIcon"><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span></i></div><div class="navItem" id="search-header"><span class="navItemTitle"><input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="Search" spellcheck="false" maxlength="50" type="text" id="search-input"></span></div><div class="navItem" id="search-holder"></div><div class="search-popup"><div id="search-result"></div></div><ol class="navContent"><li class="navItem"><a class="navBlock" href="/"><span class="navItemTitle">Home</span></a></li><li class="navItem" matchdata="categories,tags"><a class="navBlock" href="/archives/"><span class="navItemTitle">Archives</span></a></li></ol></nav></header><article><div id="post-bg"><div id="post-title"><h1>CF1770G 题解（分治 NTT 在格路计数中的应用）</h1><div id="post-info"><span>First Post: <div class="control"><time datetime="2023-05-02T06:20:14.287Z" id="date"> 2023-05-02</time></div></span><br><span>Last Update: <div class="control"><time datetime="2023-03-02T03:18:12.760Z" id="updated"> 2023-03-02</time></div></span></div></div><hr><div id="post-content"><p>之前没有接触过这方面的应用（没想到分治 NTT
+这么强大），故记录一下。</p>
 <span id="more"></span>
-
-<p>首先我们考虑一个格路计数模型，即从 $(0,0)$ 出发，向右或向上走，要走到 $(n,m)$ ，但第 $i$ 列只存在行数不大于 $c_i$ 的点，$c_i$ 单调不降，且 $c_n &#x3D; m$ ，求路径条数。</p>
-<p>上述的网格是个阶梯状的图形，用分治 NTT 解决阶梯网格的格路计数是很经典的应用（虽然此前我从来没听说过）。</p>
-<p>首先考虑 $n^2$ DP，这是简单的，即 $dp_{i,j} \to dp_{i+1,j},dp_{i,j} \to dp_{i,j+1}$。</p>
-<p>但是直接这么做很难优化，本质上是因为这个 DP 没有明显的阶段性，即同一个 $i$ 内的所有 $j$ 都会互相转移。</p>
-<p>我们修改 DP 状态，第一维记录 $x + y$，第二维记录 $y$ ，那么就会有 $dp_{k,j} \to dp_{k + 1,j},dp_{k,j} \to dp_{k+1,j+1}$。</p>
-<p>为了避免在 $k &gt; n$ 的时候还会有 $j \ge k - n$ 的限制，考虑从 $(n,0)$ 开始沿左上-右下方向把阶梯网格劈成两半，计算从 $(0,0)$ 和 $(n,m)$ 走到这条斜对角上的点 （$i + j &#x3D; n$） 的方案数，容易发现这两个问题是对称的。</p>
-<p>综合上述分析，我们将问题转化为，从 $(0,0)$ 出发，每次可以向右或向右上走一步，且在第 $i$ 列只存在行数不大于 $c_i$ 的点，走到最后一列每一个点的方案数。容易证明转化完后的 $c_i$ 仍然是不降的，且满足一个优秀的性质：$c_{x + 1} - c_x \le 1$。</p>
-<p>事实上，转化后的 $c_i$ 就是 $x + y &#x3D; i$ 的点的个数，就算这个阶梯形网格是个 $n \times m$ 的矩形，$c_{i + 1} - c_i$ 也不超过 $1$。</p>
+<p>首先我们考虑一个格路计数模型，即从 <span
+class="math inline">\((0,0)\)</span> 出发，向右或向上走，要走到 <span
+class="math inline">\((n,m)\)</span> ，但第 <span
+class="math inline">\(i\)</span> 列只存在行数不大于 <span
+class="math inline">\(c_i\)</span> 的点，<span
+class="math inline">\(c_i\)</span> 单调不降，且 <span
+class="math inline">\(c_n = m\)</span> ，求路径条数。</p>
+<p>上述的网格是个阶梯状的图形，用分治 NTT
+解决阶梯网格的格路计数是很经典的应用（虽然此前我从来没听说过）。</p>
+<p>首先考虑 <span class="math inline">\(n^2\)</span> DP，这是简单的，即
+<span class="math inline">\(dp_{i,j} \to dp_{i+1,j},dp_{i,j} \to
+dp_{i,j+1}\)</span>。</p>
+<p>但是直接这么做很难优化，本质上是因为这个 DP
+没有明显的阶段性，即同一个 <span class="math inline">\(i\)</span>
+内的所有 <span class="math inline">\(j\)</span> 都会互相转移。</p>
+<p>我们修改 DP 状态，第一维记录 <span class="math inline">\(x +
+y\)</span>，第二维记录 <span class="math inline">\(y\)</span>
+，那么就会有 <span class="math inline">\(dp_{k,j} \to dp_{k +
+1,j},dp_{k,j} \to dp_{k+1,j+1}\)</span>。</p>
+<p>为了避免在 <span class="math inline">\(k &gt; n\)</span> 的时候还会有
+<span class="math inline">\(j \ge k - n\)</span> 的限制，考虑从 <span
+class="math inline">\((n,0)\)</span>
+开始沿左上-右下方向把阶梯网格劈成两半，计算从 <span
+class="math inline">\((0,0)\)</span> 和 <span
+class="math inline">\((n,m)\)</span> 走到这条斜对角上的点 （<span
+class="math inline">\(i + j = n\)</span>）
+的方案数，容易发现这两个问题是对称的。</p>
+<p>综合上述分析，我们将问题转化为，从 <span
+class="math inline">\((0,0)\)</span>
+出发，每次可以向右或向右上走一步，且在第 <span
+class="math inline">\(i\)</span> 列只存在行数不大于 <span
+class="math inline">\(c_i\)</span>
+的点，走到最后一列每一个点的方案数。容易证明转化完后的 <span
+class="math inline">\(c_i\)</span>
+仍然是不降的，且满足一个优秀的性质：<span class="math inline">\(c_{x +
+1} - c_x \le 1\)</span>。</p>
+<p>事实上，转化后的 <span class="math inline">\(c_i\)</span> 就是 <span
+class="math inline">\(x + y = i\)</span>
+的点的个数，就算这个阶梯形网格是个 <span class="math inline">\(n \times
+m\)</span> 的矩形，<span class="math inline">\(c_{i + 1} - c_i\)</span>
+也不超过 <span class="math inline">\(1\)</span>。</p>
 <p>经过上述的转化之后，问题终于有了明显的分层，可以考虑优化转移了。</p>
-<p>考虑一个 $dp_l$ 对 $dp_r$ 的贡献，设 $x &#x3D; c_r - (r - l)$，我们发现，对于 $j \le x$，$dp_{l,j}$ 转移到 $dp_r$ 时不会受到 $c$ 的限制（因为 $c_{i + 1} - c_i \le 1$）。</p>
-<p class='item-img' data-src='/images/CF1770-2.png'><img src="/images/CF1770-2.png"></p>
-<p>（图源自 @Alex_Wei，对于 $j \le x$ 的部分，它就算一路往上冲，也不会超过上图的红线。）</p>
-<p>那么从 $dp_{l,j_1}(j_1 \le x)$ 转移到 $dp_{r,j_2}$ 的系数算起来就很容易了，就是 $\binom{r - l}{j_2 - j_1}$。</p>
-<p>这是一个很明显的卷积形式，我们设 $F_i &#x3D; dp_{l,i},G_i &#x3D; dp_{r,i},H_i &#x3D; \binom{r - l}{i}$，那么我们将 $F_{0 \dots x}$ 与 $H_{0 \dots r - l}$ 进行卷积， 将这一部分贡献加到 $G_{0 \dots c_r}$ 上。</p>
-<p>对于 $j &gt; x$ 的 $dp_{l,j}$，我们尝试将区间分为 $[l,mid]$ 和 $(mid,r]$ 递归处理，即先将左区间的贡献加到 $dp_{mid}$ 上，再用 $dp_{mid}$ 的一部分去更新 $dp_r$。</p>
-<p>把这两部分的贡献加起来，所有 $k \in [l,r)$ 的 $dp_k$ 对 $dp_r$ 的贡献就计算完毕了。</p>
+<p>考虑一个 <span class="math inline">\(dp_l\)</span> 对 <span
+class="math inline">\(dp_r\)</span> 的贡献，设 <span
+class="math inline">\(x = c_r - (r - l)\)</span>，我们发现，对于 <span
+class="math inline">\(j \le x\)</span>，<span
+class="math inline">\(dp_{l,j}\)</span> 转移到 <span
+class="math inline">\(dp_r\)</span> 时不会受到 <span
+class="math inline">\(c\)</span> 的限制（因为 <span
+class="math inline">\(c_{i + 1} - c_i \le 1\)</span>）。</p>
+<p class='item-img' data-src='/images/CF1770-2.png'><img src="/images/CF1770-2.png" /></p>
+<p>（图源自 <span class="citation"
+data-cites="Alex_Wei">@Alex_Wei</span>，对于 <span
+class="math inline">\(j \le x\)</span>
+的部分，它就算一路往上冲，也不会超过上图的红线。）</p>
+<p>那么从 <span class="math inline">\(dp_{l,j_1}(j_1 \le x)\)</span>
+转移到 <span class="math inline">\(dp_{r,j_2}\)</span>
+的系数算起来就很容易了，就是 <span class="math inline">\(\binom{r -
+l}{j_2 - j_1}\)</span>。</p>
+<p>这是一个很明显的卷积形式，我们设 <span class="math inline">\(F_i =
+dp_{l,i},G_i = dp_{r,i},H_i = \binom{r - l}{i}\)</span>，那么我们将
+<span class="math inline">\(F_{0 \dots x}\)</span> 与 <span
+class="math inline">\(H_{0 \dots r - l}\)</span> 进行卷积，
+将这一部分贡献加到 <span class="math inline">\(G_{0 \dots c_r}\)</span>
+上。</p>
+<p>对于 <span class="math inline">\(j &gt; x\)</span> 的 <span
+class="math inline">\(dp_{l,j}\)</span>，我们尝试将区间分为 <span
+class="math inline">\([l,mid]\)</span> 和 <span
+class="math inline">\((mid,r]\)</span> 递归处理，即先将左区间的贡献加到
+<span class="math inline">\(dp_{mid}\)</span> 上，再用 <span
+class="math inline">\(dp_{mid}\)</span> 的一部分去更新 <span
+class="math inline">\(dp_r\)</span>。</p>
+<p>把这两部分的贡献加起来，所有 <span class="math inline">\(k \in
+[l,r)\)</span> 的 <span class="math inline">\(dp_k\)</span> 对 <span
+class="math inline">\(dp_r\)</span> 的贡献就计算完毕了。</p>
 <p>考虑实现这么一个算法流程：</p>
-<p>设 $Solve(l,r,\Delta,F)$ 表示当前还没确定 $dp$ 值的区间为 $(l,r]$，传入多项式的第 $i$ 项表示 $dp_{l,i + \Delta}$，返回多项式的第 $i$ 项表示 $dp_{r,i + \Delta}$ 。这也可以看作是让所有 $i \in [l,r]$ 的 $c_i$ 全部减去 $\Delta$，传入的 $F_i &#x3D; dp_{l,i}$，返回的 $G_i &#x3D; dp_{r,i}$。下文将采用这种视角进行叙述。</p>
-<p>设 $x &#x3D; c_r - (r - l)$，对于 $j \le x$，将 $F_{0 \dots x}$ 与 $H_{0 \dots r - l}$ 卷积，将得到的结果加到 $G_{0 \dots c_r}$ 上面。</p>
-<p>对于 $j &gt; x$，分治下放，设 $F’ &#x3D; F_{x + 1 \dots c_l}$，那么顺次执行 $F’ \gets Solve(l,mid,\Delta + x + 1,F’),F’ \gets Solve(mid,r,\Delta + x + 1,F’)$。</p>
-<p>将最后得到的 $F’$ 也加到 $G_{0 \dots c_r}$ 上面。然后返回 $G$ 即可。</p>
-<p>对于边界，$r - l &#x3D; 1$ 的处理是平凡的。</p>
-<p>分析复杂度。对于下传的 $F’$，其长度显然不超过 $c_r - x &#x3D; r - l$，也就是说，对于 $Solve(l,r,\Delta,F)$，$F$ 的长度不会超过当前分治区间的父区间的长度，即 $2(r - l)$。设 $n,m$ 同阶，则该算法复杂度与一般的分治 NTT 相同，为 $\Theta(n \log ^2 n)$。</p>
-<hr>
+<p>设 <span class="math inline">\(Solve(l,r,\Delta,F)\)</span>
+表示当前还没确定 <span class="math inline">\(dp\)</span> 值的区间为
+<span class="math inline">\((l,r]\)</span>，传入多项式的第 <span
+class="math inline">\(i\)</span> 项表示 <span
+class="math inline">\(dp_{l,i + \Delta}\)</span>，返回多项式的第 <span
+class="math inline">\(i\)</span> 项表示 <span
+class="math inline">\(dp_{r,i + \Delta}\)</span> 。这也可以看作是让所有
+<span class="math inline">\(i \in [l,r]\)</span> 的 <span
+class="math inline">\(c_i\)</span> 全部减去 <span
+class="math inline">\(\Delta\)</span>，传入的 <span
+class="math inline">\(F_i = dp_{l,i}\)</span>，返回的 <span
+class="math inline">\(G_i =
+dp_{r,i}\)</span>。下文将采用这种视角进行叙述。</p>
+<p>设 <span class="math inline">\(x = c_r - (r - l)\)</span>，对于 <span
+class="math inline">\(j \le x\)</span>，将 <span
+class="math inline">\(F_{0 \dots x}\)</span> 与 <span
+class="math inline">\(H_{0 \dots r - l}\)</span> 卷积，将得到的结果加到
+<span class="math inline">\(G_{0 \dots c_r}\)</span> 上面。</p>
+<p>对于 <span class="math inline">\(j &gt; x\)</span>，分治下放，设
+<span class="math inline">\(F&#39; = F_{x + 1 \dots
+c_l}\)</span>，那么顺次执行 <span class="math inline">\(F&#39; \gets
+Solve(l,mid,\Delta + x + 1,F&#39;),F&#39; \gets Solve(mid,r,\Delta + x +
+1,F&#39;)\)</span>。</p>
+<p>将最后得到的 <span class="math inline">\(F&#39;\)</span> 也加到 <span
+class="math inline">\(G_{0 \dots c_r}\)</span> 上面。然后返回 <span
+class="math inline">\(G\)</span> 即可。</p>
+<p>对于边界，<span class="math inline">\(r - l = 1\)</span>
+的处理是平凡的。</p>
+<p>分析复杂度。对于下传的 <span
+class="math inline">\(F&#39;\)</span>，其长度显然不超过 <span
+class="math inline">\(c_r - x = r - l\)</span>，也就是说，对于 <span
+class="math inline">\(Solve(l,r,\Delta,F)\)</span>，<span
+class="math inline">\(F\)</span>
+的长度不会超过当前分治区间的父区间的长度，即 <span
+class="math inline">\(2(r - l)\)</span>。设 <span
+class="math inline">\(n,m\)</span> 同阶，则该算法复杂度与一般的分治 NTT
+相同，为 <span class="math inline">\(\Theta(n \log ^2 n)\)</span>。</p>
+<hr />
 <p>终于可以说回原题了。</p>
-<p>题意：给出一个括号串 $S$ ，设 $k$ 为最少需要删去的字符数使得原串是个合法括号串，求删去 $k$ 个字符后原串合法的方案数，对 $998244353$ 取模。</p>
-<p>$1 \le |S| \le 5 \times 10^5$。</p>
-<p>首先，我们要删去的字符一定形如 <code>))))((</code> ，即一段右括号再加上一段左括号。</p>
+<p>题意：给出一个括号串 <span class="math inline">\(S\)</span> ，设
+<span class="math inline">\(k\)</span>
+为最少需要删去的字符数使得原串是个合法括号串，求删去 <span
+class="math inline">\(k\)</span> 个字符后原串合法的方案数，对 <span
+class="math inline">\(998244353\)</span> 取模。</p>
+<p><span class="math inline">\(1 \le |S| \le 5 \times
+10^5\)</span>。</p>
+<p>首先，我们要删去的字符一定形如 <code>))))((</code>
+，即一段右括号再加上一段左括号。</p>
 <p>我们考虑找到这个分界点。</p>
-<p>把左括号看成 $1$,右括号看成 $-1$。考察这个序列的前缀和。</p>
-<p>我们一定一个位置为 $\text{Special}$ 的，当且仅当它对应的数是前缀最小值。因为 $\text{Special}$ 位置的数一定是在它之前的位置的数的最小值减 $1$，所以每遇上一个 $\text{Special}$ 位置，我们就需要在这个位置或其之前删掉一个右括号。</p>
-<p>那我们就将最后一个 $\text{Special}$ 位置，当作上述的分界线，在这个位置左边，我们只删右括号；在这个位置右边，我们只删左括号。</p>
+<p>把左括号看成 <span class="math inline">\(1\)</span>,右括号看成 <span
+class="math inline">\(-1\)</span>。考察这个序列的前缀和。</p>
+<p>我们一定一个位置为 <span
+class="math inline">\(\text{Special}\)</span>
+的，当且仅当它对应的数是前缀最小值。因为 <span
+class="math inline">\(\text{Special}\)</span>
+位置的数一定是在它之前的位置的数的最小值减 <span
+class="math inline">\(1\)</span>，所以每遇上一个 <span
+class="math inline">\(\text{Special}\)</span>
+位置，我们就需要在这个位置或其之前删掉一个右括号。</p>
+<p>那我们就将最后一个 <span
+class="math inline">\(\text{Special}\)</span>
+位置，当作上述的分界线，在这个位置左边，我们只删右括号；在这个位置右边，我们只删左括号。</p>
 <p>这两个部分是本质相同的，下文以删右括号的部分为例。</p>
-<p>那么我们对于每个前缀，选中的右括号数一定不小于 $\text{Special}$ 位置的数量。</p>
-<p>那么我们可以设 $dp_{i,j} (j \ge 0)$ 表示<strong>前 $i$ 个右括号</strong> ，选中的右括号数减去 $\text{Special}$ 位置的数量为 $j$ 的方案数。</p>
-<p>如果 $i + 1$ 是个 $\text{Special}$ 位置，转移到 $dp_{i + 1,j&#x2F;j - 1}$，否则转移到 $dp_{i + 1,j&#x2F;j+1}$。</p>
-<p>这看上去就挺格路计数的，可以套用上面的做法。因为限制只有 $j \ge 0$，我们甚至不需要记录 $\Delta$。</p>
-<p>当然，还是稍有变形。具体地，记录 $[l,r]$ 中 $\text{Special}$ 位置的个数 $cnt$。那么对于 $j \ge cnt$，$dp_{l - 1,j}$ 转移到 $dp_{r,j + p - cnt}$ 就不受 $j \ge 0$ 限制的影响，转移系数为 $\binom{r - l + 1}{p}$ 。</p>
-<p>对于 $j &lt; cnt$ 的部分，递归下放去做即可，下放的多项式长度不会超过 $r - l + 1$，故复杂度为 $\Theta(n \log ^2 n)$。</p>
+<p>那么我们对于每个前缀，选中的右括号数一定不小于 <span
+class="math inline">\(\text{Special}\)</span> 位置的数量。</p>
+<p>那么我们可以设 <span class="math inline">\(dp_{i,j} (j \ge
+0)\)</span> 表示<strong>前 <span class="math inline">\(i\)</span>
+个右括号</strong> ，选中的右括号数减去 <span
+class="math inline">\(\text{Special}\)</span> 位置的数量为 <span
+class="math inline">\(j\)</span> 的方案数。</p>
+<p>如果 <span class="math inline">\(i + 1\)</span> 是个 <span
+class="math inline">\(\text{Special}\)</span> 位置，转移到 <span
+class="math inline">\(dp_{i + 1,j/j - 1}\)</span>，否则转移到 <span
+class="math inline">\(dp_{i + 1,j/j+1}\)</span>。</p>
+<p>这看上去就挺格路计数的，可以套用上面的做法。因为限制只有 <span
+class="math inline">\(j \ge 0\)</span>，我们甚至不需要记录 <span
+class="math inline">\(\Delta\)</span>。</p>
+<p>当然，还是稍有变形。具体地，记录 <span
+class="math inline">\([l,r]\)</span> 中 <span
+class="math inline">\(\text{Special}\)</span> 位置的个数 <span
+class="math inline">\(cnt\)</span>。那么对于 <span
+class="math inline">\(j \ge cnt\)</span>，<span
+class="math inline">\(dp_{l - 1,j}\)</span> 转移到 <span
+class="math inline">\(dp_{r,j + p - cnt}\)</span> 就不受 <span
+class="math inline">\(j \ge 0\)</span> 限制的影响，转移系数为 <span
+class="math inline">\(\binom{r - l + 1}{p}\)</span> 。</p>
+<p>对于 <span class="math inline">\(j &lt; cnt\)</span>
+的部分，递归下放去做即可，下放的多项式长度不会超过 <span
+class="math inline">\(r - l + 1\)</span>，故复杂度为 <span
+class="math inline">\(\Theta(n \log ^2 n)\)</span>。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><span class="hljs-type">const</span> <span class="hljs-type">int</span> N = <span class="hljs-number">1</span> &lt;&lt; <span class="hljs-number">20</span>,P = <span class="hljs-number">998244353</span>,G = <span class="hljs-number">3</span>;<br><span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">int</span> <span class="hljs-title">Add</span><span class="hljs-params">(<span class="hljs-type">int</span> a,<span class="hljs-type">int</span> b)</span> </span>&#123; <span class="hljs-keyword">return</span> (a + b &gt;= P) ? (a + b - P) : (a + b);&#125;<br><span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">int</span> <span class="hljs-title">Sub</span><span class="hljs-params">(<span class="hljs-type">int</span> a,<span class="hljs-type">int</span> b)</span> </span>&#123; <span class="hljs-keyword">return</span> (a &lt; b) ? (a - b + P) : (a - b);&#125;  <br><span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">int</span> <span class="hljs-title">qpow</span><span class="hljs-params">(<span class="hljs-type">int</span> a,<span class="hljs-type">int</span> b)</span> </span>&#123; <span class="hljs-type">int</span> res = <span class="hljs-number">1</span>;<span class="hljs-keyword">while</span>(b) &#123;<span class="hljs-keyword">if</span>(b&amp;<span class="hljs-number">1</span>) res = <span class="hljs-number">1ll</span> * res * a % P;a = <span class="hljs-number">1ll</span> * a * a % P;b &gt;&gt;= <span class="hljs-number">1</span>;&#125; <span class="hljs-keyword">return</span> res;&#125;<br><span class="hljs-type">const</span> <span class="hljs-type">int</span> Gi = <span class="hljs-built_in">qpow</span>(G,P - <span class="hljs-number">2</span>);<br><span class="hljs-type">int</span> n;<br><span class="hljs-type">char</span> s[N];<br><span class="hljs-type">int</span> Gs[N],Gs2[N];<br><span class="hljs-type">int</span> rev[N];<br><br><span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">int</span> <span class="hljs-title">GetLen</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-type">int</span> len = <span class="hljs-number">1</span>;<br>	<span class="hljs-keyword">while</span>(len &lt;= x) len &lt;&lt;= <span class="hljs-number">1</span>;<br>	<span class="hljs-keyword">return</span> len;<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">void</span> <span class="hljs-title">calc_rev</span><span class="hljs-params">(<span class="hljs-type">int</span> len)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>;i &lt; len;i++)<br>	&#123;<br>		rev[i] = rev[i &gt;&gt; <span class="hljs-number">1</span>] &gt;&gt; <span class="hljs-number">1</span>;<br>		<span class="hljs-keyword">if</span>(i &amp; <span class="hljs-number">1</span>) rev[i] |= len &gt;&gt; <span class="hljs-number">1</span>;<br>	&#125;<br>&#125;<br><span class="hljs-type">int</span> fac[N],ifac[N];<br><span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">void</span> <span class="hljs-title">init</span><span class="hljs-params">(<span class="hljs-type">int</span> len)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>;i &lt; len;i &lt;&lt;= <span class="hljs-number">1</span>)<br>	&#123;<br>		Gs[i] = Gs2[i] = <span class="hljs-number">1</span>;<br>		Gs[i + <span class="hljs-number">1</span>] = <span class="hljs-built_in">qpow</span>(G,(P - <span class="hljs-number">1</span>) / (i &lt;&lt; <span class="hljs-number">1</span>));<br>		Gs2[i + <span class="hljs-number">1</span>] = <span class="hljs-built_in">qpow</span>(Gi,(P - <span class="hljs-number">1</span>) / (i &lt;&lt; <span class="hljs-number">1</span>));<br>		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = <span class="hljs-number">2</span>;j &lt; i;j++)<br>			Gs[i + j] = <span class="hljs-number">1ll</span> * Gs[i + j - <span class="hljs-number">1</span>] * Gs[i + <span class="hljs-number">1</span>] % P,<br>			Gs2[i + j] = <span class="hljs-number">1ll</span> * Gs2[i + j - <span class="hljs-number">1</span>] * Gs2[i + <span class="hljs-number">1</span>] % P;<br>	&#125;<br>	fac[<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>;i &lt; len;i++) fac[i] = <span class="hljs-number">1ll</span> * fac[i - <span class="hljs-number">1</span>] * i % P;<br>	ifac[<span class="hljs-number">1</span>] = <span class="hljs-number">1</span>;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">2</span>;i &lt; len;i++) ifac[i] = <span class="hljs-number">1ll</span> * ifac[P % i] * (P - P / i) % P;<br>	ifac[<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>;i &lt; len;i++) ifac[i] = <span class="hljs-number">1ll</span> * ifac[i - <span class="hljs-number">1</span>] * ifac[i] % P;<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">int</span> <span class="hljs-title">Binom</span><span class="hljs-params">(<span class="hljs-type">int</span> n,<span class="hljs-type">int</span> m)</span> </span>&#123; <span class="hljs-keyword">if</span>(n &lt; <span class="hljs-number">0</span> || m &lt; <span class="hljs-number">0</span> || n &lt; m) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<span class="hljs-keyword">return</span> <span class="hljs-number">1ll</span> * fac[n] * ifac[m] % P * ifac[n - m] % P;&#125;<br><span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">void</span> <span class="hljs-title">NTT</span><span class="hljs-params">(vector&lt;<span class="hljs-type">int</span>&gt; &amp;F,<span class="hljs-type">int</span> len,<span class="hljs-type">int</span> type)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-built_in">assert</span>(F.<span class="hljs-built_in">size</span>() &lt;= len);<br>	F.<span class="hljs-built_in">resize</span>(len);<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>;i &lt; len;i++)<br>		<span class="hljs-keyword">if</span>(i &lt; rev[i]) <span class="hljs-built_in">swap</span>(F[i],F[rev[i]]);<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> k = <span class="hljs-number">1</span>;k &lt; len;k &lt;&lt;= <span class="hljs-number">1</span>)<br>		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>;j &lt; len;j += k + k)<br>			<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>;i &lt; k;i++)<br>			&#123;<br>				<span class="hljs-type">int</span> cur = type == <span class="hljs-number">1</span> ? Gs[k | i] : Gs2[k | i];<br>				<span class="hljs-type">int</span> u = F[i | j],v = <span class="hljs-number">1ll</span> * cur * F[i | j | k] % P;<br>				F[i | j] = <span class="hljs-built_in">Add</span>(u,v);<br>				F[i | j | k] = <span class="hljs-built_in">Sub</span>(u,v);<br>			&#125;<br>	<span class="hljs-keyword">if</span>(type == <span class="hljs-number">-1</span>)<br>		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>,Inv = <span class="hljs-built_in">qpow</span>(len,P - <span class="hljs-number">2</span>);i &lt; len;i++)<br>			F[i] = <span class="hljs-number">1ll</span> * F[i] * Inv % P;<br>&#125;<br>vector&lt;<span class="hljs-type">int</span>&gt; t; <span class="hljs-comment">// 存储每个要删的括号的标记状态</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">Solve</span><span class="hljs-params">(<span class="hljs-type">int</span> l,<span class="hljs-type">int</span> r,vector&lt;<span class="hljs-type">int</span>&gt; &amp;f)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">if</span>(l == r)<br>	&#123;<br>		<span class="hljs-keyword">if</span>(!t[l])<br>		&#123;<br>			f.<span class="hljs-built_in">push_back</span>(<span class="hljs-number">0</span>);<br>			<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = f.<span class="hljs-built_in">size</span>() - <span class="hljs-number">1</span>;i &gt;= <span class="hljs-number">1</span>;i--)<br>				f[i] = <span class="hljs-built_in">Add</span>(f[i],f[i - <span class="hljs-number">1</span>]);<br>		&#125;<br>		<span class="hljs-keyword">else</span> <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>;i &lt; f.<span class="hljs-built_in">size</span>() - <span class="hljs-number">1</span>;i++) f[i] = <span class="hljs-built_in">Add</span>(f[i],f[i + <span class="hljs-number">1</span>]);<br>		<span class="hljs-keyword">return</span>;<br>	&#125;<br>	<span class="hljs-type">int</span> mid = l + r &gt;&gt; <span class="hljs-number">1</span>,len = r - l + <span class="hljs-number">1</span>,cnt = <span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = l;i &lt;= r;i++)<br>		cnt += t[i];<br>	<span class="hljs-function">vector&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">res</span><span class="hljs-params">(f.size() + (len - cnt),<span class="hljs-number">0</span>)</span></span>;<br>	<span class="hljs-keyword">if</span>(f.<span class="hljs-built_in">size</span>() &gt; cnt)<br>	&#123;<br>		<span class="hljs-function">vector&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">A</span><span class="hljs-params">(f.size() - cnt,<span class="hljs-number">0</span>)</span>,<span class="hljs-title">B</span><span class="hljs-params">(len + <span class="hljs-number">1</span>,<span class="hljs-number">0</span>)</span></span>;<br>		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>;i &lt; f.<span class="hljs-built_in">size</span>() - cnt;i++)<br>			A[i] = f[i + cnt];<br>		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>;i &lt;= len;i++)<br>			B[i] = <span class="hljs-built_in">Binom</span>(len,i);<br>		<span class="hljs-type">int</span> L = <span class="hljs-built_in">GetLen</span>(f.<span class="hljs-built_in">size</span>() + len - cnt);<br>		<span class="hljs-built_in">calc_rev</span>(L);<br>		<span class="hljs-built_in">NTT</span>(A,L,<span class="hljs-number">1</span>);<span class="hljs-built_in">NTT</span>(B,L,<span class="hljs-number">1</span>);<br>		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>;i &lt; L;i++) A[i] = <span class="hljs-number">1ll</span> * A[i] * B[i] % P;<br>		<span class="hljs-built_in">NTT</span>(A,L,<span class="hljs-number">-1</span>);<br>		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>;i &lt; res.<span class="hljs-built_in">size</span>();i++) res[i] = A[i];<br>	&#125;<br>	<span class="hljs-function">vector&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">ff0</span><span class="hljs-params">(min((<span class="hljs-type">int</span>)f.size(),cnt),<span class="hljs-number">0</span>)</span></span>;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>;i &lt; ff0.<span class="hljs-built_in">size</span>();i++) ff0[i] = f[i];<br>	<span class="hljs-built_in">Solve</span>(l,mid,ff0);<span class="hljs-built_in">Solve</span>(mid + <span class="hljs-number">1</span>,r,ff0);<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>;i &lt; ff0.<span class="hljs-built_in">size</span>();i++) res[i] = <span class="hljs-built_in">Add</span>(res[i],ff0[i]);<br>	f = res;<br>&#125;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">DoIt</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">if</span>(t.<span class="hljs-built_in">empty</span>()) <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>	<span class="hljs-function">vector&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">f</span><span class="hljs-params">(<span class="hljs-number">1</span>,<span class="hljs-number">1</span>)</span></span>;<br>	<span class="hljs-built_in">Solve</span>(<span class="hljs-number">0</span>,t.<span class="hljs-built_in">size</span>() - <span class="hljs-number">1</span>,f);<br>	<span class="hljs-keyword">return</span> f[<span class="hljs-number">0</span>];<br>&#125;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%s&quot;</span>,s + <span class="hljs-number">1</span>);<br>	n = <span class="hljs-built_in">strlen</span>(s + <span class="hljs-number">1</span>);<br>	<span class="hljs-type">int</span> cur = <span class="hljs-number">0</span>,lst = <span class="hljs-number">0</span>;<br>	<span class="hljs-built_in">init</span>(<span class="hljs-built_in">GetLen</span>(n * <span class="hljs-number">2</span> + <span class="hljs-number">2</span>));<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>;i &lt;= n;i++)<br>		<span class="hljs-keyword">if</span>(s[i] == <span class="hljs-string">&#x27;(&#x27;</span>) ++cur;<br>		<span class="hljs-keyword">else</span> &#123; <span class="hljs-keyword">if</span>(!cur) lst = i;<span class="hljs-keyword">else</span> --cur;&#125;<br>	cur = <span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>;i &lt;= lst;i++)<br>		<span class="hljs-keyword">if</span>(s[i] == <span class="hljs-string">&#x27;(&#x27;</span>) ++cur;<br>		<span class="hljs-keyword">else</span> &#123; <span class="hljs-keyword">if</span>(!cur) t.<span class="hljs-built_in">push_back</span>(<span class="hljs-number">1</span>);<span class="hljs-keyword">else</span> t.<span class="hljs-built_in">push_back</span>(<span class="hljs-number">0</span>),--cur;&#125;<br>	<span class="hljs-type">int</span> ans = <span class="hljs-built_in">DoIt</span>();<br>	<span class="hljs-built_in">vector</span>&lt;<span class="hljs-type">int</span>&gt;().<span class="hljs-built_in">swap</span>(t);cur = <span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = n;i &gt; lst;i--)<br>		<span class="hljs-keyword">if</span>(s[i] == <span class="hljs-string">&#x27;)&#x27;</span>) ++cur;<br>		<span class="hljs-keyword">else</span> &#123; <span class="hljs-keyword">if</span>(!cur) t.<span class="hljs-built_in">push_back</span>(<span class="hljs-number">1</span>);<span class="hljs-keyword">else</span> t.<span class="hljs-built_in">push_back</span>(<span class="hljs-number">0</span>),--cur;&#125;<br>	ans = <span class="hljs-number">1ll</span> * ans * <span class="hljs-built_in">DoIt</span>() % P;<br>	cout &lt;&lt; ans &lt;&lt; endl;<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-
 <p>这道题加深了我对分治 NTT 的理解。</p>
 <div id="paginator"></div></div><div id="post-footer"><div id="pages"><div class="footer-link" style="width: 50%;text-align:right;border-right:1px #fe2 solid"><a href="/posts/3953954419/">← Next CF1575C 题解</a></div><div class="footer-link" style="width: 50%;right:1px;border-left:1px #fe2 solid"><a href="/posts/2012520028/">CF1172F 题解 Prev →</a></div></div></div><div id="comments"><div class="selector"><button class="gitalk-sel"></button></div><div id="gitalk"></div></div></div><div class="bottom-btn"><div><a id="to-top" onClick="scrolls.scrolltop();" title="To Top" style="opacity: 0; display: none;">∧</a><a id="to-index" href="#toc-div" title="To Catalog">≡</a><a id="color-mode" onClick="colorMode.change()" title="Change Theme"></a></div></div></article><aside><div id="about"><a href="/" id="logo"><img src="https://ak.hypergryph.com/assets/index/images/ak/pc/faction/1.png" alt="Logo"></a><h1 id="Dr"><a href="/">Dualqwq</a></h1><div id="description"><p></p></div></div><div id="aside-block"></div><footer><nobr>Published with <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></nobr><wbr><nobr> Theme <a target="_blank" rel="noopener" href="https://github.com/Yue-plus/hexo-theme-arknights">Arknights</a></nobr><wbr><nobr>by <a target="_blank" rel="noopener" href="https://github.com/Yue-plus">Yue_plus</a></nobr></footer></aside></main><canvas id="canvas-dust"></canvas><script src="/js/search.js"></script><script src="/js/arknights.js"></script><script src="//unpkg.com/lightgallery@2.7.1/lightgallery.min.js"></script><script src="//unpkg.com/lightgallery@2.7.1/plugins/zoom/lg-zoom.min.js"></script><script src="//unpkg.com/lightgallery@2.7.1/plugins/thumbnail/lg-thumbnail.min.js"></script><script src="/js/pjax.js"></script><script class="pjax-js">reset= () => {gitalk = new Gitalk({
  clientID: 'f3bca61c9bfc22f7350d',
